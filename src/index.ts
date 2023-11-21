@@ -62,6 +62,9 @@ export {
   MockZone as Zone,
 } from "./mock";
 
+// Export mock class names too.
+export * from "./mock";
+
 // Variables.
 const globalEvents = new MockGlobalScriptingEvents();
 const world = new MockGameWorld();
