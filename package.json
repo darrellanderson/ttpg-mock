@@ -1,11 +1,12 @@
 {
   "name": "ttpg-mock",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "jest module for @tabletop-playground/api testing",
+  "repository": "github:darrellanderson/ttpg-mock",
   "main": "./build/cjs/index.js",
   "module": "./build/esm/index.js",
   "files": [
-    "src/"
+    "build/"
   ],
   "scripts": {
     "test": "jest",
