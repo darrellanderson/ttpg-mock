@@ -8,6 +8,7 @@ export * from "./game-world/mock-game-world";
 export * from "./global-grid/mock-global-grid";
 export * from "./global-scripting-events/mock-global-scripting-events";
 export * from "./http-request/mock-http-request";
+export * from "./js-console/mock-js-console";
 export * from "./label/mock-label";
 export * from "./lighting-settings/mock-lighting-settings";
 export * from "./multicast-delegate/mock-multicast-delegate";
