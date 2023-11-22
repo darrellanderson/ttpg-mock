@@ -3,19 +3,25 @@ import { Player, PlayerPermission } from "@tabletop-playground/api";
 export class MockPlayerPermission implements PlayerPermission {
   value: number = -1;
 
-  clone(): PlayerPermission {
-    throw new Error("Method not implemented.");
-  }
   addPlayer(player: Player): PlayerPermission {
-    throw new Error("Method not implemented.");
+    return this;
   }
+
+  clone(): PlayerPermission {
+    const clone = new MockPlayerPermission();
+    clone.value = this.value;
+    return clone;
+  }
+
   setHost(hostIsPermitted: boolean): PlayerPermission {
-    throw new Error("Method not implemented.");
+    return this;
   }
+
   setPlayerSlots(slots: number[]): PlayerPermission {
-    throw new Error("Method not implemented.");
+    return this;
   }
+
   setTeams(teams: number[]): PlayerPermission {
-    throw new Error("Method not implemented.");
+    return this;
   }
 }

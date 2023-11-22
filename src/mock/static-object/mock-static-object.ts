@@ -428,6 +428,12 @@ export class MockStaticObject implements StaticObject {
     }
   }
 
+  toJSONString(): string {
+    return JSON.stringify(this);
+  }
+
+  updateUI(element: UIElement): void {}
+
   // --------------------------------
 
   worldRotationToLocal(
@@ -438,12 +444,6 @@ export class MockStaticObject implements StaticObject {
   worldPositionToLocal(
     position: Vector | [x: number, y: number, z: number]
   ): Vector {
-    throw new Error("Method not implemented.");
-  }
-  updateUI(element: UIElement): void {
-    throw new Error("Method not implemented.");
-  }
-  toJSONString(): string {
     throw new Error("Method not implemented.");
   }
   localRotationToWorld(

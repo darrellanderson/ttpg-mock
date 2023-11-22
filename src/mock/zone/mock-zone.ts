@@ -5,10 +5,17 @@ import {
   Rotator,
   Vector,
   Zone,
+  ZonePermission,
+  ZoneShape,
 } from "@tabletop-playground/api";
 import { MockMulticastDelegate } from "../multicast-delegate/mock-multicast-delegate";
+import { MockColor } from "../color/mock-color";
+import { MockVector } from "../vector/mock-vector";
+import { MockRotator } from "../rotator/mock-rotator";
 
 export class MockZone implements Zone {
+  private static __zoneIndex = 0;
+
   onDestroyed: MulticastDelegate<(zone: this) => void> =
     new MockMulticastDelegate<(zone: this) => void>();
   onTick: MulticastDelegate<(zone: this, deltaTime: number) => void> =
@@ -18,111 +25,172 @@ export class MockZone implements Zone {
   onEndOverlap: MulticastDelegate<(zone: this, object: GameObject) => void> =
     new MockMulticastDelegate<(zone: this, object: GameObject) => void>();
 
-  setStacking(permission: number): void {
-    throw new Error("Method not implemented.");
+  private _alwaysVisible = true;
+  private _color: Color = new MockColor(1, 1, 1, 1);
+  private _perm = {
+    cursorHidden: ZonePermission.Everybody,
+    inserting: ZonePermission.Everybody,
+    objectInteraction: ZonePermission.Everybody,
+    objectVisibility: ZonePermission.Everybody,
+    snapping: ZonePermission.Everybody,
+    stacking: ZonePermission.Everybody,
+  };
+  private _id: string = `__zone_${MockZone.__zoneIndex++}__`;
+  private _owningSlots: number[] = [];
+  private _position: Vector = new MockVector(0, 0, 0);
+  private _rotation: Rotator = new MockRotator(0, 0, 0);
+  private _savedData: string = "";
+  private _scale: Vector = new MockVector(1, 1, 1);
+  private _shape: number = ZoneShape.Box;
+  private _valid: boolean = true;
+
+  destroy(): void {
+    this._valid = false;
   }
-  setSnapping(permission: number): void {
-    throw new Error("Method not implemented.");
+
+  getColor(): Color {
+    return this._color;
   }
-  setSlotOwns(playerSlot: number, owner: boolean): void {
-    throw new Error("Method not implemented.");
+
+  getCursorHidden(): number {
+    return this._perm.cursorHidden;
   }
-  setShape(shape: number): void {
-    throw new Error("Method not implemented.");
+
+  getId(): string {
+    return this._id;
   }
-  setScale(scale: Vector | [x: number, y: number, z: number]): void {
-    throw new Error("Method not implemented.");
+
+  getInserting(): number {
+    return this._perm.inserting;
   }
-  setSavedData(data: string): void {
-    throw new Error("Method not implemented.");
+
+  getObjectInteraction(): number {
+    return this._perm.objectInteraction;
   }
+
+  getObjectVisibility(): number {
+    return this._perm.objectVisibility;
+  }
+
+  getOwningSlots(): number[] {
+    return this._owningSlots;
+  }
+
+  getPosition(): Vector {
+    return this._position;
+  }
+
+  getRotation(): Rotator {
+    return this._rotation;
+  }
+
+  getSavedData(): string {
+    return this._savedData;
+  }
+
+  getScale(): Vector {
+    return this._scale;
+  }
+
+  getShape(): number {
+    return this._shape;
+  }
+
+  getSnapping(): number {
+    return this._perm.snapping;
+  }
+
+  getStacking(): number {
+    return this._perm.stacking;
+  }
+
+  isAlwaysVisible(): boolean {
+    return this._alwaysVisible;
+  }
+
+  isSlotOwner(playerIndex: number): boolean {
+    return this._owningSlots.includes(playerIndex);
+  }
+
+  isValid(): boolean {
+    return this._valid;
+  }
+
+  setAlwaysVisible(alwaysVisible: boolean): void {
+    this._alwaysVisible = alwaysVisible;
+  }
+
+  setColor(color: Color | [r: number, g: number, b: number, a: number]): void {
+    this._color = MockColor._from(color);
+  }
+
+  setCursorHidden(permission: number): void {
+    this._perm.cursorHidden = permission;
+  }
+
+  setId(iD: string): boolean {
+    this._id = iD;
+    return true;
+  }
+
+  setInserting(permission: number): void {
+    this._perm.inserting = permission;
+  }
+
+  setObjectInteraction(permission: number): void {
+    this._perm.objectInteraction = permission;
+  }
+
+  setObjectVisibility(permission: number): void {
+    this._perm.objectVisibility = permission;
+  }
+
+  setPosition(position: Vector | [x: number, y: number, z: number]): void {
+    this._position = MockVector._from(position);
+  }
+
   setRotation(
     rotation: Rotator | [pitch: number, yaw: number, roll: number]
   ): void {
-    throw new Error("Method not implemented.");
+    this._rotation = MockRotator._from(rotation);
   }
-  setPosition(position: Vector | [x: number, y: number, z: number]): void {
-    throw new Error("Method not implemented.");
+
+  setSavedData(data: string): void {
+    this._savedData = data;
   }
-  setObjectVisibility(permission: number): void {
-    throw new Error("Method not implemented.");
+
+  setScale(scale: Vector | [x: number, y: number, z: number]): void {
+    this._scale = MockVector._from(scale);
   }
-  setObjectInteraction(permission: number): void {
-    throw new Error("Method not implemented.");
+
+  setShape(shape: number): void {
+    this._shape = shape;
   }
-  setInserting(permission: number): void {
-    throw new Error("Method not implemented.");
+
+  setSlotOwns(playerSlot: number, owner: boolean): void {
+    const index = this._owningSlots.indexOf(playerSlot);
+    if (owner && index < 0) {
+      this._owningSlots.push(playerSlot);
+    } else if (!owner && index >= 0) {
+      this._owningSlots.splice(index, 1);
+    }
   }
-  setId(iD: string): boolean {
-    throw new Error("Method not implemented.");
+
+  setSnapping(permission: number): void {
+    this._perm.snapping = permission;
   }
-  setCursorHidden(permission: number): void {
-    throw new Error("Method not implemented.");
+
+  setStacking(permission: number): void {
+    this._perm.stacking = permission;
   }
-  setColor(color: Color | [r: number, g: number, b: number, a: number]): void {
-    throw new Error("Method not implemented.");
-  }
-  setAlwaysVisible(alwaysVisible: boolean): void {
-    throw new Error("Method not implemented.");
-  }
-  isValid(): boolean {
-    throw new Error("Method not implemented.");
-  }
-  isSlotOwner(playerIndex: number): boolean {
-    throw new Error("Method not implemented.");
-  }
-  isOverlapping(object: GameObject): boolean {
-    throw new Error("Method not implemented.");
-  }
-  isAlwaysVisible(): boolean {
-    throw new Error("Method not implemented.");
-  }
-  getStacking(): number {
-    throw new Error("Method not implemented.");
-  }
-  getSnapping(): number {
-    throw new Error("Method not implemented.");
-  }
-  getShape(): number {
-    throw new Error("Method not implemented.");
-  }
-  getScale(): Vector {
-    throw new Error("Method not implemented.");
-  }
-  getSavedData(): string {
-    throw new Error("Method not implemented.");
-  }
-  getRotation(): Rotator {
-    throw new Error("Method not implemented.");
-  }
-  getPosition(): Vector {
-    throw new Error("Method not implemented.");
-  }
-  getOwningSlots(): number[] {
-    throw new Error("Method not implemented.");
-  }
+
+  // --------------------------------
+
   getOverlappingObjects(): GameObject[] {
     throw new Error("Method not implemented.");
   }
-  getObjectVisibility(): number {
-    throw new Error("Method not implemented.");
-  }
-  getObjectInteraction(): number {
-    throw new Error("Method not implemented.");
-  }
-  getInserting(): number {
-    throw new Error("Method not implemented.");
-  }
-  getId(): string {
-    throw new Error("Method not implemented.");
-  }
-  getCursorHidden(): number {
-    throw new Error("Method not implemented.");
-  }
-  getColor(): Color {
-    throw new Error("Method not implemented.");
-  }
-  destroy(): void {
+
+  isOverlapping(object: GameObject): boolean {
     throw new Error("Method not implemented.");
   }
 }

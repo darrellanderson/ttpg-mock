@@ -94,7 +94,29 @@ export class MockColor implements Color {
     deltaTime: number,
     interpSpeed: number
   ): Color {
-    throw new Error("Method not implemented.");
+    const a = MockColor._from(current);
+    const b = MockColor._from(target);
+    const d = {
+      r: b.r - a.r,
+      g: b.g - a.g,
+      b: b.b - a.b,
+      a: b.a - a.a,
+    };
+    const cap = deltaTime * interpSpeed;
+    const result = b.clone();
+    if (Math.abs(d.r) > cap) {
+      result.r = a.r + (d.r > 0 ? 1 : -1) * cap;
+    }
+    if (Math.abs(d.g) > cap) {
+      result.g = a.g + (d.g > 0 ? 1 : -1) * cap;
+    }
+    if (Math.abs(d.b) > cap) {
+      result.b = a.b + (d.b > 0 ? 1 : -1) * cap;
+    }
+    if (Math.abs(d.a) > cap) {
+      result.a = a.a + (d.a > 0 ? 1 : -1) * cap;
+    }
+    return result;
   }
 
   static lerp(
@@ -102,6 +124,19 @@ export class MockColor implements Color {
     b: Color | [r: number, g: number, b: number, a: number],
     alpha: number
   ): Color {
-    throw new Error("Method not implemented.");
+    a = MockColor._from(a);
+    b = MockColor._from(b);
+    const d = {
+      r: b.r - a.r,
+      g: b.g - a.g,
+      b: b.b - a.b,
+      a: b.a - a.a,
+    };
+    return new MockColor(
+      a.r + d.r * alpha,
+      a.g + d.g * alpha,
+      a.b + d.b * alpha,
+      a.a + d.a * alpha
+    );
   }
 }

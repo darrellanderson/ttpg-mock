@@ -1,12 +1,15 @@
 import { MockColor } from "../color/mock-color";
 import { MockDrawingLine } from "../drawing-line/mock-drawing-line";
 import { MockRotator } from "../rotator/mock-rotator";
+import { MockSnapPoint } from "../snap-point/mock-snap-point";
 import { MockStaticObject, MockStaticObjectParams } from "./mock-static-object";
 import { MockUIElement } from "../ui-element/mock-ui-element";
 import { MockVector } from "../vector/mock-vector";
 
 it("constructor", () => {
   const params: MockStaticObjectParams = {
+    _modelSize: new MockVector(1, 1, 1),
+    _modelCenter: new MockVector(0, 0, 0),
     bounciness: 2,
     density: 3,
     description: "my-description",
@@ -142,8 +145,8 @@ it("metallic", () => {
 it("name", () => {
   const input = "test-input";
   const obj = new MockStaticObject();
-  obj.setDescription(input);
-  const output = obj.getDescription();
+  obj.setName(input);
+  const output = obj.getName();
   expect(output).toBe(input);
 });
 
@@ -188,6 +191,25 @@ it("savedData", () => {
   obj.setSavedData(input, key);
   const output = obj.getSavedData(key);
   expect(output).toBe(input);
+});
+
+it("scale", () => {
+  const input: [x: number, y: number, z: number] = [1, 2, 3];
+  const obj = new MockStaticObject();
+  obj.setScale(input);
+  const output = obj.getScale();
+  expect(output.equals(input, 0)).toBe(true);
+});
+
+it("script", () => {
+  const input1 = "my-script";
+  const input2 = "my-pacakge-id";
+  const obj = new MockStaticObject();
+  obj.setScript(input1, input2);
+  const output1 = obj.getScriptFilename();
+  const output2 = obj.getScriptPackageId();
+  expect(output1).toBe(input1);
+  expect(output2).toBe(input2);
 });
 
 it("secondaryColor", () => {
@@ -237,10 +259,43 @@ it("ui", () => {
   obj.removeUIElement(input);
   expect(obj.getUIs()).toEqual([]);
 
+  obj.addUI(input);
+  obj.setUI(0, input);
+  expect(obj.getUIs()).toEqual([input]);
+  obj.removeUIElement(input);
+  expect(obj.getUIs()).toEqual([]);
+
+  // Deprecated methods throw.
   expect(() => {
     obj.attachUI(input);
   }).toThrow();
   expect(() => {
     obj.getAttachedUIs();
   }).toThrow();
+});
+
+it("toJSONString", () => {
+  const obj = new MockStaticObject();
+  const output = obj.toJSONString();
+  expect(output.length).toBeGreaterThan(0);
+});
+
+it("getExecutionReason", () => {
+  const obj = new MockStaticObject();
+  let output = obj.getExecutionReason();
+  expect(typeof output).toBe("string");
+
+  // Static version.
+  output = MockStaticObject.getExecutionReason();
+  expect(typeof output).toBe("string");
+});
+
+it("getSnapPoint", () => {
+  const input = new MockSnapPoint();
+  const params: MockStaticObjectParams = {
+    snapPoints: [input],
+  };
+  const obj = new MockStaticObject(params);
+  const output = obj.getSnapPoint(0);
+  expect(output).toEqual(input);
 });

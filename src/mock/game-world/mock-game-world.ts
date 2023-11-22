@@ -21,13 +21,24 @@ import {
 import { MockGlobalGrid } from "../global-grid/mock-global-grid";
 import { MockLightingSettings } from "../lighting-settings/mock-lighting-settings";
 import { MockTurnSystem } from "../turn-system/mock-turn-system";
+import { MockLabel } from "../label/mock-label";
+
+export type MockGameWorldParams = {
+  drawingLines?: DrawingLine[];
+  gameObjects?: GameObject[];
+  screenUIs?: ScreenUIElement[];
+  uis?: UIElement[];
+};
 
 export class MockGameWorld implements GameWorld {
   grid: GlobalGrid = new MockGlobalGrid();
   lighting: LightingSettings = new MockLightingSettings();
   turns: TurnSystem = new MockTurnSystem();
 
+  private _drawingLines: DrawingLine[] = [];
   private _gameObjects: GameObject[] = [];
+  private _screenUIs: ScreenUIElement[] = [];
+  private _uis: UIElement[] = [];
 
   static getExecutionReason(): string {
     return "";
@@ -37,14 +48,204 @@ export class MockGameWorld implements GameWorld {
     return MockGameWorld.getExecutionReason();
   }
 
-  constructor() {}
+  constructor(params?: MockGameWorldParams) {
+    this._reset(params);
+  }
+
+  /**
+   * Tests may want to reset the "world" variable.
+   *
+   * @param params
+   */
+  _reset(params?: MockGameWorldParams) {
+    this._drawingLines = [];
+    this._gameObjects = [];
+    this._screenUIs = [];
+    this._uis = [];
+    if (params?.drawingLines) {
+      this._drawingLines = params.drawingLines;
+    }
+    if (params?.gameObjects) {
+      this._gameObjects = params.gameObjects;
+    }
+    if (params?.screenUIs) {
+      this._screenUIs = params.screenUIs;
+    }
+    if (params?.uis) {
+      this._uis = params.uis;
+    }
+  }
+
+  addCustomAction(
+    name: string,
+    tooltip?: string | undefined,
+    identifier?: string | undefined
+  ): void {}
+
+  addDrawingLine(line: DrawingLine): boolean {
+    this._drawingLines.push(line);
+    return true;
+  }
+
+  addScreenUI(element: ScreenUIElement): number {
+    const index = this._screenUIs.length;
+    this._screenUIs.push(element);
+    return index;
+  }
+
+  addUI(element: UIElement): number {
+    const index = this._uis.length;
+    this._uis.push(element);
+    return index;
+  }
+
+  broadcastChatMessage(
+    message: string,
+    color?: Color | [r: number, g: number, b: number, a: number] | undefined
+  ): void {}
+
+  clearConsole(): void {}
+
+  createLabel(position: Vector | [x: number, y: number, z: number]): Label {
+    const label = new MockLabel();
+    label.setPosition(position);
+    return label;
+  }
+
+  createZone(position: Vector | [x: number, y: number, z: number]): Zone {
+    throw new Error("Method not implemented.");
+  }
+
+  drawDebugBox(
+    center: Vector | [x: number, y: number, z: number],
+    extent: Vector | [x: number, y: number, z: number],
+    orientation: Rotator | [pitch: number, yaw: number, roll: number],
+    color: Color | [r: number, g: number, b: number, a: number],
+    duration: number,
+    thickness?: number | undefined
+  ): void {}
+
+  drawDebugLine(
+    start: Vector | [x: number, y: number, z: number],
+    end: Vector | [x: number, y: number, z: number],
+    color: Color | [r: number, g: number, b: number, a: number],
+    duration: number,
+    thickness?: number | undefined
+  ): void {}
+
+  drawDebugPoint(
+    position: Vector | [x: number, y: number, z: number],
+    size: number,
+    color: Color | [r: number, g: number, b: number, a: number],
+    duration: number
+  ): void {}
+
+  drawDebugSphere(
+    position: Vector | [x: number, y: number, z: number],
+    radius: number,
+    color: Color | [r: number, g: number, b: number, a: number],
+    duration: number,
+    thickness?: number | undefined
+  ): void {}
 
   getAllObjects(skipContained?: boolean | undefined): GameObject[] {
     return this._gameObjects;
   }
 
+  getDrawingLines(): DrawingLine[] {
+    return this._drawingLines;
+  }
+
   getGameTime(): number {
     return 0;
+  }
+
+  removeDrawingLine(index: number): void {
+    if (index >= 0 && index < this._drawingLines.length) {
+      this._drawingLines.splice(index, 1);
+    }
+  }
+
+  removeDrawingLineObject(line: DrawingLine): void {
+    const index = this._drawingLines.indexOf(line);
+    this.removeDrawingLine(index);
+  }
+
+  // --------------------------------
+
+  boxOverlap(
+    position: Vector | [x: number, y: number, z: number],
+    extent: Vector | [x: number, y: number, z: number],
+    orientation?:
+      | Rotator
+      | [pitch: number, yaw: number, roll: number]
+      | undefined
+  ): GameObject[] {
+    throw new Error("Method not implemented.");
+  }
+
+  boxTrace(
+    start: Vector | [x: number, y: number, z: number],
+    end: Vector | [x: number, y: number, z: number],
+    extent: Vector | [x: number, y: number, z: number],
+    orientation?:
+      | Rotator
+      | [pitch: number, yaw: number, roll: number]
+      | undefined
+  ): TraceHit[] {
+    throw new Error("Method not implemented.");
+  }
+
+  capsuleOverlap(
+    position: Vector | [x: number, y: number, z: number],
+    extent: Vector | [x: number, y: number, z: number],
+    orientation?:
+      | Rotator
+      | [pitch: number, yaw: number, roll: number]
+      | undefined
+  ): GameObject[] {
+    throw new Error("Method not implemented.");
+  }
+
+  capsuleTrace(
+    start: Vector | [x: number, y: number, z: number],
+    end: Vector | [x: number, y: number, z: number],
+    extent: Vector | [x: number, y: number, z: number],
+    orientation?:
+      | Rotator
+      | [pitch: number, yaw: number, roll: number]
+      | undefined
+  ): TraceHit[] {
+    throw new Error("Method not implemented.");
+  }
+
+  createObjectFromJSON(
+    jsonString: string,
+    position: Vector | [x: number, y: number, z: number]
+  ): GameObject | undefined {
+    const obj = JSON.parse(jsonString);
+    return obj as GameObject;
+  }
+
+  createObjectFromTemplate(
+    templateId: string,
+    position: Vector | [x: number, y: number, z: number]
+  ): GameObject | undefined {
+    throw new Error("Method not implemented.");
+  }
+
+  createStaticObjectFromJSON(
+    jsonString: string,
+    position: Vector | [x: number, y: number, z: number]
+  ): StaticObject | undefined {
+    throw new Error("Method not implemented.");
+  }
+
+  createTableFromTemplate(
+    templateId: string,
+    position: Vector | [x: number, y: number, z: number]
+  ): StaticObject | undefined {
+    throw new Error("Method not implemented.");
   }
 
   // --------------------------------
@@ -121,12 +322,6 @@ export class MockGameWorld implements GameWorld {
     throw new Error("Method not implemented.");
   }
   removeScreenUI(index: number): void {
-    throw new Error("Method not implemented.");
-  }
-  removeDrawingLineObject(line: DrawingLine): void {
-    throw new Error("Method not implemented.");
-  }
-  removeDrawingLine(index: number): void {
     throw new Error("Method not implemented.");
   }
   removeCustomAction(identifier: string): void {
@@ -216,9 +411,6 @@ export class MockGameWorld implements GameWorld {
   getGravityMultiplier(): number {
     throw new Error("Method not implemented.");
   }
-  getDrawingLines(): DrawingLine[] {
-    throw new Error("Method not implemented.");
-  }
   getCurrentTurn(): number {
     throw new Error("Method not implemented.");
   }
@@ -244,139 +436,6 @@ export class MockGameWorld implements GameWorld {
     throw new Error("Method not implemented.");
   }
   getAllLabels(): Label[] {
-    throw new Error("Method not implemented.");
-  }
-  drawDebugSphere(
-    position: Vector | [x: number, y: number, z: number],
-    radius: number,
-    color: Color | [r: number, g: number, b: number, a: number],
-    duration: number,
-    thickness?: number | undefined
-  ): void {
-    throw new Error("Method not implemented.");
-  }
-  drawDebugPoint(
-    position: Vector | [x: number, y: number, z: number],
-    size: number,
-    color: Color | [r: number, g: number, b: number, a: number],
-    duration: number
-  ): void {
-    throw new Error("Method not implemented.");
-  }
-  drawDebugLine(
-    start: Vector | [x: number, y: number, z: number],
-    end: Vector | [x: number, y: number, z: number],
-    color: Color | [r: number, g: number, b: number, a: number],
-    duration: number,
-    thickness?: number | undefined
-  ): void {
-    throw new Error("Method not implemented.");
-  }
-  drawDebugBox(
-    center: Vector | [x: number, y: number, z: number],
-    extent: Vector | [x: number, y: number, z: number],
-    orientation: Rotator | [pitch: number, yaw: number, roll: number],
-    color: Color | [r: number, g: number, b: number, a: number],
-    duration: number,
-    thickness?: number | undefined
-  ): void {
-    throw new Error("Method not implemented.");
-  }
-  createZone(position: Vector | [x: number, y: number, z: number]): Zone {
-    throw new Error("Method not implemented.");
-  }
-  createTableFromTemplate(
-    templateId: string,
-    position: Vector | [x: number, y: number, z: number]
-  ): StaticObject | undefined {
-    throw new Error("Method not implemented.");
-  }
-  createStaticObjectFromJSON(
-    jsonString: string,
-    position: Vector | [x: number, y: number, z: number]
-  ): StaticObject | undefined {
-    throw new Error("Method not implemented.");
-  }
-  createObjectFromTemplate(
-    templateId: string,
-    position: Vector | [x: number, y: number, z: number]
-  ): GameObject | undefined {
-    throw new Error("Method not implemented.");
-  }
-  createObjectFromJSON(
-    jsonString: string,
-    position: Vector | [x: number, y: number, z: number]
-  ): GameObject | undefined {
-    throw new Error("Method not implemented.");
-  }
-  createLabel(position: Vector | [x: number, y: number, z: number]): Label {
-    throw new Error("Method not implemented.");
-  }
-  clearConsole(): void {
-    throw new Error("Method not implemented.");
-  }
-  capsuleTrace(
-    start: Vector | [x: number, y: number, z: number],
-    end: Vector | [x: number, y: number, z: number],
-    extent: Vector | [x: number, y: number, z: number],
-    orientation?:
-      | Rotator
-      | [pitch: number, yaw: number, roll: number]
-      | undefined
-  ): TraceHit[] {
-    throw new Error("Method not implemented.");
-  }
-  capsuleOverlap(
-    position: Vector | [x: number, y: number, z: number],
-    extent: Vector | [x: number, y: number, z: number],
-    orientation?:
-      | Rotator
-      | [pitch: number, yaw: number, roll: number]
-      | undefined
-  ): GameObject[] {
-    throw new Error("Method not implemented.");
-  }
-  broadcastChatMessage(
-    message: string,
-    color?: Color | [r: number, g: number, b: number, a: number] | undefined
-  ): void {
-    throw new Error("Method not implemented.");
-  }
-  boxTrace(
-    start: Vector | [x: number, y: number, z: number],
-    end: Vector | [x: number, y: number, z: number],
-    extent: Vector | [x: number, y: number, z: number],
-    orientation?:
-      | Rotator
-      | [pitch: number, yaw: number, roll: number]
-      | undefined
-  ): TraceHit[] {
-    throw new Error("Method not implemented.");
-  }
-  boxOverlap(
-    position: Vector | [x: number, y: number, z: number],
-    extent: Vector | [x: number, y: number, z: number],
-    orientation?:
-      | Rotator
-      | [pitch: number, yaw: number, roll: number]
-      | undefined
-  ): GameObject[] {
-    throw new Error("Method not implemented.");
-  }
-  addUI(element: UIElement): number {
-    throw new Error("Method not implemented.");
-  }
-  addScreenUI(element: ScreenUIElement): number {
-    throw new Error("Method not implemented.");
-  }
-  addDrawingLine(line: DrawingLine): boolean {
-    throw new Error("Method not implemented.");
-  }
-  addCustomAction(
-    name: string,
-    tooltip?: string | undefined,
-    identifier?: string | undefined
-  ): void {
     throw new Error("Method not implemented.");
   }
 }
