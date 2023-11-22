@@ -7,129 +7,277 @@ import {
   Rotator,
   Vector,
 } from "@tabletop-playground/api";
+import { MockColor } from "../color/mock-color";
+import { MockVector } from "../vector/mock-vector";
+import { MockRotator } from "../rotator/mock-rotator";
+
+export type MockPlayerParams = {
+  cursorPosition?: Vector;
+  cursorVelocity?: Vector;
+  handCards?: Card[];
+  handHolder?: CardHolder;
+  heldObjects?: GameObject[];
+  highlightedObject?: GameObject;
+  isBlindfolded?: boolean;
+  isGameMaster?: boolean;
+  isHost?: boolean;
+  isSpectator?: boolean;
+  isUsingVR?: boolean;
+  isValid?: boolean;
+  name?: string;
+  playerColor?: Color;
+  position?: Vector;
+  primaryColor?: Color;
+  rotation?: Rotator;
+  secondaryColor?: Color;
+  selectedObjects?: GameObject[];
+  slot?: number;
+  team?: number;
+  scriptKeysDown?: number[];
+};
 
 export class MockPlayer implements Player {
-  switchSlot(newSlot: number): boolean {
-    throw new Error("Method not implemented.");
+  private _cursorPosition: Vector = new MockVector(0, 0, 0);
+  private _cursorVelocity: Vector = new MockVector(0, 0, 0);
+  private _handCards: Card[] = [];
+  private _handHolder: CardHolder | undefined = undefined;
+  private _heldObjects: GameObject[] = [];
+  private _highlightedObject: GameObject | undefined = undefined;
+  private _isBlindfolded: boolean = false;
+  private _isGameMaster: boolean = false;
+  private _isHost: boolean = false;
+  private _isSpectator: boolean = false;
+  private _isUsingVR: boolean = false;
+  private _isValid: boolean = true;
+  private _name: string = "";
+  private _playerColor: Color = new MockColor(1, 1, 1, 1);
+  private _position: Vector = new MockVector(0, 0, 0);
+  private _primaryColor: Color = new MockColor(1, 1, 1, 1);
+  private _rotation: Rotator = new MockRotator(0, 0, 0);
+  private _secondaryColor: Color = new MockColor(1, 1, 1, 1);
+  private _selectedObjects: GameObject[] = [];
+  private _slot: number = 0;
+  private _team: number = 0;
+  private _scriptKeysDown: number[] = [];
+
+  constructor(params?: MockPlayerParams) {
+    if (params?.cursorPosition) {
+      this._cursorPosition = params.cursorPosition;
+    }
+    if (params?.cursorVelocity) {
+      this._cursorVelocity = params.cursorVelocity;
+    }
+    if (params?.handCards) {
+      this._handCards = params.handCards;
+    }
+    if (params?.handHolder) {
+      this._handHolder = params.handHolder;
+    }
+    if (params?.heldObjects) {
+      this._heldObjects = params.heldObjects;
+    }
+    if (params?.highlightedObject) {
+      this._highlightedObject = params.highlightedObject;
+    }
+    if (params?.isBlindfolded) {
+      this._isBlindfolded = params.isBlindfolded;
+    }
+    if (params?.isGameMaster) {
+      this._isGameMaster = params.isGameMaster;
+    }
+    if (params?.isHost) {
+      this._isHost = params.isHost;
+    }
+    if (params?.isSpectator) {
+      this._isSpectator = params.isSpectator;
+    }
+    if (params?.isUsingVR) {
+      this._isUsingVR = params.isUsingVR;
+    }
+    if (params?.isValid) {
+      this._isValid = params.isValid;
+    }
+    if (params?.name) {
+      this._name = params.name;
+    }
+    if (params?.playerColor) {
+      this._playerColor = params.playerColor;
+    }
+    if (params?.position) {
+      this._position = params.position;
+    }
+    if (params?.primaryColor) {
+      this._primaryColor = params.primaryColor;
+    }
+    if (params?.rotation) {
+      this._rotation = params.rotation;
+    }
+    if (params?.secondaryColor) {
+      this._secondaryColor = params.secondaryColor;
+    }
+    if (params?.selectedObjects) {
+      this._selectedObjects = params.selectedObjects;
+    }
+    if (params?.slot) {
+      this._slot = params.slot;
+    }
+    if (params?.team) {
+      this._team = params.team;
+    }
+    if (params?.scriptKeysDown) {
+      this._scriptKeysDown = params.scriptKeysDown;
+    }
   }
-  showMessage(message: string): void {
-    throw new Error("Method not implemented.");
+
+  getCursorPosition(): Vector {
+    return this._cursorPosition;
   }
-  setSelectedObjects(objects: GameObject[]): void {
-    throw new Error("Method not implemented.");
+
+  getCursorVelocity(): Vector {
+    return this._cursorVelocity;
   }
-  setSecondaryColor(
-    newColor: Color | [r: number, g: number, b: number, a: number]
-  ): void {
-    throw new Error("Method not implemented.");
+
+  getHandCards(): Card[] {
+    return this._handCards;
   }
-  setPrimaryColor(
-    newColor: Color | [r: number, g: number, b: number, a: number]
-  ): void {
-    throw new Error("Method not implemented.");
+
+  getHandHolder(): CardHolder | undefined {
+    return this._handHolder;
   }
+
+  getHeldObjects(): GameObject[] {
+    return this._heldObjects;
+  }
+
+  getHighlightedObject(): GameObject | undefined {
+    return this._highlightedObject;
+  }
+
+  getName(): string {
+    return this._name;
+  }
+
+  getOwnedObjects(): GameObject[] {
+    throw new Error("Method not implemented");
+  }
+
+  getPlayerColor(): Color {
+    return this._playerColor;
+  }
+
+  getPosition(): Vector {
+    return this._position;
+  }
+
+  getPrimaryColor(): Color {
+    return this._primaryColor;
+  }
+
+  getRotation(): Rotator {
+    return this._rotation;
+  }
+
+  getSecondaryColor(): Color {
+    return this._secondaryColor;
+  }
+
+  getSelectedObjects(): GameObject[] {
+    return this._selectedObjects;
+  }
+
+  getSlot(): number {
+    return this._slot;
+  }
+
+  getTeam(): number {
+    return this._team;
+  }
+
+  isBlindfolded(): boolean {
+    return this._isBlindfolded;
+  }
+
+  isGameMaster(): boolean {
+    return this._isGameMaster;
+  }
+
+  isHolding(): boolean {
+    return this._heldObjects.length > 0;
+  }
+
+  isHoldingObject(object: GameObject): boolean {
+    return this._heldObjects.includes(object);
+  }
+
+  isHost(): boolean {
+    return this._isHost;
+  }
+
+  isScriptKeyDown(index: number): boolean {
+    return this._scriptKeysDown.includes(index);
+  }
+
+  isSpectator(): boolean {
+    return this._isSpectator;
+  }
+
+  isUsingVR(): boolean {
+    return this._isUsingVR;
+  }
+
+  isValid(): boolean {
+    return this._isValid;
+  }
+
+  sendChatMessage(
+    message: string,
+    color: Color | [r: number, g: number, b: number, a: number]
+  ): void {}
+
+  setBlindfolded(on: boolean): void {
+    this._isBlindfolded = on;
+  }
+
+  setDrawingColor(
+    color: Color | [r: number, g: number, b: number, a: number]
+  ): void {}
+
+  setDrawingGlow(glow: boolean): void {}
+
+  setDrawingThickness(thickness: number): void {}
+
+  setHandHolder(hand: CardHolder): void {
+    this._handHolder = hand;
+  }
+
   setPositionAndRotation(
     position: Vector | [x: number, y: number, z: number],
     rotation: Rotator | [pitch: number, yaw: number, roll: number]
   ): void {
-    throw new Error("Method not implemented.");
+    this._position = MockVector._from(position);
+    this._rotation = MockRotator._from(rotation);
   }
-  setHandHolder(hand: CardHolder): void {
-    throw new Error("Method not implemented.");
-  }
-  setDrawingThickness(thickness: number): void {
-    throw new Error("Method not implemented.");
-  }
-  setDrawingGlow(glow: boolean): void {
-    throw new Error("Method not implemented.");
-  }
-  setDrawingColor(
-    color: Color | [r: number, g: number, b: number, a: number]
+
+  setPrimaryColor(
+    newColor: Color | [r: number, g: number, b: number, a: number]
   ): void {
-    throw new Error("Method not implemented.");
+    this._primaryColor = MockColor._from(newColor);
   }
-  setBlindfolded(on: boolean): void {
-    throw new Error("Method not implemented.");
-  }
-  sendChatMessage(
-    message: string,
-    color: Color | [r: number, g: number, b: number, a: number]
+
+  setSecondaryColor(
+    newColor: Color | [r: number, g: number, b: number, a: number]
   ): void {
-    throw new Error("Method not implemented.");
+    this._secondaryColor = MockColor._from(newColor);
   }
-  isValid(): boolean {
-    throw new Error("Method not implemented.");
+
+  setSelectedObjects(objects: GameObject[]): void {
+    this._selectedObjects = objects;
   }
-  isUsingVR(): boolean {
-    throw new Error("Method not implemented.");
-  }
-  isSpectator(): boolean {
-    throw new Error("Method not implemented.");
-  }
-  isScriptKeyDown(index: number): boolean {
-    throw new Error("Method not implemented.");
-  }
-  isHost(): boolean {
-    throw new Error("Method not implemented.");
-  }
-  isHoldingObject(object: GameObject): boolean {
-    throw new Error("Method not implemented.");
-  }
-  isHolding(): boolean {
-    throw new Error("Method not implemented.");
-  }
-  isGameMaster(): boolean {
-    throw new Error("Method not implemented.");
-  }
-  isBlindfolded(): boolean {
-    throw new Error("Method not implemented.");
-  }
-  getTeam(): number {
-    throw new Error("Method not implemented.");
-  }
-  getSlot(): number {
-    throw new Error("Method not implemented.");
-  }
-  getSelectedObjects(): GameObject[] {
-    throw new Error("Method not implemented.");
-  }
-  getSecondaryColor(): Color {
-    throw new Error("Method not implemented.");
-  }
-  getRotation(): Rotator {
-    throw new Error("Method not implemented.");
-  }
-  getPrimaryColor(): Color {
-    throw new Error("Method not implemented.");
-  }
-  getPosition(): Vector {
-    throw new Error("Method not implemented.");
-  }
-  getPlayerColor(): Color {
-    throw new Error("Method not implemented.");
-  }
-  getOwnedObjects(): GameObject[] {
-    throw new Error("Method not implemented.");
-  }
-  getName(): string {
-    throw new Error("Method not implemented.");
-  }
-  getHighlightedObject(): GameObject | undefined {
-    throw new Error("Method not implemented.");
-  }
-  getHeldObjects(): GameObject[] {
-    throw new Error("Method not implemented.");
-  }
-  getHandHolder(): CardHolder | undefined {
-    throw new Error("Method not implemented.");
-  }
-  getHandCards(): Card[] {
-    throw new Error("Method not implemented.");
-  }
-  getCursorVelocity(): Vector {
-    throw new Error("Method not implemented.");
-  }
-  getCursorPosition(): Vector {
-    throw new Error("Method not implemented.");
+
+  showMessage(message: string): void {}
+
+  switchSlot(newSlot: number): boolean {
+    this._slot = newSlot;
+    return true;
   }
 }

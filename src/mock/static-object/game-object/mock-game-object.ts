@@ -13,9 +13,9 @@ import {
   MockStaticObjectParams,
 } from "../mock-static-object";
 import { MockMulticastDelegate } from "../../multicast-delegate/mock-multicast-delegate";
+import { MockRotator } from "../../rotator/mock-rotator";
 import { MockVector } from "../../vector/mock-vector";
 import { ObjectType } from "../../../enums";
-import { MockRotator } from "../../rotator/mock-rotator";
 
 export type MockGameObjectParams = MockStaticObjectParams & {
   angularVelocity?: Rotator;
@@ -28,7 +28,6 @@ export type MockGameObjectParams = MockStaticObjectParams & {
   linearVelocity?: Vector;
   mass?: number;
   objectType?: number;
-  owningPlayer?: Player;
   owningPlayerSlot?: number;
   snappedToPoint?: SnapPoint;
   switcher?: Switcher;
@@ -45,7 +44,6 @@ export class MockGameObject extends MockStaticObject implements GameObject {
   private _linearVelocity: Vector = new MockVector(0, 0, 0);
   private _mass: number = 1;
   private _objectType: number = ObjectType.Regular;
-  private _owningPlayer: Player | undefined = undefined;
   private _owningPlayerSlot: number = -1;
   private _snappedToPoint: SnapPoint | undefined = undefined;
   private _switcher: Switcher | undefined = undefined;
@@ -82,9 +80,6 @@ export class MockGameObject extends MockStaticObject implements GameObject {
     }
     if (params?.objectType !== undefined) {
       this._objectType = params.objectType;
-    }
-    if (params?.owningPlayer) {
-      this._owningPlayer = params.owningPlayer;
     }
     if (params?.owningPlayerSlot !== undefined) {
       this._owningPlayerSlot = params.owningPlayerSlot;
@@ -184,7 +179,7 @@ export class MockGameObject extends MockStaticObject implements GameObject {
   }
 
   getOwningPlayer(): Player | undefined {
-    return this._owningPlayer;
+    throw new Error("Method not implemented");
   }
 
   getOwningPlayerSlot(): number {

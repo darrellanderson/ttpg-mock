@@ -19,7 +19,6 @@ it("constructor", () => {
     linearVelocity: new MockVector(9, 10, 11),
     mass: 8,
     objectType: ObjectType.Ground,
-    owningPlayer: new MockPlayer(),
     owningPlayerSlot: 9,
     snappedToPoint: new MockSnapPoint(),
     switcher: new MockSwitcher(),
@@ -35,8 +34,11 @@ it("constructor", () => {
   expect(gameObject.getLinearVelocity()).toEqual(params.linearVelocity);
   expect(gameObject.getMass()).toBe(params.mass);
   expect(gameObject.getObjectType()).toBe(params.objectType);
-  expect(gameObject.getOwningPlayer()).toEqual(params.owningPlayer);
   expect(gameObject.getOwningPlayerSlot()).toBe(params.owningPlayerSlot);
   expect(gameObject.getSnappedToPoint()).toEqual(params.snappedToPoint);
   expect(gameObject.getSwitcher()).toEqual(params.switcher);
+});
+
+it("getOwningPlayer", () => {
+  const player = new MockPlayer({ slot: 7 });
 });
