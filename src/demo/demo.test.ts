@@ -6,9 +6,11 @@ import {
   FetchResponse,
   GameObject,
   GridSnapType,
+  Player,
   Rotator,
   Vector,
   fetch,
+  globalEvents,
   world,
 } from "@tabletop-playground/api";
 
@@ -17,7 +19,13 @@ import {
  *
  * import { ... } from "ttpg-mock"
  */
-import { MockGameObject, MockGameObjectParams, mockWorld } from "../index";
+import {
+  MockGameObject,
+  MockGameObjectParams,
+  MockMulticastDelegate,
+  MockPlayer,
+  mockWorld,
+} from "../index";
 
 it("enum", () => {
   const x = GridSnapType.Center;
@@ -77,4 +85,27 @@ it("world._reset", () => {
   const obj: GameObject = new MockGameObject();
   mockWorld._reset({ gameObjects: [obj] });
   expect(world.getAllObjects()).toEqual([obj]);
+});
+
+it("events", () => {
+  const fakePlayer = new MockPlayer();
+  const fakeMessage = "hello";
+
+  // Listen for onChatMessage, require the fake info.
+  let listenerCalled = false;
+  globalEvents.onChatMessage.add((sender, message) => {
+    if (sender !== fakePlayer || message !== fakeMessage) {
+      throw new Error("bad");
+    }
+    listenerCalled = true;
+  });
+
+  // Cast to the mock version to access _trigger.
+  const mock = globalEvents.onChatMessage as MockMulticastDelegate<
+    (sender: Player, message: string) => void
+  >;
+  mock._trigger(fakePlayer, fakeMessage);
+  expect(listenerCalled).toBe(true);
+
+  globalEvents.onChatMessage.clear();
 });

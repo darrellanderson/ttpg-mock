@@ -48,7 +48,7 @@ Run jest with a `.test.ts` file or directory:
 
 When needed, create mock instances of objects often filling any necessary state in the constructor. Import mock classes from `ttpg-mock`, for instance:
 
-```
+```typescript
 import { MockGameObject, MockGameObjectParams } from "ttpg-mock";
 
 it("mock class", () => {
@@ -66,8 +66,8 @@ it("mock class", () => {
 
 Mock objects are not registered with `world` automatically. You can add using `mockWorld` (same object as `world` but with some new methods exposed):
 
-```
-import { GameObject, world } from "@tabletop-playground/api"
+```typescript
+import { GameObject, world } from "@tabletop-playground/api";
 import { MockGameObject, mockWorld } from "ttpg-mock";
 
 it("mockWorld._reset", () => {
@@ -75,7 +75,39 @@ it("mockWorld._reset", () => {
   mockWorld._reset({ gameObjects: [obj] });
   expect(world.getAllObjects()).toEqual([obj]);
 
-  mockWorld._reset() // clears everything
+  mockWorld._reset(); // clears everything
+});
+```
+
+## Events
+
+`Delegate` and `MulticastDelegate` can be cast to their mock version to trigger events:
+
+```typescript
+import { globalEvents } from "@tabletop-playground/api";
+import { MockMulticastDelegate, MockPlayer } from "ttpg-mock";
+
+it("events", () => {
+  const fakePlayer = new MockPlayer();
+  const fakeMessage = "hello";
+
+  // Listen for onChatMessage, require the fake info.
+  let listenerCalled = false;
+  globalEvents.onChatMessage.add((sender, message) => {
+    if (sender !== fakePlayer || message !== fakeMessage) {
+      throw new Error("bad");
+    }
+    listenerCalled = true;
+  });
+
+  // Cast to the mock version to access _trigger.
+  const mock = globalEvents.onChatMessage as MockMulticastDelegate<
+    (sender: Player, message: string) => void
+  >;
+  mock._trigger(fakePlayer, fakeMessage);
+  expect(listenerCalled).toBe(true);
+
+  globalEvents.onChatMessage.clear();
 });
 ```
 
