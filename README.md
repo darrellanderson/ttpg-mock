@@ -44,6 +44,10 @@ Run jest with a `.test.ts` file or directory:
 % yarn test src/.../my-file.test.ts
 ```
 
+## Environment
+
+There may be places your scripts want to behave differently when under test (e.g., `setTimeout`). You can check `GameWorld.getExectutionReason() === "unittest"`.
+
 ## Mock classes
 
 When needed, create mock instances of objects often filling any necessary state in the constructor. Import mock classes from `ttpg-mock`, for instance:

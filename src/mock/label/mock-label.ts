@@ -3,6 +3,19 @@ import { MockColor } from "../color/mock-color";
 import { MockRotator } from "../rotator/mock-rotator";
 import { MockVector } from "../vector/mock-vector";
 
+export type MockLabelParams = {
+  color?: Color;
+  fontFileName?: string;
+  fontPackageId?: string;
+  id?: string;
+  playerSlot?: number;
+  position?: Vector;
+  rotation?: Rotator;
+  scale?: number;
+  text?: string;
+  valid?: boolean;
+};
+
 export class MockLabel implements Label {
   private static __labelIndex = 0;
 
@@ -16,6 +29,39 @@ export class MockLabel implements Label {
   private _scale: number = 1;
   private _text: string = "";
   private _valid: boolean = true;
+
+  constructor(params?: MockLabelParams) {
+    if (params?.color) {
+      this._color = params.color;
+    }
+    if (params?.fontFileName) {
+      this._fontFileName = params.fontFileName;
+    }
+    if (params?.fontPackageId) {
+      this._fontPackageId = params.fontPackageId;
+    }
+    if (params?.id) {
+      this._id = params.id;
+    }
+    if (params?.playerSlot !== undefined) {
+      this._playerSlot = params.playerSlot;
+    }
+    if (params?.position) {
+      this._position = params.position;
+    }
+    if (params?.rotation) {
+      this._rotation = params.rotation;
+    }
+    if (params?.scale !== undefined) {
+      this._scale = params.scale;
+    }
+    if (params?.text) {
+      this._text = params.text;
+    }
+    if (params?.valid !== undefined) {
+      this._valid = params.valid;
+    }
+  }
 
   destroy(): void {
     this._valid = false;
