@@ -5,13 +5,12 @@ import {
   Rotator,
   Vector,
   Zone,
-  ZonePermission,
-  ZoneShape,
 } from "@tabletop-playground/api";
+import { ZonePermission, ZoneShape } from "../../enums";
 import { MockMulticastDelegate } from "../multicast-delegate/mock-multicast-delegate";
 import { MockColor } from "../color/mock-color";
-import { MockVector } from "../vector/mock-vector";
 import { MockRotator } from "../rotator/mock-rotator";
+import { MockVector } from "../vector/mock-vector";
 
 export class MockZone implements Zone {
   private static __zoneIndex = 0;

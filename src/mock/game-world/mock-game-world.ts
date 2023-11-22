@@ -22,12 +22,15 @@ import { MockGlobalGrid } from "../global-grid/mock-global-grid";
 import { MockLightingSettings } from "../lighting-settings/mock-lighting-settings";
 import { MockTurnSystem } from "../turn-system/mock-turn-system";
 import { MockLabel } from "../label/mock-label";
+import { MockZone } from "../zone/mock-zone";
 
 export type MockGameWorldParams = {
   drawingLines?: DrawingLine[];
   gameObjects?: GameObject[];
+  labels?: Label[];
   screenUIs?: ScreenUIElement[];
   uis?: UIElement[];
+  zones?: Zone[];
 };
 
 export class MockGameWorld implements GameWorld {
@@ -37,8 +40,10 @@ export class MockGameWorld implements GameWorld {
 
   private _drawingLines: DrawingLine[] = [];
   private _gameObjects: GameObject[] = [];
+  private _labels: Label[] = [];
   private _screenUIs: ScreenUIElement[] = [];
   private _uis: UIElement[] = [];
+  private _zones: Zone[] = [];
 
   static getExecutionReason(): string {
     return "";
@@ -60,19 +65,27 @@ export class MockGameWorld implements GameWorld {
   _reset(params?: MockGameWorldParams) {
     this._drawingLines = [];
     this._gameObjects = [];
+    this._labels = [];
     this._screenUIs = [];
     this._uis = [];
+    this._zones = [];
     if (params?.drawingLines) {
       this._drawingLines = params.drawingLines;
     }
     if (params?.gameObjects) {
       this._gameObjects = params.gameObjects;
     }
+    if (params?.labels) {
+      this._labels = params.labels;
+    }
     if (params?.screenUIs) {
       this._screenUIs = params.screenUIs;
     }
     if (params?.uis) {
       this._uis = params.uis;
+    }
+    if (params?.zones) {
+      this._zones = params.zones;
     }
   }
 
@@ -109,11 +122,15 @@ export class MockGameWorld implements GameWorld {
   createLabel(position: Vector | [x: number, y: number, z: number]): Label {
     const label = new MockLabel();
     label.setPosition(position);
+    this._labels.push(label);
     return label;
   }
 
   createZone(position: Vector | [x: number, y: number, z: number]): Zone {
-    throw new Error("Method not implemented.");
+    const zone = new MockZone();
+    zone.setPosition(position);
+    this._zones.push(zone);
+    return zone;
   }
 
   drawDebugBox(
@@ -148,8 +165,16 @@ export class MockGameWorld implements GameWorld {
     thickness?: number | undefined
   ): void {}
 
+  getAllLabels(): Label[] {
+    return this._labels;
+  }
+
   getAllObjects(skipContained?: boolean | undefined): GameObject[] {
     return this._gameObjects;
+  }
+
+  getAllZones(): Zone[] {
+    return this._zones;
   }
 
   getDrawingLines(): DrawingLine[] {
@@ -223,8 +248,7 @@ export class MockGameWorld implements GameWorld {
     jsonString: string,
     position: Vector | [x: number, y: number, z: number]
   ): GameObject | undefined {
-    const obj = JSON.parse(jsonString);
-    return obj as GameObject;
+    throw new Error("Method not implemented.");
   }
 
   createObjectFromTemplate(
@@ -247,8 +271,6 @@ export class MockGameWorld implements GameWorld {
   ): StaticObject | undefined {
     throw new Error("Method not implemented.");
   }
-
-  // --------------------------------
 
   updateUI(element: UIElement): void {
     throw new Error("Method not implemented.");
@@ -420,9 +442,6 @@ export class MockGameWorld implements GameWorld {
   getBackgroundFilename(): string {
     throw new Error("Method not implemented.");
   }
-  getAllZones(): Zone[] {
-    throw new Error("Method not implemented.");
-  }
   getAllTags(): string[] {
     throw new Error("Method not implemented.");
   }
@@ -433,9 +452,6 @@ export class MockGameWorld implements GameWorld {
     throw new Error("Method not implemented.");
   }
   getAllowedPackages(): Package[] {
-    throw new Error("Method not implemented.");
-  }
-  getAllLabels(): Label[] {
     throw new Error("Method not implemented.");
   }
 }
