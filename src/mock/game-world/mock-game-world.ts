@@ -280,7 +280,7 @@ export class MockGameWorld implements GameWorld {
 
   getAllTags(): string[] {
     // Seed with initialized.
-    const result = new Set(this._tags);
+    const result: Set<string> = new Set(this._tags);
 
     // Get from objects (including snap points).
     for (const obj of this.getAllObjects()) {
@@ -347,6 +347,37 @@ export class MockGameWorld implements GameWorld {
         return label;
       }
     }
+  }
+
+  getObjectById(objectId: string): GameObject | undefined {
+    for (const obj of this._gameObjects) {
+      if (obj.getId() === objectId) {
+        return obj;
+      }
+    }
+  }
+
+  getObjectGroupIds(): number[] {
+    const result: Set<number> = new Set();
+    for (const obj of this.getAllObjects()) {
+      const groupId = obj.getGroupId();
+      if (groupId !== -1) {
+        result.add(groupId);
+      }
+    }
+    return Array.from(result);
+  }
+
+  getObjectsByGroupId(groupId: number): GameObject[] {
+    return this.getAllObjects().filter(
+      (obj: GameObject) => obj.getGroupId() === groupId
+    );
+  }
+
+  getObjectsByTemplateId(templateId: string): GameObject[] {
+    return this.getAllObjects().filter(
+      (obj: GameObject) => obj.getTemplateId() === templateId
+    );
   }
 
   getSavedData(key?: string | undefined): string {
@@ -604,18 +635,6 @@ export class MockGameWorld implements GameWorld {
     throw new Error("Method not implemented.");
   }
   getPackageById(packageId: string): Package | undefined {
-    throw new Error("Method not implemented.");
-  }
-  getObjectsByTemplateId(templateId: string): GameObject[] {
-    throw new Error("Method not implemented.");
-  }
-  getObjectsByGroupId(groupId: number): GameObject[] {
-    throw new Error("Method not implemented.");
-  }
-  getObjectGroupIds(): number[] {
-    throw new Error("Method not implemented.");
-  }
-  getObjectById(objectId: string): GameObject | undefined {
     throw new Error("Method not implemented.");
   }
 }

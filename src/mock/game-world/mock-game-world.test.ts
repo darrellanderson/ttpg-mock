@@ -177,3 +177,33 @@ it("getLabelById", () => {
   output = gameWorld.getLabelById("no-such-id");
   expect(output).toBeUndefined();
 });
+
+it("getObjectById", () => {
+  const obj = new MockGameObject({ id: "my-id" });
+  const gameWorld = new MockGameWorld({ gameObjects: [obj] });
+  let output = gameWorld.getObjectById("my-id");
+  expect(output).toEqual(obj);
+  output = gameWorld.getObjectById("no-such-id");
+  expect(output).toBeUndefined();
+});
+
+it("getObjectGroupIds", () => {
+  const obj = new MockGameObject({ groupId: 7 });
+  const gameWorld = new MockGameWorld({ gameObjects: [obj] });
+  const output = gameWorld.getObjectGroupIds();
+  expect(output).toEqual([7]);
+});
+
+it("getObjectGroupsByGroupId", () => {
+  const obj = new MockGameObject({ groupId: 7 });
+  const gameWorld = new MockGameWorld({ gameObjects: [obj] });
+  const output = gameWorld.getObjectsByGroupId(7);
+  expect(output).toEqual([obj]);
+});
+
+it("getObjectsByTemplateId", () => {
+  const obj = new MockGameObject({ templateId: "my-template-id" });
+  const gameWorld = new MockGameWorld({ gameObjects: [obj] });
+  const output = gameWorld.getObjectsByTemplateId("my-template-id");
+  expect(output).toEqual([obj]);
+});

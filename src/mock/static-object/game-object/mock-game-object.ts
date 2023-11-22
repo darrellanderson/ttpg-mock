@@ -13,12 +13,88 @@ import {
   MockStaticObjectParams,
 } from "../mock-static-object";
 import { MockMulticastDelegate } from "../../multicast-delegate/mock-multicast-delegate";
+import { MockVector } from "../../vector/mock-vector";
+import { ObjectType } from "../../../enums";
+import { MockRotator } from "../../rotator/mock-rotator";
 
-export type MockGameObjectParams = MockStaticObjectParams & {};
+export type MockGameObjectParams = MockStaticObjectParams & {
+  angularVelocity?: Rotator;
+  centerOfMass?: Vector;
+  container?: Container;
+  groupId?: number;
+  isHeld?: boolean;
+  isSimulatingPhysics?: boolean;
+  isSnappingAllowed?: boolean;
+  linearVelocity?: Vector;
+  mass?: number;
+  objectType?: number;
+  owningPlayer?: Player;
+  owningPlayerSlot?: number;
+  snappedToPoint?: SnapPoint;
+  switcher?: Switcher;
+};
 
 export class MockGameObject extends MockStaticObject implements GameObject {
+  private _angularVelocity: Rotator = new MockRotator(0, 0, 0);
+  private _centerOfMass: Vector = new MockVector(0, 0, 0);
+  private _container: Container | undefined = undefined;
+  private _groupId: number = -1;
+  private _isHeld: boolean = false;
+  private _isSimulatingPhysics: boolean = false;
+  private _isSnappingAllowed: boolean = true;
+  private _linearVelocity: Vector = new MockVector(0, 0, 0);
+  private _mass: number = 1;
+  private _objectType: number = ObjectType.Regular;
+  private _owningPlayer: Player | undefined = undefined;
+  private _owningPlayerSlot: number = -1;
+  private _snappedToPoint: SnapPoint | undefined = undefined;
+  private _switcher: Switcher | undefined = undefined;
+
   constructor(params?: MockGameObjectParams) {
     super(params);
+
+    if (params?.angularVelocity) {
+      this._angularVelocity = params.angularVelocity;
+    }
+    if (params?.centerOfMass) {
+      this._centerOfMass = params.centerOfMass;
+    }
+    if (params?.container) {
+      this._container = params.container;
+    }
+    if (params?.groupId !== undefined) {
+      this._groupId = params.groupId;
+    }
+    if (params?.isHeld !== undefined) {
+      this._isHeld = params.isHeld;
+    }
+    if (params?.isSimulatingPhysics !== undefined) {
+      this._isSimulatingPhysics = params.isSimulatingPhysics;
+    }
+    if (params?.isSnappingAllowed !== undefined) {
+      this._isSnappingAllowed = params.isSnappingAllowed;
+    }
+    if (params?.linearVelocity) {
+      this._linearVelocity = params.linearVelocity;
+    }
+    if (params?.mass !== undefined) {
+      this._mass = params.mass;
+    }
+    if (params?.objectType !== undefined) {
+      this._objectType = params.objectType;
+    }
+    if (params?.owningPlayer) {
+      this._owningPlayer = params.owningPlayer;
+    }
+    if (params?.owningPlayerSlot !== undefined) {
+      this._owningPlayerSlot = params.owningPlayerSlot;
+    }
+    if (params?.snappedToPoint) {
+      this._snappedToPoint = params.snappedToPoint;
+    }
+    if (params?.switcher) {
+      this._switcher = params.switcher;
+    }
   }
 
   onCreated: MulticastDelegate<(object: this) => void> =
@@ -79,6 +155,92 @@ export class MockGameObject extends MockStaticObject implements GameObject {
   onMovementStopped: MulticastDelegate<(object: this) => void> =
     new MockMulticastDelegate();
 
+  getAngularVelocity(): Rotator {
+    return this._angularVelocity;
+  }
+
+  getCenterOfMass(): Vector {
+    return this._centerOfMass;
+  }
+
+  getContainer(): Container | undefined {
+    return this._container;
+  }
+
+  getGroupId(): number {
+    return this._groupId;
+  }
+
+  getLinearVelocity(): Vector {
+    return this._linearVelocity;
+  }
+
+  getMass(): number {
+    return this._mass;
+  }
+
+  getObjectType(): number {
+    return this._objectType;
+  }
+
+  getOwningPlayer(): Player | undefined {
+    return this._owningPlayer;
+  }
+
+  getOwningPlayerSlot(): number {
+    return this._owningPlayerSlot;
+  }
+
+  getSnappedToPoint(): SnapPoint | undefined {
+    return this._snappedToPoint;
+  }
+
+  getSwitcher(): Switcher | undefined {
+    return this._switcher;
+  }
+
+  isHeld(): boolean {
+    return this._isHeld;
+  }
+
+  isSimulatingPhysics(): boolean {
+    return this._isSimulatingPhysics;
+  }
+
+  isSnappingAllowed(): boolean {
+    return this._isSnappingAllowed;
+  }
+
+  setAngularVelocity(
+    velocity: Rotator | [pitch: number, yaw: number, roll: number]
+  ): void {
+    this._angularVelocity = MockRotator._from(velocity);
+  }
+
+  setGroupId(groupId: number): void {
+    this._groupId = groupId;
+  }
+
+  setLinearVelocity(
+    velocity: Vector | [x: number, y: number, z: number]
+  ): void {
+    this._linearVelocity = MockVector._from(velocity);
+  }
+
+  setObjectType(type: number): void {
+    this._objectType = type;
+  }
+
+  setOwningPlayerSlot(slot: number): void {
+    this._owningPlayerSlot = slot;
+  }
+
+  setSnappingAllowed(allowed: boolean): void {
+    this._isSnappingAllowed = allowed;
+  }
+
+  // ----------------------------------
+
   toggleLock(): void {
     throw new Error("Method not implemented.");
   }
@@ -91,74 +253,10 @@ export class MockGameObject extends MockStaticObject implements GameObject {
   snap(animationSpeed?: number | undefined): SnapPoint | undefined {
     throw new Error("Method not implemented.");
   }
-  setSnappingAllowed(allowed: boolean): void {
-    throw new Error("Method not implemented.");
-  }
-  setOwningPlayerSlot(slot: number): void {
-    throw new Error("Method not implemented.");
-  }
-  setObjectType(type: number): void {
-    throw new Error("Method not implemented.");
-  }
-  setLinearVelocity(
-    velocity: Vector | [x: number, y: number, z: number]
-  ): void {
-    throw new Error("Method not implemented.");
-  }
-  setGroupId(groupId: number): void {
-    throw new Error("Method not implemented.");
-  }
-  setAngularVelocity(
-    velocity: Rotator | [pitch: number, yaw: number, roll: number]
-  ): void {
-    throw new Error("Method not implemented.");
-  }
   removeCustomAction(identifier: string): void {
     throw new Error("Method not implemented.");
   }
   release(): void {
-    throw new Error("Method not implemented.");
-  }
-  isSnappingAllowed(): boolean {
-    throw new Error("Method not implemented.");
-  }
-  isSimulatingPhysics(): boolean {
-    throw new Error("Method not implemented.");
-  }
-  isHeld(): boolean {
-    throw new Error("Method not implemented.");
-  }
-  getSwitcher(): Switcher | undefined {
-    throw new Error("Method not implemented.");
-  }
-  getSnappedToPoint(): SnapPoint | undefined {
-    throw new Error("Method not implemented.");
-  }
-  getOwningPlayerSlot(): number {
-    throw new Error("Method not implemented.");
-  }
-  getOwningPlayer(): Player | undefined {
-    throw new Error("Method not implemented.");
-  }
-  getObjectType(): number {
-    throw new Error("Method not implemented.");
-  }
-  getMass(): number {
-    throw new Error("Method not implemented.");
-  }
-  getLinearVelocity(): Vector {
-    throw new Error("Method not implemented.");
-  }
-  getGroupId(): number {
-    throw new Error("Method not implemented.");
-  }
-  getContainer(): Container | undefined {
-    throw new Error("Method not implemented.");
-  }
-  getCenterOfMass(): Vector {
-    throw new Error("Method not implemented.");
-  }
-  getAngularVelocity(): Rotator {
     throw new Error("Method not implemented.");
   }
   freeze(): void {
