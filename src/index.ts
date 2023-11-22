@@ -70,6 +70,9 @@ const globalEvents = new MockGlobalScriptingEvents();
 const world = new MockGameWorld();
 export { globalEvents, world };
 
+// Also expose variables with a mock name.
+export { globalEvents as mockGlobalEvents, world as mockWorld };
+
 // Functions.
 const fetch = mockFetch;
 export { fetch };
