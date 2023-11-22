@@ -1,3 +1,4 @@
+import { MockColor } from "../color/mock-color";
 import { MockDrawingLine } from "../drawing-line/mock-drawing-line";
 import { MockGameObject } from "../static-object/game-object/mock-game-object";
 import { MockGameWorld, MockGameWorldParams } from "./mock-game-world";
@@ -13,6 +14,7 @@ import { MockZone } from "../zone/mock-zone";
 it("constructor", () => {
   new MockGameWorld();
 
+  const slotColor = new MockColor(1, 1, 1, 1);
   const params: MockGameWorldParams = {
     backgroundFilename: "my-background-filename",
     backgroundPackageId: "my-background-id",
@@ -26,6 +28,7 @@ it("constructor", () => {
     savedData: { "my-key": "my-value" },
     savedDataAnonymous: "my-anon-value",
     showDiceRollMessages: false,
+    slotColor: { 1: slotColor },
     slotTeam: { 1: 2 },
     screenUIs: [new MockScreenUIElement()],
     tableHeight: 17,
@@ -47,6 +50,7 @@ it("constructor", () => {
   expect(gameWorld.getSavedData("my-key")).toBe("my-value");
   expect(gameWorld.getSavedData()).toBe("my-anon-value");
   expect(gameWorld.getShowDiceRollMessages()).toBe(params.showDiceRollMessages);
+  expect(gameWorld.getSlotColor(1)).toBe(slotColor);
   expect(gameWorld.getSlotTeam(1)).toBe(2);
   expect(gameWorld.getScreenUIs()).toEqual(params.screenUIs);
   expect(gameWorld.getTableHeight()).toBe(params.tableHeight);
@@ -96,6 +100,14 @@ it("labels", () => {
   expect(output).toEqual([label]);
 });
 
+it("savedData", () => {
+  const gameWorld = new MockGameWorld();
+  gameWorld.setSavedData("my-anon-data");
+  expect(gameWorld.getSavedData()).toBe("my-anon-data");
+  gameWorld.setSavedData("my-value", "my-key");
+  expect(gameWorld.getSavedData("my-key")).toBe("my-value");
+});
+
 it("screenUIs", () => {
   const input = new MockScreenUIElement();
   const gameWorld = new MockGameWorld();
@@ -118,6 +130,22 @@ it("screenUIs", () => {
   gameWorld.removeScreenUIElement(input);
   output = gameWorld.getScreenUIs();
   expect(output).toEqual([]);
+});
+
+it("slotColor", () => {
+  const gameWorld = new MockGameWorld();
+  const slot = 7;
+  const color = new MockColor(1, 1, 1, 1);
+  gameWorld.setSlotColor(slot, color);
+  expect(gameWorld.getSlotColor(slot)).toEqual(color);
+});
+
+it("slotTeam", () => {
+  const gameWorld = new MockGameWorld();
+  const slot = 7;
+  const team = 8;
+  gameWorld.setSlotTeam(slot, team);
+  expect(gameWorld.getSlotTeam(slot)).toBe(team);
 });
 
 it("uis", () => {

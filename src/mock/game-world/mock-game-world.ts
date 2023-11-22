@@ -23,6 +23,7 @@ import { MockLightingSettings } from "../lighting-settings/mock-lighting-setting
 import { MockTurnSystem } from "../turn-system/mock-turn-system";
 import { MockLabel } from "../label/mock-label";
 import { MockZone } from "../zone/mock-zone";
+import { MockColor } from "../color/mock-color";
 
 export type MockGameWorldParams = {
   backgroundFilename?: string;
@@ -37,6 +38,7 @@ export type MockGameWorldParams = {
   savedData?: { [key: string]: string };
   savedDataAnonymous?: string;
   showDiceRollMessages?: boolean;
+  slotColor?: { [key: number]: Color };
   slotTeam?: { [key: number]: number };
   screenUIs?: ScreenUIElement[];
   tableHeight?: number;
@@ -64,6 +66,7 @@ export class MockGameWorld implements GameWorld {
   private _savedDataAnonymous: string = "";
   private _screenUIs: ScreenUIElement[] = [];
   private _showDiceRollMessages: boolean = true;
+  private _slotColor: { [key: number]: Color } = {};
   private _slotTeam: { [key: number]: number } = {};
   private _tableHeight: number = 0;
   private _tables: StaticObject[] = [];
@@ -154,10 +157,15 @@ export class MockGameWorld implements GameWorld {
     } else {
       this._showDiceRollMessages = true;
     }
+    if (params?.slotColor !== undefined) {
+      this._slotColor = params.slotColor;
+    } else {
+      this._slotColor = {};
+    }
     if (params?.slotTeam !== undefined) {
       this._slotTeam = params.slotTeam;
     } else {
-      this._slotTeam = [];
+      this._slotTeam = {};
     }
     if (params?.tableHeight !== undefined) {
       this._tableHeight = params.tableHeight;
@@ -395,6 +403,14 @@ export class MockGameWorld implements GameWorld {
     return this._showDiceRollMessages;
   }
 
+  getSlotColor(slot: number): Color {
+    const color = this._slotColor[slot];
+    if (!color) {
+      new MockColor(1, 1, 1, 1);
+    }
+    return color;
+  }
+
   getSlotTeam(slot: number): number {
     const team = this._slotTeam[slot];
     if (team === undefined) {
@@ -454,6 +470,21 @@ export class MockGameWorld implements GameWorld {
     } else {
       this._savedData[key] = data;
     }
+  }
+
+  setShowDiceRollMessages(show: boolean): void {
+    this._showDiceRollMessages = show;
+  }
+
+  setSlotColor(
+    slot: number,
+    color: Color | [r: number, g: number, b: number, a: number]
+  ): void {
+    this._slotColor[slot] = MockColor._from(color);
+  }
+
+  setSlotTeam(slot: number, team: number): void {
+    this._slotTeam[slot] = team;
   }
 
   // --------------------------------
@@ -564,18 +595,6 @@ export class MockGameWorld implements GameWorld {
   setUI(index: number, element: UIElement): void {
     throw new Error("Method not implemented.");
   }
-  setSlotTeam(slot: number, team: number): void {
-    throw new Error("Method not implemented.");
-  }
-  setSlotColor(
-    slot: number,
-    color: Color | [r: number, g: number, b: number, a: number]
-  ): void {
-    throw new Error("Method not implemented.");
-  }
-  setShowDiceRollMessages(show: boolean): void {
-    throw new Error("Method not implemented.");
-  }
   setScreenUI(index: number, element: ScreenUIElement): void {
     throw new Error("Method not implemented.");
   }
@@ -623,9 +642,6 @@ export class MockGameWorld implements GameWorld {
     throw new Error("Method not implemented.");
   }
   getTemplateName(templateId: string): string {
-    throw new Error("Method not implemented.");
-  }
-  getSlotColor(slot: number): Color {
     throw new Error("Method not implemented.");
   }
   getPlayerBySlot(slot: number): Player | undefined {
