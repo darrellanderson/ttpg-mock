@@ -1,6 +1,29 @@
-import { MockCardDetails } from "./mock-card-details";
+import { MockCardDetails, MockCardDetailsParams } from "./mock-card-details";
 
 describe("MockCardDetails", () => {
+  test("constructor", () => {
+    new MockCardDetails(); // standard
+    const params: MockCardDetailsParams = {
+      index: 1,
+      stackIndex: 2,
+      templateId: "my-template-id",
+      name: "my-name",
+      metadata: "my-metadata",
+      textureOverrideURL: "my-texture-override-url",
+      flipped: true,
+      tags: ["my-tag"],
+    };
+    const cardDetails = new MockCardDetails(params);
+    expect(cardDetails.index).toBe(params.index);
+    expect(cardDetails.stackIndex).toBe(params.stackIndex);
+    expect(cardDetails.templateId).toBe(params.templateId);
+    expect(cardDetails.name).toBe(params.name);
+    expect(cardDetails.metadata).toBe(params.metadata);
+    expect(cardDetails.textureOverrideURL).toBe(params.textureOverrideURL);
+    expect(cardDetails.flipped).toBe(params.flipped);
+    expect(cardDetails.tags).toEqual(params.tags);
+  });
+
   test("index", () => {
     const value = 7;
     const cardDetails = new MockCardDetails({ index: value });

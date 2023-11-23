@@ -4,6 +4,7 @@ import {
 } from "./mock-fetch-response";
 
 it("constructor", () => {
+  new MockFetchResponse();
   const params: MockFetchResponseParams = {
     ok: true,
     status: 200,
