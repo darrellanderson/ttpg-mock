@@ -48,6 +48,7 @@ it("constructor", () => {
   expect(player.isScriptKeyDown(1)).toBe(true);
   expect(player.isSpectator()).toBe(params.isSpectator);
   expect(player.isUsingVR()).toBe(params.isUsingVR);
+  expect(player.isValid()).toBe(params.isValid);
   expect(player.getName()).toBe(params.name);
   expect(player.getPlayerColor()).toEqual(params.playerColor);
   expect(player.getPosition()).toEqual(params.position);
@@ -57,4 +58,67 @@ it("constructor", () => {
   expect(player.getSelectedObjects()).toEqual(params.selectedObjects);
   expect(player.getSlot()).toBe(params.slot);
   expect(player.getTeam()).toBe(params.team);
+});
+
+it("blindfolded", () => {
+  const input = true;
+  const player = new MockPlayer();
+  player.setBlindfolded(input);
+  const output = player.isBlindfolded();
+  expect(output).toBe(input);
+});
+
+it("drawingColor", () => {
+  const input = new MockColor(0.1, 1, 1, 1);
+  const player = new MockPlayer();
+  player.setDrawingColor(input);
+});
+
+it("primaryColor", () => {
+  const input = new MockColor(0.1, 1, 1, 1);
+  const player = new MockPlayer();
+  player.setPrimaryColor(input);
+  const output = player.getPrimaryColor();
+  expect(output).toEqual(input);
+});
+
+it("secondaryColor", () => {
+  const input = new MockColor(0.1, 1, 1, 1);
+  const player = new MockPlayer();
+  player.setSecondaryColor(input);
+  const output = player.getSecondaryColor();
+  expect(output).toEqual(input);
+});
+
+it("handHolder", () => {
+  const input = new MockCardHolder();
+  const player = new MockPlayer();
+  player.setHandHolder(input);
+  const output = player.getHandHolder();
+  expect(output).toEqual(input);
+});
+
+it("position and rotation", () => {
+  const pos = new MockVector(1, 2, 3);
+  const rot = new MockRotator(5, 6, 7);
+  const player = new MockPlayer();
+  player.setPositionAndRotation(pos, rot);
+  expect(player.getPosition()).toEqual(pos);
+  expect(player.getRotation()).toEqual(rot);
+});
+
+it("selected objects", () => {
+  const input = [new MockGameObject()];
+  const player = new MockPlayer();
+  player.setSelectedObjects(input);
+  const output = player.getSelectedObjects();
+  expect(output).toEqual(input);
+});
+
+it("slot", () => {
+  const input = 13;
+  const player = new MockPlayer();
+  player.switchSlot(input);
+  const output = player.getSlot();
+  expect(output).toBe(input);
 });

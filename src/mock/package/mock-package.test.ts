@@ -1,6 +1,7 @@
 import { MockPackage, MockPackageParams } from "./mock-package";
 
 it("constructor", () => {
+  new MockPackage();
   const params: MockPackageParams = {
     fontFiles: ["my-font"],
     modelFiles: ["my-model"],

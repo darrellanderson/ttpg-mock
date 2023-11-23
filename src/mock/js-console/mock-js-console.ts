@@ -1,19 +1,31 @@
 import { JSConsole } from "@tabletop-playground/api";
 
 export class MockJSConsole implements JSConsole {
+  static loggingEnabled = false; // only in the mock class
+
   static warn(message: string) {
-    throw new Error("Method not implemented.");
+    if (MockJSConsole.loggingEnabled) {
+      console.warn(message);
+    }
   }
   static log(message: string) {
-    throw new Error("Method not implemented.");
+    if (MockJSConsole.loggingEnabled) {
+      console.log(message);
+    }
   }
   static info(message: string) {
-    throw new Error("Method not implemented.");
+    if (MockJSConsole.loggingEnabled) {
+      console.info(message);
+    }
   }
   static error(message: string) {
-    throw new Error("Method not implemented.");
+    if (MockJSConsole.loggingEnabled) {
+      console.error(message);
+    }
   }
   static debug(message: string) {
-    throw new Error("Method not implemented.");
+    if (MockJSConsole.loggingEnabled) {
+      console.debug(message);
+    }
   }
 }

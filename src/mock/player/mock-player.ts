@@ -79,22 +79,22 @@ export class MockPlayer implements Player {
     if (params?.highlightedObject) {
       this._highlightedObject = params.highlightedObject;
     }
-    if (params?.isBlindfolded) {
+    if (params?.isBlindfolded !== undefined) {
       this._isBlindfolded = params.isBlindfolded;
     }
-    if (params?.isGameMaster) {
+    if (params?.isGameMaster !== undefined) {
       this._isGameMaster = params.isGameMaster;
     }
-    if (params?.isHost) {
+    if (params?.isHost !== undefined) {
       this._isHost = params.isHost;
     }
-    if (params?.isSpectator) {
+    if (params?.isSpectator !== undefined) {
       this._isSpectator = params.isSpectator;
     }
-    if (params?.isUsingVR) {
+    if (params?.isUsingVR !== undefined) {
       this._isUsingVR = params.isUsingVR;
     }
-    if (params?.isValid) {
+    if (params?.isValid !== undefined) {
       this._isValid = params.isValid;
     }
     if (params?.name) {
@@ -118,10 +118,10 @@ export class MockPlayer implements Player {
     if (params?.selectedObjects) {
       this._selectedObjects = params.selectedObjects;
     }
-    if (params?.slot) {
+    if (params?.slot !== undefined) {
       this._slot = params.slot;
     }
-    if (params?.team) {
+    if (params?.team !== undefined) {
       this._team = params.team;
     }
     if (params?.scriptKeysDown) {

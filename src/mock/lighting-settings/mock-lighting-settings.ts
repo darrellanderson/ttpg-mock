@@ -1,36 +1,78 @@
 import { Color, LightingSettings } from "@tabletop-playground/api";
+import { MockColor } from "../color/mock-color";
+
+export type MockLightingSettingsParams = {
+  altitude?: number;
+  azimuth?: number;
+  color?: Color;
+  intensity?: number;
+  specularIntensity?: number;
+};
 
 export class MockLightingSettings implements LightingSettings {
-  setMainLightSpecularIntensity(intensity: number): void {
-    throw new Error("Method not implemented.");
+  private _altitude = 90;
+  private _azimuth = 0;
+  private _color = new MockColor(1, 1, 1, 1);
+  private _intensity = 1;
+  private _specularIntensity = 1;
+
+  constructor(params?: MockLightingSettingsParams) {
+    if (params?.altitude) {
+      this._altitude = params.altitude;
+    }
+    if (params?.azimuth) {
+      this._azimuth = params.azimuth;
+    }
+    if (params?.color) {
+      this._color = params.color;
+    }
+    if (params?.intensity) {
+      this._intensity = params.intensity;
+    }
+    if (params?.specularIntensity) {
+      this._specularIntensity = params.specularIntensity;
+    }
   }
-  setMainLightIntensity(intensity: number): void {
-    throw new Error("Method not implemented.");
+
+  getMainLightAltitude(): number {
+    return this._altitude;
   }
+
+  getMainLightAzimuth(): number {
+    return this._azimuth;
+  }
+
+  getMainLightColor(): Color {
+    return this._color;
+  }
+
+  getMainLightIntensity(): number {
+    return this._intensity;
+  }
+
+  getMainLightSpecularIntensity(): number {
+    return this._specularIntensity;
+  }
+
+  setMainLightAltitude(angle: number): void {
+    this._altitude = angle;
+  }
+
+  setMainLightAzimuth(angle: number): void {
+    this._azimuth = angle;
+  }
+
   setMainLightColor(
     color: Color | [r: number, g: number, b: number, a: number]
   ): void {
-    throw new Error("Method not implemented.");
+    this._color = MockColor._from(color);
   }
-  setMainLightAzimuth(angle: number): void {
-    throw new Error("Method not implemented.");
+
+  setMainLightIntensity(intensity: number): void {
+    this._intensity = intensity;
   }
-  setMainLightAltitude(angle: number): void {
-    throw new Error("Method not implemented.");
-  }
-  getMainLightSpecularIntensity(): number {
-    throw new Error("Method not implemented.");
-  }
-  getMainLightIntensity(): number {
-    throw new Error("Method not implemented.");
-  }
-  getMainLightColor(): Color {
-    throw new Error("Method not implemented.");
-  }
-  getMainLightAzimuth(): number {
-    throw new Error("Method not implemented.");
-  }
-  getMainLightAltitude(): number {
-    throw new Error("Method not implemented.");
+
+  setMainLightSpecularIntensity(intensity: number): void {
+    this._specularIntensity = intensity;
   }
 }
