@@ -16,6 +16,7 @@ import { MockMulticastDelegate } from "../../multicast-delegate/mock-multicast-d
 import { MockRotator } from "../../rotator/mock-rotator";
 import { MockVector } from "../../vector/mock-vector";
 import { ObjectType } from "../../../enums";
+import { MockGameWorld } from "../../game-world/mock-game-world";
 
 export type MockGameObjectParams = MockStaticObjectParams & {
   angularVelocity?: Rotator;
@@ -179,7 +180,11 @@ export class MockGameObject extends MockStaticObject implements GameObject {
   }
 
   getOwningPlayer(): Player | undefined {
-    throw new Error("Method not implemented");
+    for (const player of MockGameWorld.__sharedInstance.getAllPlayers()) {
+      if (player.getSlot() === this._owningPlayerSlot) {
+        return player;
+      }
+    }
   }
 
   getOwningPlayerSlot(): number {

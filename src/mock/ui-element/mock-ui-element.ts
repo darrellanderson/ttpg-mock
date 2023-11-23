@@ -2,8 +2,6 @@ import {
   PlayerPermission,
   Rotator,
   UIElement,
-  UIPresentationStyle,
-  UIZoomVisibility,
   Vector,
   Widget,
 } from "@tabletop-playground/api";
@@ -11,6 +9,24 @@ import { MockVector } from "../vector/mock-vector";
 import { MockRotator } from "../rotator/mock-rotator";
 import { MockPlayerPermission } from "../player-permission/mock-player-permission";
 import { MockWidget } from "../widget/mock-widget";
+import { UIPresentationStyle, UIZoomVisibility } from "../../enums";
+
+export type MockUIElementParams = {
+  widget: Widget;
+  position: Vector;
+  rotation: Rotator;
+  scale: number;
+  useWidgetSize: boolean;
+  width: number;
+  height: number;
+  useTransparency: boolean;
+  anchorX: number;
+  anchorY: number;
+  presentationStyle: number;
+  twoSided: boolean;
+  players: PlayerPermission;
+  zoomVisibility: number;
+};
 
 export class MockUIElement implements UIElement {
   widget: Widget = new MockWidget();
@@ -23,12 +39,55 @@ export class MockUIElement implements UIElement {
   useTransparency: boolean = false;
   anchorX: number = 0.5;
   anchorY: number = 0.5;
-  presentationStyle: number = 0; // UIPresentationStyle.Regular
+  presentationStyle: number = UIPresentationStyle.Regular;
   twoSided: boolean = false;
   players: PlayerPermission = new MockPlayerPermission();
-  zoomVisibility: number = 0; // UIZoomVisibility.Regular
+  zoomVisibility: number = UIZoomVisibility.Regular;
 
-  constructor() {}
+  constructor(params?: MockUIElementParams) {
+    if (params?.widget) {
+      this.widget = params.widget;
+    }
+    if (params?.position) {
+      this.position = params.position;
+    }
+    if (params?.rotation) {
+      this.rotation = params.rotation;
+    }
+    if (params?.scale !== undefined) {
+      this.scale = params.scale;
+    }
+    if (params?.useWidgetSize !== undefined) {
+      this.useWidgetSize = params.useWidgetSize;
+    }
+    if (params?.width !== undefined) {
+      this.width = params.width;
+    }
+    if (params?.height !== undefined) {
+      this.height = params.height;
+    }
+    if (params?.useTransparency !== undefined) {
+      this.useTransparency = params.useTransparency;
+    }
+    if (params?.anchorX !== undefined) {
+      this.anchorX = params.anchorX;
+    }
+    if (params?.anchorY !== undefined) {
+      this.anchorY = params.anchorY;
+    }
+    if (params?.presentationStyle !== undefined) {
+      this.presentationStyle = params.presentationStyle;
+    }
+    if (params?.twoSided !== undefined) {
+      this.twoSided = params.twoSided;
+    }
+    if (params?.players) {
+      this.players = params.players;
+    }
+    if (params?.zoomVisibility !== undefined) {
+      this.zoomVisibility = params.zoomVisibility;
+    }
+  }
 
   clone(): UIElement {
     const clone = new MockUIElement();

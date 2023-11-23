@@ -1,6 +1,7 @@
 import { ObjectType } from "../../../enums";
 import { MockContainer } from "./container/mock-container";
 import { MockGameObject, MockGameObjectParams } from "./mock-game-object";
+import { MockGameWorld } from "../../game-world/mock-game-world";
 import { MockPlayer } from "../../player/mock-player";
 import { MockRotator } from "../../rotator/mock-rotator";
 import { MockSnapPoint } from "../../snap-point/mock-snap-point";
@@ -40,5 +41,9 @@ it("constructor", () => {
 });
 
 it("getOwningPlayer", () => {
-  const player = new MockPlayer({ slot: 7 });
+  const slot = 7;
+  const obj = new MockGameObject({ owningPlayerSlot: slot });
+  const player = new MockPlayer({ slot });
+  MockGameWorld.__sharedInstance._reset({ players: [player] });
+  expect(obj.getOwningPlayer()).toEqual(player);
 });

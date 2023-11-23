@@ -66,8 +66,8 @@ export {
 export * from "./mock";
 
 // Variables.
-const globalEvents = new MockGlobalScriptingEvents();
-const world = new MockGameWorld();
+const globalEvents = MockGlobalScriptingEvents.__sharedInstance;
+const world = MockGameWorld.__sharedInstance;
 export { globalEvents, world };
 
 // Also expose variables with a mock name.

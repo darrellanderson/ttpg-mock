@@ -10,6 +10,9 @@ import {
 import { MockMulticastDelegate } from "../multicast-delegate/mock-multicast-delegate";
 
 export class MockGlobalScriptingEvents implements GlobalScriptingEvents {
+  public static readonly __sharedInstance: MockGlobalScriptingEvents =
+    new MockGlobalScriptingEvents();
+
   onChatMessage: MulticastDelegate<(sender: Player, message: string) => void> =
     new MockMulticastDelegate<(sender: Player, message: string) => void>();
 

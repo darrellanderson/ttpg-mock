@@ -8,6 +8,7 @@ import {
   Vector,
 } from "@tabletop-playground/api";
 import { MockColor } from "../color/mock-color";
+import { MockGameWorld } from "../game-world/mock-game-world";
 import { MockVector } from "../vector/mock-vector";
 import { MockRotator } from "../rotator/mock-rotator";
 
@@ -158,7 +159,10 @@ export class MockPlayer implements Player {
   }
 
   getOwnedObjects(): GameObject[] {
-    throw new Error("Method not implemented");
+    const slot = this.getSlot();
+    return MockGameWorld.__sharedInstance
+      .getAllObjects()
+      .filter((obj) => obj.getOwningPlayerSlot() === slot);
   }
 
   getPlayerColor(): Color {

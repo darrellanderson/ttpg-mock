@@ -1,11 +1,12 @@
+import { GameObject } from "@tabletop-playground/api";
 import { MockCard } from "../static-object/game-object/card/mock-card";
 import { MockCardHolder } from "../static-object/game-object/card-holder/mock-card-holder";
 import { MockColor } from "../color/mock-color";
 import { MockGameObject } from "../static-object/game-object/mock-game-object";
+import { MockGameWorld } from "../game-world/mock-game-world";
 import { MockPlayer, MockPlayerParams } from "./mock-player";
 import { MockVector } from "../vector/mock-vector";
 import { MockRotator } from "../rotator/mock-rotator";
-import { GameObject } from "@tabletop-playground/api";
 
 it("constructor", () => {
   const heldObject: GameObject = new MockGameObject();
@@ -121,4 +122,13 @@ it("slot", () => {
   player.switchSlot(input);
   const output = player.getSlot();
   expect(output).toBe(input);
+});
+
+it("getOwnedObjects", () => {
+  const slot = 7;
+  const player = new MockPlayer({ slot });
+  const obj = new MockGameObject({ owningPlayerSlot: slot });
+  MockGameWorld.__sharedInstance._reset({ gameObjects: [obj] });
+  const output = player.getOwnedObjects();
+  expect(output).toEqual([obj]);
 });
