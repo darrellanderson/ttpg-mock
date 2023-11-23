@@ -24,11 +24,11 @@ import { MockTurnSystem } from "../turn-system/mock-turn-system";
 import { MockLabel } from "../label/mock-label";
 import { MockZone } from "../zone/mock-zone";
 import { MockColor } from "../color/mock-color";
+import { MockSound } from "../sound/mock-sound";
 
 export type MockGameWorldParams = {
   backgroundFilename?: string;
   backgroundPackageId?: string;
-  currentTurn?: number;
   drawingLines?: DrawingLine[];
   gameObjects?: GameObject[];
   gravityMultiplier?: number;
@@ -55,7 +55,6 @@ export class MockGameWorld implements GameWorld {
 
   private _backgroundFilename: string = "";
   private _backgroundPackageId: string = "";
-  private _currentTurn: number = 0;
   private _drawingLines: DrawingLine[] = [];
   private _gameObjects: GameObject[] = [];
   private _gravityMultiplier: number = 1;
@@ -101,11 +100,6 @@ export class MockGameWorld implements GameWorld {
       this._backgroundPackageId = params.backgroundPackageId;
     } else {
       this._backgroundPackageId = "";
-    }
-    if (params?.currentTurn !== undefined) {
-      this._currentTurn = params.currentTurn;
-    } else {
-      this._currentTurn = 0;
     }
     if (params?.drawingLines) {
       this._drawingLines = params.drawingLines;
@@ -334,7 +328,7 @@ export class MockGameWorld implements GameWorld {
   }
 
   getCurrentTurn(): number {
-    return this._currentTurn;
+    return this.turns.getCurrentTurn();
   }
 
   getDrawingLines(): DrawingLine[] {
@@ -388,6 +382,30 @@ export class MockGameWorld implements GameWorld {
     );
   }
 
+  getPackageById(packageId: string): Package | undefined {
+    for (const pkg of this._packages) {
+      if (pkg.getUniqueId() === packageId) {
+        return pkg;
+      }
+    }
+  }
+
+  getPlayerByName(name: string): Player | undefined {
+    for (const player of this._players) {
+      if (player.getName() === name) {
+        return player;
+      }
+    }
+  }
+
+  getPlayerBySlot(slot: number): Player | undefined {
+    for (const player of this._players) {
+      if (player.getSlot() === slot) {
+        return player;
+      }
+    }
+  }
+
   getSavedData(key?: string | undefined): string {
     if (key === undefined) {
       return this._savedDataAnonymous;
@@ -429,6 +447,33 @@ export class MockGameWorld implements GameWorld {
     return this._uis;
   }
 
+  getZoneById(zoneId: string): Zone | undefined {
+    for (const zone of this._zones) {
+      if (zone.getId() === zoneId) {
+        return zone;
+      }
+    }
+  }
+
+  importSound(
+    filename: string,
+    packageId?: string | undefined,
+    ignoreCache?: boolean | undefined
+  ): Sound {
+    return new MockSound();
+  }
+
+  importSoundFromURL(url: string, ignoreCache?: boolean | undefined): Sound {
+    return new MockSound();
+  }
+
+  previousTurn(): void {
+    this.turns.previousTurn();
+  }
+  nextTurn(): void {
+    this.turns.nextTurn();
+  }
+
   removeCustomAction(identifier: string): void {}
 
   removeDrawingLine(index: number): void {
@@ -464,11 +509,31 @@ export class MockGameWorld implements GameWorld {
     this.removeUI(index);
   }
 
+  resetScripting(): void {}
+
+  setBackground(
+    textureName?: string | undefined,
+    packageId?: string | undefined
+  ): void {
+    this._backgroundFilename = textureName ? textureName : "";
+    this._backgroundPackageId = packageId ? packageId : "";
+  }
+
+  setGravityMultiplier(multiplier: number): void {
+    this._gravityMultiplier = multiplier;
+  }
+
   setSavedData(data: string, key?: string | undefined): void {
     if (key === undefined) {
       this._savedDataAnonymous = data;
     } else {
       this._savedData[key] = data;
+    }
+  }
+
+  setScreenUI(index: number, element: ScreenUIElement): void {
+    if (index >= 0 && index < this._screenUIs.length) {
+      this._screenUIs[index] = element;
     }
   }
 
@@ -486,6 +551,24 @@ export class MockGameWorld implements GameWorld {
   setSlotTeam(slot: number, team: number): void {
     this._slotTeam[slot] = team;
   }
+
+  setUI(index: number, element: UIElement): void {
+    if (index >= 0 && index < this._uis.length) {
+      this._uis[index] = element;
+    }
+  }
+
+  showPing(
+    position: Vector | [x: number, y: number, z: number],
+    color: Color | [r: number, g: number, b: number, a: number],
+    playSound: boolean
+  ): void {}
+
+  startDebugMode(port?: number | undefined): void {}
+
+  updateScreenUI(element: ScreenUIElement): void {}
+
+  updateUI(element: UIElement): void {}
 
   // --------------------------------
 
@@ -563,15 +646,6 @@ export class MockGameWorld implements GameWorld {
     throw new Error("Method not implemented.");
   }
 
-  updateUI(element: UIElement): void {
-    throw new Error("Method not implemented.");
-  }
-  updateScreenUI(element: ScreenUIElement): void {
-    throw new Error("Method not implemented.");
-  }
-  startDebugMode(port?: number | undefined): void {
-    throw new Error("Method not implemented.");
-  }
   sphereTrace(
     start: Vector | [x: number, y: number, z: number],
     end: Vector | [x: number, y: number, z: number],
@@ -585,37 +659,6 @@ export class MockGameWorld implements GameWorld {
   ): GameObject[] {
     throw new Error("Method not implemented.");
   }
-  showPing(
-    position: Vector | [x: number, y: number, z: number],
-    color: Color | [r: number, g: number, b: number, a: number],
-    playSound: boolean
-  ): void {
-    throw new Error("Method not implemented.");
-  }
-  setUI(index: number, element: UIElement): void {
-    throw new Error("Method not implemented.");
-  }
-  setScreenUI(index: number, element: ScreenUIElement): void {
-    throw new Error("Method not implemented.");
-  }
-  setGravityMultiplier(multiplier: number): void {
-    throw new Error("Method not implemented.");
-  }
-  setBackground(
-    textureName?: string | undefined,
-    packageId?: string | undefined
-  ): void {
-    throw new Error("Method not implemented.");
-  }
-  resetScripting(): void {
-    throw new Error("Method not implemented.");
-  }
-  previousTurn(): void {
-    throw new Error("Method not implemented.");
-  }
-  nextTurn(): void {
-    throw new Error("Method not implemented.");
-  }
   lineTrace(
     start: Vector | [x: number, y: number, z: number],
     end: Vector | [x: number, y: number, z: number]
@@ -625,32 +668,10 @@ export class MockGameWorld implements GameWorld {
   importText(filename: string, packageId?: string | undefined): string {
     throw new Error("Method not implemented.");
   }
-  importSoundFromURL(url: string, ignoreCache?: boolean | undefined): Sound {
-    throw new Error("Method not implemented.");
-  }
-  importSound(
-    filename: string,
-    packageId?: string | undefined,
-    ignoreCache?: boolean | undefined
-  ): Sound {
-    throw new Error("Method not implemented.");
-  }
-  getZoneById(zoneId: string): Zone | undefined {
-    throw new Error("Method not implemented.");
-  }
   getTemplatePackageId(templateId: string): string {
     throw new Error("Method not implemented.");
   }
   getTemplateName(templateId: string): string {
-    throw new Error("Method not implemented.");
-  }
-  getPlayerBySlot(slot: number): Player | undefined {
-    throw new Error("Method not implemented.");
-  }
-  getPlayerByName(name: string): Player | undefined {
-    throw new Error("Method not implemented.");
-  }
-  getPackageById(packageId: string): Package | undefined {
     throw new Error("Method not implemented.");
   }
 }

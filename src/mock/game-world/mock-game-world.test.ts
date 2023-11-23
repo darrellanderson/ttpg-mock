@@ -18,7 +18,6 @@ it("constructor", () => {
   const params: MockGameWorldParams = {
     backgroundFilename: "my-background-filename",
     backgroundPackageId: "my-background-id",
-    currentTurn: 7,
     drawingLines: [new MockDrawingLine()],
     gameObjects: [new MockGameObject()],
     gravityMultiplier: 13,
@@ -40,7 +39,6 @@ it("constructor", () => {
   const gameWorld = new MockGameWorld(params);
   expect(gameWorld.getBackgroundFilename()).toBe(params.backgroundFilename);
   expect(gameWorld.getBackgroundPackageId()).toBe(params.backgroundPackageId);
-  expect(gameWorld.getCurrentTurn()).toBe(params.currentTurn);
   expect(gameWorld.getDrawingLines()).toEqual(params.drawingLines);
   expect(gameWorld.getAllObjects()).toEqual(params.gameObjects);
   expect(gameWorld.getGravityMultiplier()).toBe(params.gravityMultiplier);
@@ -65,6 +63,18 @@ it("static getExecutionReason", () => {
   expect(typeof output).toBe("string");
 });
 
+it("background", () => {
+  const filename = "my-filename";
+  const packageId = "my-package-id";
+  const gameWorld = new MockGameWorld();
+  gameWorld.setBackground(filename, packageId);
+  expect(gameWorld.getBackgroundFilename()).toBe(filename);
+  expect(gameWorld.getBackgroundPackageId()).toBe(packageId);
+  gameWorld.setBackground();
+  expect(gameWorld.getBackgroundFilename()).toBe("");
+  expect(gameWorld.getBackgroundPackageId()).toBe("");
+});
+
 it("drawingLines", () => {
   const input = new MockDrawingLine();
   const gameWorld = new MockGameWorld();
@@ -87,6 +97,14 @@ it("drawingLines", () => {
   gameWorld.removeDrawingLineObject(input);
   output = gameWorld.getDrawingLines();
   expect(output).toEqual([]);
+});
+
+it("gravityMultiplier", () => {
+  const input = 7;
+  const gameWorld = new MockGameWorld();
+  gameWorld.setGravityMultiplier(input);
+  const output = gameWorld.getGravityMultiplier();
+  expect(output).toBe(input);
 });
 
 it("labels", () => {
@@ -130,6 +148,16 @@ it("screenUIs", () => {
   gameWorld.removeScreenUIElement(input);
   output = gameWorld.getScreenUIs();
   expect(output).toEqual([]);
+
+  const input2 = new MockScreenUIElement();
+  input2.height += 20; // make sure different
+  gameWorld._reset();
+  gameWorld.addScreenUI(input);
+  output = gameWorld.getScreenUIs();
+  expect(output).toEqual([input]);
+  gameWorld.setScreenUI(0, input2);
+  output = gameWorld.getScreenUIs();
+  expect(output).toEqual([input2]);
 });
 
 it("slotColor", () => {
@@ -170,6 +198,16 @@ it("uis", () => {
   gameWorld.removeUIElement(input);
   output = gameWorld.getUIs();
   expect(output).toEqual([]);
+
+  const input2 = new MockUIElement();
+  input2.height += 20; // make sure different
+  gameWorld._reset();
+  gameWorld.addUI(input);
+  output = gameWorld.getUIs();
+  expect(output).toEqual([input]);
+  gameWorld.setUI(0, input2);
+  output = gameWorld.getUIs();
+  expect(output).toEqual([input2]);
 });
 
 it("zones", () => {
