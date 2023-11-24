@@ -11,6 +11,7 @@ import { MockVector } from "../../vector/mock-vector";
 it("constructor", () => {
   const params: MockGameObjectParams = {
     angularVelocity: new MockRotator(1, 2, 3),
+    areLightsOn: false,
     centerOfMass: new MockVector(5, 6, 7),
     container: new MockContainer(),
     groupId: 7,
@@ -26,6 +27,7 @@ it("constructor", () => {
   };
   const gameObject = new MockGameObject(params);
   expect(gameObject.getAngularVelocity()).toEqual(params.angularVelocity);
+  expect(gameObject.areLightsOn()).toEqual(params.areLightsOn);
   expect(gameObject.getCenterOfMass()).toEqual(params.centerOfMass);
   expect(gameObject.getContainer()).toEqual(params.container);
   expect(gameObject.getGroupId()).toBe(params.groupId);
@@ -40,10 +42,23 @@ it("constructor", () => {
   expect(gameObject.getSwitcher()).toEqual(params.switcher);
 });
 
+it("createSwitcher", () => {
+  const obj1 = new MockGameObject();
+  const obj2 = new MockGameObject();
+  obj1.createSwitcher([obj2]);
+});
+
 it("getOwningPlayer", () => {
   const slot = 7;
   const obj = new MockGameObject({ owningPlayerSlot: slot });
   const player = new MockPlayer({ slot });
   MockGameWorld.__sharedInstance._reset({ players: [player] });
   expect(obj.getOwningPlayer()).toEqual(player);
+});
+
+it("snapToGround", () => {
+  const obj = new MockGameObject({ position: new MockVector(1, 2, 999) });
+  obj.snapToGround();
+  const tableHeight = MockGameWorld.__sharedInstance.getTableHeight();
+  expect(obj.getPosition().z).toBe(tableHeight);
 });

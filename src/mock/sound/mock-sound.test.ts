@@ -1,3 +1,5 @@
+import { MockGameObject } from "../static-object/game-object/mock-game-object";
+import { MockVector } from "../vector/mock-vector";
 import { MockSound, MockSoundParams } from "./mock-sound";
 
 it("constructor", () => {
@@ -13,4 +15,13 @@ it("constructor", () => {
   expect(sound.isPlaying()).toBe(params.isPlaying);
   expect(sound.getPlaybackTime()).toBe(params.playbackTime);
   expect(sound.getPlaybackFraction()).toBeCloseTo(0.5);
+});
+
+it("play/stop", () => {
+  const sound = new MockSound();
+  sound.play();
+  sound.playAtLocation(new MockVector(0, 0, 0));
+  sound.playAttached(new MockGameObject());
+  sound.stop();
+  sound.stopLoop();
 });

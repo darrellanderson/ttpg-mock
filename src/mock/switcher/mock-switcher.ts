@@ -6,9 +6,9 @@ import {
 import { MockMulticastDelegate } from "../multicast-delegate/mock-multicast-delegate";
 
 export type MockSwitcherParams = {
-  gameObjects: GameObject[];
-  index: number;
-  isValid: boolean;
+  gameObjects?: GameObject[];
+  index?: number;
+  isValid?: boolean;
 };
 
 export class MockSwitcher implements Switcher {

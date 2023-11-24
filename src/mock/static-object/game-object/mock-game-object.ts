@@ -17,9 +17,11 @@ import { MockRotator } from "../../rotator/mock-rotator";
 import { MockVector } from "../../vector/mock-vector";
 import { ObjectType } from "../../../enums";
 import { MockGameWorld } from "../../game-world/mock-game-world";
+import { MockSwitcher } from "../../switcher/mock-switcher";
 
 export type MockGameObjectParams = MockStaticObjectParams & {
   angularVelocity?: Rotator;
+  areLightsOn?: boolean;
   centerOfMass?: Vector;
   container?: Container;
   groupId?: number;
@@ -36,6 +38,7 @@ export type MockGameObjectParams = MockStaticObjectParams & {
 
 export class MockGameObject extends MockStaticObject implements GameObject {
   private _angularVelocity: Rotator = new MockRotator(0, 0, 0);
+  private _areLightsOn: boolean = true;
   private _centerOfMass: Vector = new MockVector(0, 0, 0);
   private _container: Container | undefined = undefined;
   private _groupId: number = -1;
@@ -54,6 +57,9 @@ export class MockGameObject extends MockStaticObject implements GameObject {
 
     if (params?.angularVelocity) {
       this._angularVelocity = params.angularVelocity;
+    }
+    if (params?.areLightsOn !== undefined) {
+      this._areLightsOn = params.areLightsOn;
     }
     if (params?.centerOfMass) {
       this._centerOfMass = params.centerOfMass;
@@ -151,6 +157,27 @@ export class MockGameObject extends MockStaticObject implements GameObject {
   onMovementStopped: MulticastDelegate<(object: this) => void> =
     new MockMulticastDelegate();
 
+  addCustomAction(
+    name: string,
+    tooltip?: string | undefined,
+    identifier?: string | undefined
+  ): void {}
+
+  areLightsOn(): boolean {
+    return this._areLightsOn;
+  }
+
+  createSwitcher(
+    objects: GameObject[],
+    showAnimation?: boolean | undefined
+  ): Switcher {
+    return new MockSwitcher({ gameObjects: [this, ...objects] });
+  }
+
+  freeze(): void {
+    this.setObjectType(ObjectType.Ground);
+  }
+
   getAngularVelocity(): Rotator {
     return this._angularVelocity;
   }
@@ -211,6 +238,12 @@ export class MockGameObject extends MockStaticObject implements GameObject {
     return this._isSnappingAllowed;
   }
 
+  release(): void {
+    this._isHeld = false;
+  }
+
+  removeCustomAction(identifier: string): void {}
+
   setAngularVelocity(
     velocity: Rotator | [pitch: number, yaw: number, roll: number]
   ): void {
@@ -239,39 +272,28 @@ export class MockGameObject extends MockStaticObject implements GameObject {
     this._isSnappingAllowed = allowed;
   }
 
-  // ----------------------------------
+  switchLights(on: boolean): void {}
+
+  snapToGround(): void {
+    const pos = this.getPosition();
+    pos.z = MockGameWorld.__sharedInstance.getTableHeight();
+    this.setPosition(pos);
+  }
 
   toggleLock(): void {
-    throw new Error("Method not implemented.");
+    if (this.getObjectType() === ObjectType.Ground) {
+      this.setObjectType(ObjectType.Regular);
+    } else {
+      this.setObjectType(ObjectType.Ground);
+    }
   }
-  switchLights(on: boolean): void {
-    throw new Error("Method not implemented.");
-  }
-  snapToGround(): void {
-    throw new Error("Method not implemented.");
-  }
+
+  // ----------------------------------
+
   snap(animationSpeed?: number | undefined): SnapPoint | undefined {
     throw new Error("Method not implemented.");
   }
-  removeCustomAction(identifier: string): void {
-    throw new Error("Method not implemented.");
-  }
-  release(): void {
-    throw new Error("Method not implemented.");
-  }
-  freeze(): void {
-    throw new Error("Method not implemented.");
-  }
   flipOrUpright(): void {
-    throw new Error("Method not implemented.");
-  }
-  createSwitcher(
-    objects: GameObject[],
-    showAnimation?: boolean | undefined
-  ): Switcher {
-    throw new Error("Method not implemented.");
-  }
-  areLightsOn(): boolean {
     throw new Error("Method not implemented.");
   }
   applyTorque(
@@ -307,13 +329,6 @@ export class MockGameObject extends MockStaticObject implements GameObject {
   applyAngularImpulse(
     impulse: Vector | [x: number, y: number, z: number],
     useMass?: boolean | undefined
-  ): void {
-    throw new Error("Method not implemented.");
-  }
-  addCustomAction(
-    name: string,
-    tooltip?: string | undefined,
-    identifier?: string | undefined
   ): void {
     throw new Error("Method not implemented.");
   }
