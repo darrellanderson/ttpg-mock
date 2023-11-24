@@ -9,6 +9,7 @@ import { MockLabel } from "../label/mock-label";
 import { MockPackage } from "../package/mock-package";
 import { MockPlayer } from "../player/mock-player";
 import { MockScreenUIElement } from "../screen-ui-element/mock-screen-ui-element";
+import { MockSnapPoint } from "../snap-point/mock-snap-point";
 import {
   MockStaticObject,
   MockStaticObjectParams,
@@ -71,9 +72,15 @@ it("constructor", () => {
   expect(gameWorld.getAllZones()).toEqual(params.zones);
 });
 
-it("static getExecutionReason", () => {
-  const output = MockGameWorld.getExecutionReason();
-  expect(typeof output).toEqual("string");
+it("getExecutionReason", () => {
+  // static
+  let output = MockGameWorld.getExecutionReason();
+  expect(output).toEqual("unittest");
+
+  // not documented as a class method, but it is
+  const gameWorld = new MockGameWorld();
+  output = gameWorld.getExecutionReason();
+  expect(output).toEqual("unittest");
 });
 
 it("background", () => {
@@ -86,6 +93,13 @@ it("background", () => {
   gameWorld.setBackground();
   expect(gameWorld.getBackgroundFilename()).toEqual("");
   expect(gameWorld.getBackgroundPackageId()).toEqual("");
+});
+
+it("diceRollMessages", () => {
+  const gameWorld = new MockGameWorld();
+  expect(gameWorld.getShowDiceRollMessages()).toEqual(true);
+  gameWorld.setShowDiceRollMessages(false);
+  expect(gameWorld.getShowDiceRollMessages()).toEqual(false);
 });
 
 it("drawingLines", () => {
@@ -186,10 +200,13 @@ it("slotColor", () => {
 
 it("slotTeam", () => {
   const gameWorld = new MockGameWorld();
-  const slot = 7;
-  const team = 8;
-  gameWorld.setSlotTeam(slot, team);
-  expect(gameWorld.getSlotTeam(slot)).toEqual(team);
+  const slot1 = 7;
+  const team1 = 8;
+  const slot2 = 9;
+  const noTeam = 0;
+  gameWorld.setSlotTeam(slot1, team1);
+  expect(gameWorld.getSlotTeam(slot1)).toEqual(team1);
+  expect(gameWorld.getSlotTeam(slot2)).toEqual(noTeam);
 });
 
 it("uis", () => {
@@ -249,6 +266,27 @@ it("getAllObjects", () => {
   gameWorld._reset();
   allObjects = gameWorld.getAllObjects();
   expect(allObjects).toEqual([]);
+});
+
+it("getAllTags", () => {
+  const gameWorld = new MockGameWorld();
+
+  const obj = new MockGameObject({
+    tags: ["obj-tag"],
+    snapPoints: [new MockSnapPoint({ tags: ["obj-snap-tag"] })],
+  });
+  const table = new MockStaticObject({
+    tags: ["tbl-tag"],
+    snapPoints: [new MockSnapPoint({ tags: ["tbl-snap-tag"] })],
+  });
+  gameWorld._reset({ gameObjects: [obj], tables: [table] });
+  const tags = gameWorld.getAllTags();
+  expect(tags.sort()).toEqual([
+    "obj-snap-tag",
+    "obj-tag",
+    "tbl-snap-tag",
+    "tbl-tag",
+  ]);
 });
 
 it("getLabelById", () => {
@@ -312,6 +350,25 @@ it("getPlayerBySlot", () => {
   const gameWorld = new MockGameWorld({ players: [player] });
   const output = gameWorld.getPlayerBySlot(slot);
   expect(output).toEqual(player);
+});
+
+it("getZoneById", () => {
+  const id = "my-zone";
+  const zone = new MockZone({ id });
+  const gameWorld = new MockGameWorld({ zones: [zone] });
+  const output = gameWorld.getZoneById(id);
+  expect(output).toEqual(zone);
+});
+
+it("importSound", () => {
+  const gameWorld = new MockGameWorld();
+  gameWorld.importSound("filename");
+  gameWorld.importSoundFromURL("url");
+});
+
+it("resetScripting", () => {
+  const gameWorld = new MockGameWorld();
+  gameWorld.resetScripting();
 });
 
 it("createObjectFromTemplate", () => {

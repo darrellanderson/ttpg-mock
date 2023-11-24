@@ -522,6 +522,7 @@ export class MockGameWorld implements GameWorld {
   previousTurn(): void {
     this.turns.previousTurn();
   }
+
   nextTurn(): void {
     this.turns.nextTurn();
   }

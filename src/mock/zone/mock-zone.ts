@@ -12,6 +12,25 @@ import { MockColor } from "../color/mock-color";
 import { MockRotator } from "../rotator/mock-rotator";
 import { MockVector } from "../vector/mock-vector";
 
+export type MockZoneParams = {
+  alwaysVisible?: boolean;
+  color?: Color;
+  id?: string;
+  owningSlots?: number[];
+  position?: Vector;
+  rotation?: Rotator;
+  savedData?: string;
+  scale?: Vector;
+  shape?: number;
+  valid?: boolean;
+  perm_cursorHidden?: number;
+  perm_inserting?: number;
+  perm_objectInteraction?: number;
+  perm_objectVisibility?: number;
+  perm_snapping?: number;
+  perm_stacking?: number;
+};
+
 export class MockZone implements Zone {
   private static __zoneIndex = 0;
 
@@ -42,6 +61,57 @@ export class MockZone implements Zone {
   private _scale: Vector = new MockVector(1, 1, 1);
   private _shape: number = ZoneShape.Box;
   private _valid: boolean = true;
+
+  constructor(params?: MockZoneParams) {
+    if (params?.alwaysVisible) {
+      this._alwaysVisible = params.alwaysVisible;
+    }
+    if (params?.color) {
+      this._color = params.color;
+    }
+    if (params?.id) {
+      this._id = params.id;
+    }
+    if (params?.owningSlots) {
+      this._owningSlots = params.owningSlots;
+    }
+    if (params?.position) {
+      this._position = params.position;
+    }
+    if (params?.rotation) {
+      this._rotation = params.rotation;
+    }
+    if (params?.savedData) {
+      this._savedData = params.savedData;
+    }
+    if (params?.scale) {
+      this._scale = params.scale;
+    }
+    if (params?.shape) {
+      this._shape = params.shape;
+    }
+    if (params?.valid) {
+      this._valid = params.valid;
+    }
+    if (params?.perm_cursorHidden) {
+      this._perm.cursorHidden = params.perm_cursorHidden;
+    }
+    if (params?.perm_inserting) {
+      this._perm.inserting = params.perm_inserting;
+    }
+    if (params?.perm_objectInteraction) {
+      this._perm.objectInteraction = params.perm_objectInteraction;
+    }
+    if (params?.perm_objectVisibility) {
+      this._perm.objectVisibility = params.perm_objectVisibility;
+    }
+    if (params?.perm_snapping) {
+      this._perm.snapping = params.perm_snapping;
+    }
+    if (params?.perm_stacking) {
+      this._perm.stacking = params.perm_stacking;
+    }
+  }
 
   destroy(): void {
     this._valid = false;
