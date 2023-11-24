@@ -1,12 +1,18 @@
 import { MockColor } from "../color/mock-color";
 import { MockDrawingLine } from "../drawing-line/mock-drawing-line";
-import { MockGameObject } from "../static-object/game-object/mock-game-object";
+import {
+  MockGameObject,
+  MockGameObjectParams,
+} from "../static-object/game-object/mock-game-object";
 import { MockGameWorld, MockGameWorldParams } from "./mock-game-world";
 import { MockLabel } from "../label/mock-label";
 import { MockPackage } from "../package/mock-package";
 import { MockPlayer } from "../player/mock-player";
 import { MockScreenUIElement } from "../screen-ui-element/mock-screen-ui-element";
-import { MockStaticObject } from "../static-object/mock-static-object";
+import {
+  MockStaticObject,
+  MockStaticObjectParams,
+} from "../static-object/mock-static-object";
 import { MockUIElement } from "../ui-element/mock-ui-element";
 import { MockVector } from "../vector/mock-vector";
 import { MockZone } from "../zone/mock-zone";
@@ -35,6 +41,7 @@ it("constructor", () => {
     tags: ["my-tag1", "my-tag2"],
     uis: [new MockUIElement()],
     zones: [new MockZone()],
+    _templateIdToMockGameObjectParams: {},
   };
   const gameWorld = new MockGameWorld(params);
   expect(gameWorld.getBackgroundFilename()).toBe(params.backgroundFilename);
@@ -272,4 +279,34 @@ it("getObjectsByTemplateId", () => {
   const gameWorld = new MockGameWorld({ gameObjects: [obj] });
   const output = gameWorld.getObjectsByTemplateId("my-template-id");
   expect(output).toEqual([obj]);
+});
+
+it("createObjectFromTemplate", () => {
+  const templateId = "my-template-id";
+  const position = new MockVector(1, 2, 3);
+  const params: MockGameObjectParams = { name: "my-object-name" };
+  const gameWorld = new MockGameWorld({
+    _templateIdToMockGameObjectParams: { [templateId]: params },
+  });
+  const obj = gameWorld.createObjectFromTemplate(templateId, position);
+  expect(obj?.getName()).toBe(params.name);
+  expect(obj?.getPosition()).toEqual(position);
+
+  const nope = gameWorld.createObjectFromTemplate("no-such-id", position);
+  expect(nope).toBeUndefined();
+});
+
+it("createTableFromTemplate", () => {
+  const templateId = "my-template-id";
+  const position = new MockVector(1, 2, 3);
+  const params: MockStaticObjectParams = { name: "my-table-name" };
+  const gameWorld = new MockGameWorld({
+    _templateIdToMockGameObjectParams: { [templateId]: params },
+  });
+  const obj = gameWorld.createTableFromTemplate(templateId, position);
+  expect(obj?.getName()).toBe(params.name);
+  expect(obj?.getPosition()).toEqual(position);
+
+  const nope = gameWorld.createTableFromTemplate("no-such-id", position);
+  expect(nope).toBeUndefined();
 });

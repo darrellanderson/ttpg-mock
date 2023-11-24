@@ -25,6 +25,11 @@ import { MockLabel } from "../label/mock-label";
 import { MockZone } from "../zone/mock-zone";
 import { MockColor } from "../color/mock-color";
 import { MockSound } from "../sound/mock-sound";
+import {
+  MockGameObject,
+  MockGameObjectParams,
+} from "../static-object/game-object/mock-game-object";
+import { MockStaticObject } from "../static-object/mock-static-object";
 
 export type MockGameWorldParams = {
   backgroundFilename?: string;
@@ -46,6 +51,9 @@ export type MockGameWorldParams = {
   tags?: string[];
   uis?: UIElement[];
   zones?: Zone[];
+  _templateIdToMockGameObjectParams?: {
+    [key: string]: MockGameObjectParams;
+  };
 };
 
 export class MockGameWorld implements GameWorld {
@@ -76,6 +84,9 @@ export class MockGameWorld implements GameWorld {
   private _tags: string[] = [];
   private _uis: UIElement[] = [];
   private _zones: Zone[] = [];
+  private __templateIdToMockGameObjectParams: {
+    [key: string]: MockGameObjectParams;
+  } = {};
 
   static getExecutionReason(): string {
     return "unittest";
@@ -190,6 +201,10 @@ export class MockGameWorld implements GameWorld {
     } else {
       this._zones = [];
     }
+    if (params?._templateIdToMockGameObjectParams) {
+      this.__templateIdToMockGameObjectParams =
+        params._templateIdToMockGameObjectParams;
+    }
   }
 
   addCustomAction(
@@ -227,6 +242,32 @@ export class MockGameWorld implements GameWorld {
     label.setPosition(position);
     this._labels.push(label);
     return label;
+  }
+
+  createObjectFromTemplate(
+    templateId: string,
+    position: Vector | [x: number, y: number, z: number]
+  ): GameObject | undefined {
+    const params = this.__templateIdToMockGameObjectParams[templateId];
+    if (!params) {
+      return undefined;
+    }
+    const obj = new MockGameObject(params);
+    obj.setPosition(position);
+    return obj;
+  }
+
+  createTableFromTemplate(
+    templateId: string,
+    position: Vector | [x: number, y: number, z: number]
+  ): StaticObject | undefined {
+    const params = this.__templateIdToMockGameObjectParams[templateId];
+    if (!params) {
+      return undefined;
+    }
+    const obj = new MockStaticObject(params);
+    obj.setPosition(position);
+    return obj;
   }
 
   createZone(position: Vector | [x: number, y: number, z: number]): Zone {
@@ -629,22 +670,8 @@ export class MockGameWorld implements GameWorld {
     throw new Error("Method not implemented.");
   }
 
-  createObjectFromTemplate(
-    templateId: string,
-    position: Vector | [x: number, y: number, z: number]
-  ): GameObject | undefined {
-    throw new Error("Method not implemented.");
-  }
-
   createStaticObjectFromJSON(
     jsonString: string,
-    position: Vector | [x: number, y: number, z: number]
-  ): StaticObject | undefined {
-    throw new Error("Method not implemented.");
-  }
-
-  createTableFromTemplate(
-    templateId: string,
     position: Vector | [x: number, y: number, z: number]
   ): StaticObject | undefined {
     throw new Error("Method not implemented.");

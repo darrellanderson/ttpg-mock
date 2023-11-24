@@ -7,27 +7,72 @@ import {
 } from "@tabletop-playground/api";
 import { MockDelegate } from "../delegate/mock-delegate";
 
+export type MockSoundParams = {
+  duration?: number;
+  isLoaded?: boolean;
+  isPlaying?: boolean;
+  playbackFraction?: number;
+  playbackTime?: number;
+};
+
 export class MockSound implements Sound {
+  private _duration: number = 0;
+  private _isLoaded: boolean = false;
+  private _isPlaying: boolean = false;
+  private _playbackTime: number = 0;
+
   onLoadComplete: Delegate<(success: boolean) => void> = new MockDelegate<
     (success: boolean) => void
   >();
   onPlaybackFinished: Delegate<() => void> = new MockDelegate<() => void>();
 
-  stopLoop(): void {
-    throw new Error("Method not implemented.");
+  constructor(params?: MockSoundParams) {
+    if (params?.duration !== undefined) {
+      this._duration = params.duration;
+    }
+    if (params?.isLoaded !== undefined) {
+      this._isLoaded = params.isLoaded;
+    }
+    if (params?.isPlaying !== undefined) {
+      this._isPlaying = params.isPlaying;
+    }
+    if (params?.playbackTime !== undefined) {
+      this._playbackTime = params.playbackTime;
+    }
   }
-  stop(): void {
-    throw new Error("Method not implemented.");
+
+  destroy(): void {}
+
+  isLoaded(): boolean {
+    return this._isLoaded;
   }
-  playAttached(
-    object: GameObject,
+
+  isPlaying(): boolean {
+    return this._isPlaying;
+  }
+
+  getPlaybackFraction(): number {
+    return this._duration > 0 ? this._playbackTime / this._duration : 0;
+  }
+
+  getDuration(): number {
+    return this._duration;
+  }
+
+  getPlaybackTime(): number {
+    return this._playbackTime;
+  }
+
+  play(
     startTime?: number | undefined,
     volume?: number | undefined,
     loop?: boolean | undefined,
     players?: PlayerPermission | undefined
   ): void {
-    throw new Error("Method not implemented.");
+    this._isPlaying = true;
+    this._playbackTime = startTime !== undefined ? startTime : 0;
   }
+
   playAtLocation(
     position: Vector | [x: number, y: number, z: number],
     startTime?: number | undefined,
@@ -35,32 +80,24 @@ export class MockSound implements Sound {
     loop?: boolean | undefined,
     players?: PlayerPermission | undefined
   ): void {
-    throw new Error("Method not implemented.");
+    this.play(startTime, volume, loop, players);
   }
-  play(
+
+  playAttached(
+    object: GameObject,
     startTime?: number | undefined,
     volume?: number | undefined,
     loop?: boolean | undefined,
     players?: PlayerPermission | undefined
   ): void {
-    throw new Error("Method not implemented.");
+    this.play(startTime, volume, loop, players);
   }
-  isPlaying(): boolean {
-    throw new Error("Method not implemented.");
+
+  stop(): void {
+    this._isPlaying = false;
   }
-  isLoaded(): boolean {
-    throw new Error("Method not implemented.");
-  }
-  getPlaybackTime(): number {
-    throw new Error("Method not implemented.");
-  }
-  getPlaybackFraction(): number {
-    throw new Error("Method not implemented.");
-  }
-  getDuration(): number {
-    throw new Error("Method not implemented.");
-  }
-  destroy(): void {
-    throw new Error("Method not implemented.");
+
+  stopLoop(): void {
+    this._isPlaying = false;
   }
 }
