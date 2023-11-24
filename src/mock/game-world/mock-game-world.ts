@@ -36,6 +36,7 @@ export type MockGameWorldParams = {
   backgroundPackageId?: string;
   drawingLines?: DrawingLine[];
   gameObjects?: GameObject[];
+  gameTime?: number;
   gravityMultiplier?: number;
   labels?: Label[];
   packages?: Package[];
@@ -69,6 +70,7 @@ export class MockGameWorld implements GameWorld {
   private _backgroundPackageId: string = "";
   private _drawingLines: DrawingLine[] = [];
   private _gameObjects: GameObject[] = [];
+  private _gameTime: number = 0;
   private _gravityMultiplier: number = 1;
   private _labels: Label[] = [];
   private _packages: Package[] = [];
@@ -125,6 +127,11 @@ export class MockGameWorld implements GameWorld {
       this._gameObjects = params.gameObjects;
     } else {
       this._gameObjects = [];
+    }
+    if (params?.gameTime !== undefined) {
+      this._gameTime = params.gameTime;
+    } else {
+      this._gameTime = 0;
     }
     if (params?.gravityMultiplier !== undefined) {
       this._gravityMultiplier = params.gravityMultiplier;
@@ -381,7 +388,7 @@ export class MockGameWorld implements GameWorld {
   }
 
   getGameTime(): number {
-    return 0;
+    return this._gameTime;
   }
 
   getGravityMultiplier(): number {
@@ -469,7 +476,7 @@ export class MockGameWorld implements GameWorld {
   getSlotColor(slot: number): Color {
     const color = this._slotColor[slot];
     if (!color) {
-      new MockColor(1, 1, 1, 1);
+      return new MockColor(1, 1, 1, 1);
     }
     return color;
   }

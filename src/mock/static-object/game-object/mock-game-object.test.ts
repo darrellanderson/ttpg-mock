@@ -42,10 +42,65 @@ it("constructor", () => {
   expect(gameObject.getSwitcher()).toEqual(params.switcher);
 });
 
+it("angular velocity", () => {
+  const input = new MockRotator(1, 2, 3);
+  const obj = new MockGameObject();
+  obj.setAngularVelocity(input);
+  const output = obj.getAngularVelocity();
+  expect(output).toEqual(input);
+});
+
+it("linear velocity", () => {
+  const input = new MockVector(1, 2, 3);
+  const obj = new MockGameObject();
+  obj.setLinearVelocity(input);
+  const output = obj.getLinearVelocity();
+  expect(output).toEqual(input);
+});
+
+it("group id", () => {
+  const input = 7;
+  const obj = new MockGameObject();
+  obj.setGroupId(input);
+  const output = obj.getGroupId();
+  expect(output).toEqual(input);
+});
+
+it("object type", () => {
+  const input = ObjectType.NonInteractive;
+  const obj = new MockGameObject();
+  obj.setObjectType(input);
+  const output = obj.getObjectType();
+  expect(output).toEqual(input);
+});
+
+it("owning player slot", () => {
+  const input = 7;
+  const obj = new MockGameObject();
+  obj.setOwningPlayerSlot(input);
+  const output = obj.getOwningPlayerSlot();
+  expect(output).toEqual(input);
+});
+
+it("snapping allowed", () => {
+  const input = false;
+  const obj = new MockGameObject();
+  obj.setSnappingAllowed(input);
+  const output = obj.isSnappingAllowed();
+  expect(output).toEqual(input);
+});
+
 it("createSwitcher", () => {
   const obj1 = new MockGameObject();
   const obj2 = new MockGameObject();
   obj1.createSwitcher([obj2]);
+});
+
+it("freeze", () => {
+  const obj = new MockGameObject();
+  expect(obj.getObjectType()).toBe(ObjectType.Regular);
+  obj.freeze();
+  expect(obj.getObjectType()).toBe(ObjectType.Ground);
 });
 
 it("getOwningPlayer", () => {
@@ -56,9 +111,32 @@ it("getOwningPlayer", () => {
   expect(obj.getOwningPlayer()).toEqual(player);
 });
 
+it("release", () => {
+  const obj = new MockGameObject({ isHeld: true });
+  expect(obj.isHeld()).toBe(true);
+  obj.release();
+  expect(obj.isHeld()).toBe(false);
+});
+
 it("snapToGround", () => {
   const obj = new MockGameObject({ position: new MockVector(1, 2, 999) });
   obj.snapToGround();
   const tableHeight = MockGameWorld.__sharedInstance.getTableHeight();
   expect(obj.getPosition().z).toBe(tableHeight);
+});
+
+it("switchLights", () => {
+  const obj = new MockGameObject({ isHeld: true });
+  expect(obj.areLightsOn()).toBe(true);
+  obj.switchLights(false);
+  expect(obj.areLightsOn()).toBe(false);
+});
+
+it("toggleLock", () => {
+  const obj = new MockGameObject();
+  expect(obj.getObjectType()).toBe(ObjectType.Regular);
+  obj.toggleLock();
+  expect(obj.getObjectType()).toBe(ObjectType.Ground);
+  obj.toggleLock();
+  expect(obj.getObjectType()).toBe(ObjectType.Regular);
 });

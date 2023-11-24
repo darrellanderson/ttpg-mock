@@ -26,6 +26,7 @@ it("constructor", () => {
     backgroundPackageId: "my-background-id",
     drawingLines: [new MockDrawingLine()],
     gameObjects: [new MockGameObject()],
+    gameTime: 7,
     gravityMultiplier: 13,
     labels: [new MockLabel()],
     packages: [new MockPackage()],
@@ -48,6 +49,7 @@ it("constructor", () => {
   expect(gameWorld.getBackgroundPackageId()).toBe(params.backgroundPackageId);
   expect(gameWorld.getDrawingLines()).toEqual(params.drawingLines);
   expect(gameWorld.getAllObjects()).toEqual(params.gameObjects);
+  expect(gameWorld.getGameTime()).toEqual(params.gameTime);
   expect(gameWorld.getGravityMultiplier()).toBe(params.gravityMultiplier);
   expect(gameWorld.getAllLabels()).toEqual(params.labels);
   expect(gameWorld.getAllowedPackages()).toEqual(params.packages);
@@ -169,10 +171,13 @@ it("screenUIs", () => {
 
 it("slotColor", () => {
   const gameWorld = new MockGameWorld();
-  const slot = 7;
-  const color = new MockColor(1, 1, 1, 1);
-  gameWorld.setSlotColor(slot, color);
-  expect(gameWorld.getSlotColor(slot)).toEqual(color);
+  const slot1 = 7;
+  const slot2 = 8;
+  const color1 = new MockColor(0.1, 1, 1, 1);
+  const color2 = new MockColor(1, 1, 1, 1); // default
+  gameWorld.setSlotColor(slot1, color1);
+  expect(gameWorld.getSlotColor(slot1)).toEqual(color1);
+  expect(gameWorld.getSlotColor(slot2)).toEqual(color2);
 });
 
 it("slotTeam", () => {
@@ -279,6 +284,30 @@ it("getObjectsByTemplateId", () => {
   const gameWorld = new MockGameWorld({ gameObjects: [obj] });
   const output = gameWorld.getObjectsByTemplateId("my-template-id");
   expect(output).toEqual([obj]);
+});
+
+it("getPackageById", () => {
+  const id = "my-package-id";
+  const pkg = new MockPackage({ uniqueId: id });
+  const gameWorld = new MockGameWorld({ packages: [pkg] });
+  const output = gameWorld.getPackageById(id);
+  expect(output).toEqual(pkg);
+});
+
+it("getPlayerByName", () => {
+  const name = "my-name";
+  const player = new MockPlayer({ name });
+  const gameWorld = new MockGameWorld({ players: [player] });
+  const output = gameWorld.getPlayerByName(name);
+  expect(output).toEqual(player);
+});
+
+it("getPlayerBySlot", () => {
+  const slot = 7;
+  const player = new MockPlayer({ slot });
+  const gameWorld = new MockGameWorld({ players: [player] });
+  const output = gameWorld.getPlayerBySlot(slot);
+  expect(output).toEqual(player);
 });
 
 it("createObjectFromTemplate", () => {

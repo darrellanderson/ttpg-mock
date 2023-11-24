@@ -272,12 +272,14 @@ export class MockGameObject extends MockStaticObject implements GameObject {
     this._isSnappingAllowed = allowed;
   }
 
-  switchLights(on: boolean): void {}
-
   snapToGround(): void {
     const pos = this.getPosition();
     pos.z = MockGameWorld.__sharedInstance.getTableHeight();
     this.setPosition(pos);
+  }
+
+  switchLights(on: boolean): void {
+    this._areLightsOn = on;
   }
 
   toggleLock(): void {
