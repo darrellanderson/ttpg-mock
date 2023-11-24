@@ -16,18 +16,18 @@ it("constructor", () => {
   const pkg = new MockPackage(params);
   expect(pkg.getFontFiles()).toEqual(params.fontFiles);
   expect(pkg.getModelFiles()).toEqual(params.modelFiles);
-  expect(pkg.getName()).toBe(params.name);
+  expect(pkg.getName()).toEqual(params.name);
   expect(pkg.getScriptFiles()).toEqual(params.scriptFiles);
   expect(pkg.getSoundFiles()).toEqual(params.soundFiles);
   expect(pkg.getTemplateIds()).toEqual(params.templateIds);
   expect(pkg.getTextureFiles()).toEqual(params.textureFiles);
   expect(pkg.getUniqueId()).toEqual(params.uniqueId);
-  expect(pkg.isAllowed()).toBe(params.isAllowed);
+  expect(pkg.isAllowed()).toEqual(params.isAllowed);
 });
 
 it("allow", () => {
   const pkg = new MockPackage({ isAllowed: false });
-  expect(pkg.isAllowed()).toBe(false);
+  expect(pkg.isAllowed()).toEqual(false);
   pkg.allow();
-  expect(pkg.isAllowed()).toBe(true);
+  expect(pkg.isAllowed()).toEqual(true);
 });

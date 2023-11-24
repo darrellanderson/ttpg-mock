@@ -8,17 +8,17 @@ it("constructor", () => {
     restrictInteraction: true,
   };
   const phaseDetails = new MockPhaseDetails(params);
-  expect(phaseDetails.name).toBe(params.name);
+  expect(phaseDetails.name).toEqual(params.name);
   expect(phaseDetails.playerSlots).toEqual(params.playerSlots);
-  expect(phaseDetails.takeTurns).toBe(params.takeTurns);
-  expect(phaseDetails.restrictInteraction).toBe(params.restrictInteraction);
+  expect(phaseDetails.takeTurns).toEqual(params.takeTurns);
+  expect(phaseDetails.restrictInteraction).toEqual(params.restrictInteraction);
 });
 
 it("clone", () => {
   const phaseDetails = new MockPhaseDetails();
   const clone = phaseDetails.clone();
-  expect(phaseDetails.name).toBe(clone.name);
+  expect(phaseDetails.name).toEqual(clone.name);
   expect(phaseDetails.playerSlots).toEqual(clone.playerSlots);
-  expect(phaseDetails.takeTurns).toBe(clone.takeTurns);
-  expect(phaseDetails.restrictInteraction).toBe(clone.restrictInteraction);
+  expect(phaseDetails.takeTurns).toEqual(clone.takeTurns);
+  expect(phaseDetails.restrictInteraction).toEqual(clone.restrictInteraction);
 });

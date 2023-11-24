@@ -12,7 +12,7 @@ it("constructor", () => {
   };
   const hit = new MockTraceHit(params);
   expect(hit.object).toEqual(params.object);
-  expect(hit.distance).toBe(params.distance);
+  expect(hit.distance).toEqual(params.distance);
   expect(hit.position).toEqual(params.position);
   expect(hit.impactPosition).toEqual(params.impactPosition);
   expect(hit.normal).toEqual(params.normal);

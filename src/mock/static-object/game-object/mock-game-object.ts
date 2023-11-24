@@ -179,11 +179,11 @@ export class MockGameObject extends MockStaticObject implements GameObject {
   }
 
   getAngularVelocity(): Rotator {
-    return this._angularVelocity;
+    return this._angularVelocity.clone();
   }
 
   getCenterOfMass(): Vector {
-    return this._centerOfMass;
+    return this._centerOfMass.clone();
   }
 
   getContainer(): Container | undefined {
@@ -195,7 +195,7 @@ export class MockGameObject extends MockStaticObject implements GameObject {
   }
 
   getLinearVelocity(): Vector {
-    return this._linearVelocity;
+    return this._linearVelocity.clone();
   }
 
   getMass(): number {

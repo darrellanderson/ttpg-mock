@@ -30,14 +30,14 @@ it("constructor", () => {
   expect(gameObject.areLightsOn()).toEqual(params.areLightsOn);
   expect(gameObject.getCenterOfMass()).toEqual(params.centerOfMass);
   expect(gameObject.getContainer()).toEqual(params.container);
-  expect(gameObject.getGroupId()).toBe(params.groupId);
-  expect(gameObject.isHeld()).toBe(params.isHeld);
-  expect(gameObject.isSimulatingPhysics()).toBe(params.isSimulatingPhysics);
-  expect(gameObject.isSnappingAllowed()).toBe(params.isSnappingAllowed);
+  expect(gameObject.getGroupId()).toEqual(params.groupId);
+  expect(gameObject.isHeld()).toEqual(params.isHeld);
+  expect(gameObject.isSimulatingPhysics()).toEqual(params.isSimulatingPhysics);
+  expect(gameObject.isSnappingAllowed()).toEqual(params.isSnappingAllowed);
   expect(gameObject.getLinearVelocity()).toEqual(params.linearVelocity);
-  expect(gameObject.getMass()).toBe(params.mass);
-  expect(gameObject.getObjectType()).toBe(params.objectType);
-  expect(gameObject.getOwningPlayerSlot()).toBe(params.owningPlayerSlot);
+  expect(gameObject.getMass()).toEqual(params.mass);
+  expect(gameObject.getObjectType()).toEqual(params.objectType);
+  expect(gameObject.getOwningPlayerSlot()).toEqual(params.owningPlayerSlot);
   expect(gameObject.getSnappedToPoint()).toEqual(params.snappedToPoint);
   expect(gameObject.getSwitcher()).toEqual(params.switcher);
 });
@@ -98,9 +98,9 @@ it("createSwitcher", () => {
 
 it("freeze", () => {
   const obj = new MockGameObject();
-  expect(obj.getObjectType()).toBe(ObjectType.Regular);
+  expect(obj.getObjectType()).toEqual(ObjectType.Regular);
   obj.freeze();
-  expect(obj.getObjectType()).toBe(ObjectType.Ground);
+  expect(obj.getObjectType()).toEqual(ObjectType.Ground);
 });
 
 it("getOwningPlayer", () => {
@@ -113,30 +113,30 @@ it("getOwningPlayer", () => {
 
 it("release", () => {
   const obj = new MockGameObject({ isHeld: true });
-  expect(obj.isHeld()).toBe(true);
+  expect(obj.isHeld()).toEqual(true);
   obj.release();
-  expect(obj.isHeld()).toBe(false);
+  expect(obj.isHeld()).toEqual(false);
 });
 
 it("snapToGround", () => {
   const obj = new MockGameObject({ position: new MockVector(1, 2, 999) });
   obj.snapToGround();
   const tableHeight = MockGameWorld.__sharedInstance.getTableHeight();
-  expect(obj.getPosition().z).toBe(tableHeight);
+  expect(obj.getPosition().z).toEqual(tableHeight);
 });
 
 it("switchLights", () => {
   const obj = new MockGameObject({ isHeld: true });
-  expect(obj.areLightsOn()).toBe(true);
+  expect(obj.areLightsOn()).toEqual(true);
   obj.switchLights(false);
-  expect(obj.areLightsOn()).toBe(false);
+  expect(obj.areLightsOn()).toEqual(false);
 });
 
 it("toggleLock", () => {
   const obj = new MockGameObject();
-  expect(obj.getObjectType()).toBe(ObjectType.Regular);
+  expect(obj.getObjectType()).toEqual(ObjectType.Regular);
   obj.toggleLock();
-  expect(obj.getObjectType()).toBe(ObjectType.Ground);
+  expect(obj.getObjectType()).toEqual(ObjectType.Ground);
   obj.toggleLock();
-  expect(obj.getObjectType()).toBe(ObjectType.Regular);
+  expect(obj.getObjectType()).toEqual(ObjectType.Regular);
 });

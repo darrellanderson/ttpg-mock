@@ -40,32 +40,32 @@ it("constructor", () => {
 
   const obj = new MockStaticObject(params);
 
-  expect(obj.getBounciness()).toBe(params.bounciness);
-  expect(obj.getDensity()).toBe(params.density);
-  expect(obj.getDescription()).toBe(params.description);
+  expect(obj.getBounciness()).toEqual(params.bounciness);
+  expect(obj.getDensity()).toEqual(params.density);
+  expect(obj.getDescription()).toEqual(params.description);
   expect(obj.getDrawingLines()).toEqual(params.drawingLines);
   expect(obj.getExtent(false, false).toString()).toEqual("(X=6.5,Y=7,Z=7.5)");
   expect(obj.getExtentCenter(false, false).toString()).toEqual("(X=0,Y=0,Z=0)");
-  expect(obj.getFriction()).toBe(params.friction);
-  expect(obj.getId()).toBe(params.id);
-  expect(obj.getMetallic()).toBe(params.metallic);
-  expect(obj.getName()).toBe(params.name);
-  expect(obj.getPackageId()).toBe(params.packageId);
-  expect(obj.getPackageName()).toBe(params.packageName);
+  expect(obj.getFriction()).toEqual(params.friction);
+  expect(obj.getId()).toEqual(params.id);
+  expect(obj.getMetallic()).toEqual(params.metallic);
+  expect(obj.getName()).toEqual(params.name);
+  expect(obj.getPackageId()).toEqual(params.packageId);
+  expect(obj.getPackageName()).toEqual(params.packageName);
   expect(obj.getPosition()).toEqual(params.position);
   expect(obj.getPrimaryColor()).toEqual(params.primaryColor);
   expect(obj.getRotation()).toEqual(params.rotation);
-  expect(obj.getRoughness()).toBe(params.roughness);
-  expect(obj.getSavedData("my-key")).toBe("my-value");
+  expect(obj.getRoughness()).toEqual(params.roughness);
+  expect(obj.getSavedData("my-key")).toEqual("my-value");
   expect(obj.getScale()).toEqual(params.scale);
   expect(obj.getSize().toString()).toEqual("(X=13,Y=14,Z=15)");
-  expect(obj.getScriptFilename()).toBe(params.scriptFilename);
-  expect(obj.getScriptPackageId()).toBe(params.scriptPackageId);
+  expect(obj.getScriptFilename()).toEqual(params.scriptFilename);
+  expect(obj.getScriptPackageId()).toEqual(params.scriptPackageId);
   expect(obj.getAllSnapPoints()).toEqual(params.snapPoints);
   expect(obj.getTags()).toEqual(params.tags);
-  expect(obj.getTemplateId()).toBe(params.templateId);
-  expect(obj.getTemplateMetadata()).toBe(params.templateMetadata);
-  expect(obj.getTemplateName()).toBe(params.templateName);
+  expect(obj.getTemplateId()).toEqual(params.templateId);
+  expect(obj.getTemplateMetadata()).toEqual(params.templateMetadata);
+  expect(obj.getTemplateName()).toEqual(params.templateName);
   expect(obj.getUIs()).toEqual(params.uis);
 });
 
@@ -74,7 +74,7 @@ it("bounciness", () => {
   const obj = new MockStaticObject();
   obj.setBounciness(input);
   const output = obj.getBounciness();
-  expect(output).toBe(input);
+  expect(output).toEqual(input);
 });
 
 it("density", () => {
@@ -82,7 +82,7 @@ it("density", () => {
   const obj = new MockStaticObject();
   obj.setDensity(input);
   const output = obj.getDensity();
-  expect(output).toBe(input);
+  expect(output).toEqual(input);
 });
 
 it("description", () => {
@@ -90,7 +90,7 @@ it("description", () => {
   const obj = new MockStaticObject();
   obj.setDescription(input);
   const output = obj.getDescription();
-  expect(output).toBe(input);
+  expect(output).toEqual(input);
 });
 
 it("drawingLines", () => {
@@ -111,7 +111,7 @@ it("friction", () => {
   const obj = new MockStaticObject();
   obj.setFriction(input);
   const output = obj.getFriction();
-  expect(output).toBe(input);
+  expect(output).toEqual(input);
 });
 
 it("id", () => {
@@ -124,14 +124,14 @@ it("id", () => {
   const input = "test-id";
   obj.setId(input);
   output = obj.getId();
-  expect(output).toBe(input);
+  expect(output).toEqual(input);
 });
 
 it("isValid", () => {
   const obj = new MockStaticObject();
-  expect(obj.isValid()).toBe(true);
+  expect(obj.isValid()).toEqual(true);
   obj.destroy();
-  expect(obj.isValid()).toBe(false);
+  expect(obj.isValid()).toEqual(false);
 });
 
 it("metallic", () => {
@@ -139,7 +139,7 @@ it("metallic", () => {
   const obj = new MockStaticObject();
   obj.setMetallic(input);
   const output = obj.getMetallic();
-  expect(output).toBe(input);
+  expect(output).toEqual(input);
 });
 
 it("name", () => {
@@ -147,7 +147,7 @@ it("name", () => {
   const obj = new MockStaticObject();
   obj.setName(input);
   const output = obj.getName();
-  expect(output).toBe(input);
+  expect(output).toEqual(input);
 });
 
 it("position", () => {
@@ -155,7 +155,7 @@ it("position", () => {
   const obj = new MockStaticObject();
   obj.setPosition(input);
   const output = obj.getPosition();
-  expect(output.equals(input, 0)).toBe(true);
+  expect(output.equals(input, 0)).toEqual(true);
 });
 
 it("primaryColor", () => {
@@ -165,7 +165,7 @@ it("primaryColor", () => {
   const obj = new MockStaticObject();
   obj.setPrimaryColor(input);
   const output = obj.getPrimaryColor();
-  expect(output.toString()).toBe("(R=0.1,G=0.2,B=0.3,A=1)");
+  expect(output.toString()).toEqual("(R=0.1,G=0.2,B=0.3,A=1)");
 });
 
 it("rotation", () => {
@@ -173,7 +173,7 @@ it("rotation", () => {
   const obj = new MockStaticObject();
   obj.setRotation(input);
   const output = obj.getRotation();
-  expect(output.equals(input, 0)).toBe(true);
+  expect(output.equals(input, 0)).toEqual(true);
 });
 
 it("roughness", () => {
@@ -181,7 +181,7 @@ it("roughness", () => {
   const obj = new MockStaticObject();
   obj.setRoughness(input);
   const output = obj.getRoughness();
-  expect(output).toBe(input);
+  expect(output).toEqual(input);
 });
 
 it("savedData", () => {
@@ -190,7 +190,7 @@ it("savedData", () => {
   const obj = new MockStaticObject();
   obj.setSavedData(input, key);
   const output = obj.getSavedData(key);
-  expect(output).toBe(input);
+  expect(output).toEqual(input);
 });
 
 it("scale", () => {
@@ -198,7 +198,7 @@ it("scale", () => {
   const obj = new MockStaticObject();
   obj.setScale(input);
   const output = obj.getScale();
-  expect(output.equals(input, 0)).toBe(true);
+  expect(output.equals(input, 0)).toEqual(true);
 });
 
 it("script", () => {
@@ -208,8 +208,8 @@ it("script", () => {
   obj.setScript(input1, input2);
   const output1 = obj.getScriptFilename();
   const output2 = obj.getScriptPackageId();
-  expect(output1).toBe(input1);
-  expect(output2).toBe(input2);
+  expect(output1).toEqual(input1);
+  expect(output2).toEqual(input2);
 });
 
 it("secondaryColor", () => {
@@ -219,7 +219,7 @@ it("secondaryColor", () => {
   const obj = new MockStaticObject();
   obj.setSecondaryColor(input);
   const output = obj.getSecondaryColor();
-  expect(output.toString()).toBe("(R=0.1,G=0.2,B=0.3,A=1)");
+  expect(output.toString()).toEqual("(R=0.1,G=0.2,B=0.3,A=1)");
 });
 
 it("surfaceType", () => {
@@ -227,7 +227,7 @@ it("surfaceType", () => {
   const obj = new MockStaticObject();
   obj.setSurfaceType(input);
   const output = obj.getSurfaceType();
-  expect(output.toString()).toBe(input);
+  expect(output.toString()).toEqual(input);
 });
 
 it("tags", () => {
@@ -242,7 +242,7 @@ it("templateMetadata", () => {
   const input = "test-input";
   const obj = new MockStaticObject({ templateMetadata: input });
   const output = obj.getTemplateMetadata();
-  expect(output).toBe(input);
+  expect(output).toEqual(input);
 });
 
 it("ui", () => {
@@ -283,11 +283,11 @@ it("toJSONString", () => {
 it("getExecutionReason", () => {
   const obj = new MockStaticObject();
   let output = obj.getExecutionReason();
-  expect(typeof output).toBe("string");
+  expect(typeof output).toEqual("string");
 
   // Static version.
   output = MockStaticObject.getExecutionReason();
-  expect(typeof output).toBe("string");
+  expect(typeof output).toEqual("string");
 });
 
 it("getSnapPoint", () => {

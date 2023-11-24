@@ -25,17 +25,17 @@ it("constructor", () => {
   expect(elememt.widget).toEqual(params.widget);
   expect(elememt.position).toEqual(params.position);
   expect(elememt.rotation).toEqual(params.rotation);
-  expect(elememt.scale).toBe(params.scale);
-  expect(elememt.useWidgetSize).toBe(params.useWidgetSize);
-  expect(elememt.width).toBe(params.width);
-  expect(elememt.height).toBe(params.height);
-  expect(elememt.useTransparency).toBe(params.useTransparency);
-  expect(elememt.anchorX).toBe(params.anchorX);
-  expect(elememt.anchorY).toBe(params.anchorY);
-  expect(elememt.presentationStyle).toBe(params.presentationStyle);
-  expect(elememt.twoSided).toBe(params.twoSided);
+  expect(elememt.scale).toEqual(params.scale);
+  expect(elememt.useWidgetSize).toEqual(params.useWidgetSize);
+  expect(elememt.width).toEqual(params.width);
+  expect(elememt.height).toEqual(params.height);
+  expect(elememt.useTransparency).toEqual(params.useTransparency);
+  expect(elememt.anchorX).toEqual(params.anchorX);
+  expect(elememt.anchorY).toEqual(params.anchorY);
+  expect(elememt.presentationStyle).toEqual(params.presentationStyle);
+  expect(elememt.twoSided).toEqual(params.twoSided);
   expect(elememt.players).toEqual(params.players);
-  expect(elememt.zoomVisibility).toBe(params.zoomVisibility);
+  expect(elememt.zoomVisibility).toEqual(params.zoomVisibility);
 });
 
 it("clone", () => {

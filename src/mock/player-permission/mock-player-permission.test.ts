@@ -14,7 +14,7 @@ it("addPlayer", () => {
 it("clone", () => {
   const mockPlayerPermission = new MockPlayerPermission();
   const clone = mockPlayerPermission.clone();
-  expect(clone.value).toBe(mockPlayerPermission.value);
+  expect(clone.value).toEqual(mockPlayerPermission.value);
 });
 
 it("setHost", () => {

@@ -68,7 +68,7 @@ export class MockLabel implements Label {
   }
 
   getColor(): Color {
-    return this._color;
+    return this._color.clone();
   }
 
   getFontFileName(): string {
@@ -88,11 +88,11 @@ export class MockLabel implements Label {
   }
 
   getPosition(): Vector {
-    return this._position;
+    return this._position.clone();
   }
 
   getRotation(): Rotator {
-    return this._rotation;
+    return this._rotation.clone();
   }
 
   getScale(): number {

@@ -20,8 +20,8 @@ it("add", () => {
   delegate.add(aHandler);
   delegate.add(bHandler);
   delegate._trigger();
-  expect(a).toBe(0);
-  expect(b).toBe(1); // only last add called
+  expect(a).toEqual(0);
+  expect(b).toEqual(1); // only last add called
 });
 
 it("remove", () => {
@@ -34,11 +34,11 @@ it("remove", () => {
 
   delegate.add(aHandler);
   delegate._trigger();
-  expect(a).toBe(1);
+  expect(a).toEqual(1);
 
   delegate.remove(aHandler);
   delegate._trigger();
-  expect(a).toBe(1);
+  expect(a).toEqual(1);
 });
 
 it("clear", () => {
@@ -50,9 +50,9 @@ it("clear", () => {
   };
   delegate.add(aHandler);
   delegate._trigger();
-  expect(a).toBe(1);
+  expect(a).toEqual(1);
 
   delegate.clear();
   delegate._trigger();
-  expect(a).toBe(1);
+  expect(a).toEqual(1);
 });

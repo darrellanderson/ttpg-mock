@@ -48,7 +48,7 @@ export class MockZone implements Zone {
   }
 
   getColor(): Color {
-    return this._color;
+    return this._color.clone();
   }
 
   getCursorHidden(): number {
@@ -72,15 +72,15 @@ export class MockZone implements Zone {
   }
 
   getOwningSlots(): number[] {
-    return this._owningSlots;
+    return [...this._owningSlots];
   }
 
   getPosition(): Vector {
-    return this._position;
+    return this._position.clone();
   }
 
   getRotation(): Rotator {
-    return this._rotation;
+    return this._rotation.clone();
   }
 
   getSavedData(): string {
@@ -88,7 +88,7 @@ export class MockZone implements Zone {
   }
 
   getScale(): Vector {
-    return this._scale;
+    return this._scale.clone();
   }
 
   getShape(): number {

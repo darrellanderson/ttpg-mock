@@ -29,13 +29,13 @@ import {
 
 it("enum", () => {
   const x = GridSnapType.Center;
-  expect(x).toBe(1);
+  expect(x).toEqual(1);
 });
 
 it("variable", () => {
   // Call method on "world" with typed response.
   const objs: GameObject[] = world.getAllObjects();
-  expect(Array.isArray(objs)).toBe(true);
+  expect(Array.isArray(objs)).toEqual(true);
 });
 
 it("function", () => {
@@ -43,7 +43,7 @@ it("function", () => {
   const url: string = "http://www.example.com";
   const options: FetchOptions = {};
   const response: Promise<FetchResponse> = fetch(url, options);
-  expect(response !== undefined).toBe(true);
+  expect(response !== undefined).toEqual(true);
 });
 
 it("mock classes", () => {
@@ -53,8 +53,8 @@ it("mock classes", () => {
     templateMetadata: "my-metadata",
   };
   const obj: GameObject = new MockGameObject(params);
-  expect(obj.getPosition().magnitude()).toBe(1);
-  expect(obj.getTemplateMetadata()).toBe("my-metadata");
+  expect(obj.getPosition().magnitude()).toEqual(1);
+  expect(obj.getTemplateMetadata()).toEqual("my-metadata");
 
   // Use as type.
   const f = (o: GameObject) => {};
@@ -64,21 +64,21 @@ it("mock classes", () => {
   const obj2: GameObject = new MockGameObject();
   const v: Vector = obj2.getPosition();
   const m: number = v.magnitude();
-  expect(m).toBe(0);
+  expect(m).toEqual(0);
 });
 
 it("new + typed", () => {
   const v: Vector = new Vector(0, 0, 0);
   const m: number = v.magnitude(); // call method
-  expect(m).toBe(0);
+  expect(m).toEqual(0);
 });
 
 it("instanceof", () => {
   const v: Vector = new Vector(0, 0, 0);
   const is = v instanceof Vector;
-  expect(is).toBe(true);
+  expect(is).toEqual(true);
   const isNot = v instanceof Rotator;
-  expect(isNot).toBe(false);
+  expect(isNot).toEqual(false);
 });
 
 it("world._reset", () => {
@@ -105,7 +105,7 @@ it("events", () => {
     (sender: Player, message: string) => void
   >;
   mock._trigger(fakePlayer, fakeMessage);
-  expect(listenerCalled).toBe(true);
+  expect(listenerCalled).toEqual(true);
 
   globalEvents.onChatMessage.clear();
 });

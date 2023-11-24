@@ -13,11 +13,11 @@ it("constructor", () => {
     specularIntensity: 4,
   };
   const lighting = new MockLightingSettings(params);
-  expect(lighting.getMainLightAltitude()).toBe(params.altitude);
-  expect(lighting.getMainLightAzimuth()).toBe(params.azimuth);
+  expect(lighting.getMainLightAltitude()).toEqual(params.altitude);
+  expect(lighting.getMainLightAzimuth()).toEqual(params.azimuth);
   expect(lighting.getMainLightColor()).toEqual(params.color);
-  expect(lighting.getMainLightIntensity()).toBe(params.intensity);
-  expect(lighting.getMainLightSpecularIntensity()).toBe(
+  expect(lighting.getMainLightIntensity()).toEqual(params.intensity);
+  expect(lighting.getMainLightSpecularIntensity()).toEqual(
     params.specularIntensity
   );
 });
@@ -27,7 +27,7 @@ it("altitude", () => {
   const lighting = new MockLightingSettings();
   lighting.setMainLightAltitude(input);
   const output = lighting.getMainLightAltitude();
-  expect(output).toBe(input);
+  expect(output).toEqual(input);
 });
 
 it("azimuth", () => {
@@ -35,7 +35,7 @@ it("azimuth", () => {
   const lighting = new MockLightingSettings();
   lighting.setMainLightAzimuth(input);
   const output = lighting.getMainLightAzimuth();
-  expect(output).toBe(input);
+  expect(output).toEqual(input);
 });
 
 it("color", () => {
@@ -51,7 +51,7 @@ it("intensity", () => {
   const lighting = new MockLightingSettings();
   lighting.setMainLightIntensity(input);
   const output = lighting.getMainLightIntensity();
-  expect(output).toBe(input);
+  expect(output).toEqual(input);
 });
 
 it("specularIntensity", () => {
@@ -59,5 +59,5 @@ it("specularIntensity", () => {
   const lighting = new MockLightingSettings();
   lighting.setMainLightSpecularIntensity(input);
   const output = lighting.getMainLightSpecularIntensity();
-  expect(output).toBe(input);
+  expect(output).toEqual(input);
 });

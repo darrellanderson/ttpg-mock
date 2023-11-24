@@ -24,17 +24,17 @@ it("constructor", () => {
     snapsRotation: false,
   };
   const snapPoint = new MockSnapPoint(params);
-  expect(snapPoint.getFlipValidity()).toBe(params.flipValidity);
+  expect(snapPoint.getFlipValidity()).toEqual(params.flipValidity);
   expect(snapPoint.getGlobalPosition()).toEqual(params.globalPosition);
-  expect(snapPoint.getIndex()).toBe(params.index);
+  expect(snapPoint.getIndex()).toEqual(params.index);
   expect(snapPoint.getLocalPosition()).toEqual(params.localPosition);
   expect(snapPoint.getParentObject()).toEqual(params.parentObject);
-  expect(snapPoint.getRange()).toBe(params.range);
-  expect(snapPoint.getShape()).toBe(params.shape);
-  expect(snapPoint.getSnapRotation()).toBe(params.snapRotation);
-  expect(snapPoint.getSnapRotationType()).toBe(params.snapRotationType);
+  expect(snapPoint.getRange()).toEqual(params.range);
+  expect(snapPoint.getShape()).toEqual(params.shape);
+  expect(snapPoint.getSnapRotation()).toEqual(params.snapRotation);
+  expect(snapPoint.getSnapRotationType()).toEqual(params.snapRotationType);
   expect(snapPoint.getSnappedObject()).toEqual(params.snappedObject);
-  expect(snapPoint.getTags()).toBe(params.tags);
-  expect(snapPoint.isValid()).toBe(params.isValid);
-  expect(snapPoint.snapsRotation()).toBe(params.snapsRotation);
+  expect(snapPoint.getTags()).toEqual(params.tags);
+  expect(snapPoint.isValid()).toEqual(params.isValid);
+  expect(snapPoint.snapsRotation()).toEqual(params.snapsRotation);
 });

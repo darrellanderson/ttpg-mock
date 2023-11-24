@@ -21,15 +21,15 @@ it("constructor", () => {
   };
   const grid = new MockGlobalGrid(params);
   expect(grid.getColor()).toEqual(params.color);
-  expect(grid.getHeight()).toBe(params.height);
-  expect(grid.getHorizontalOffset()).toBe(params.horizontalOffset);
-  expect(grid.getRotation()).toBe(params.rotation);
-  expect(grid.getSnapType()).toBe(params.snapType);
-  expect(grid.getType()).toBe(params.type);
-  expect(grid.getVerticalOffset()).toBe(params.verticalOffset);
-  expect(grid.getVisibility()).toBe(params.visibility);
-  expect(grid.getWidth()).toBe(params.width);
-  expect(grid.hasThickLines()).toBe(params.hasThickLines);
+  expect(grid.getHeight()).toEqual(params.height);
+  expect(grid.getHorizontalOffset()).toEqual(params.horizontalOffset);
+  expect(grid.getRotation()).toEqual(params.rotation);
+  expect(grid.getSnapType()).toEqual(params.snapType);
+  expect(grid.getType()).toEqual(params.type);
+  expect(grid.getVerticalOffset()).toEqual(params.verticalOffset);
+  expect(grid.getVisibility()).toEqual(params.visibility);
+  expect(grid.getWidth()).toEqual(params.width);
+  expect(grid.hasThickLines()).toEqual(params.hasThickLines);
 });
 
 it("color", () => {
@@ -45,7 +45,7 @@ it("height", () => {
   const grid = new MockGlobalGrid();
   grid.setHeight(input);
   const output = grid.getHeight();
-  expect(output).toBe(input);
+  expect(output).toEqual(input);
 });
 
 it("horizontal offset", () => {
@@ -53,7 +53,7 @@ it("horizontal offset", () => {
   const grid = new MockGlobalGrid();
   grid.setHorizontalOffset(input);
   const output = grid.getHorizontalOffset();
-  expect(output).toBe(input);
+  expect(output).toEqual(input);
 });
 
 it("rotation", () => {
@@ -61,7 +61,7 @@ it("rotation", () => {
   const grid = new MockGlobalGrid();
   grid.setRotation(input);
   const output = grid.getRotation();
-  expect(output).toBe(input);
+  expect(output).toEqual(input);
 });
 
 it("snap type", () => {
@@ -69,7 +69,7 @@ it("snap type", () => {
   const grid = new MockGlobalGrid();
   grid.setSnapType(input);
   const output = grid.getSnapType();
-  expect(output).toBe(input);
+  expect(output).toEqual(input);
 });
 
 it("thick lines", () => {
@@ -77,7 +77,7 @@ it("thick lines", () => {
   const grid = new MockGlobalGrid();
   grid.setThickLines(input);
   const output = grid.hasThickLines();
-  expect(output).toBe(input);
+  expect(output).toEqual(input);
 });
 
 it("type", () => {
@@ -85,7 +85,7 @@ it("type", () => {
   const grid = new MockGlobalGrid();
   grid.setType(input);
   const output = grid.getType();
-  expect(output).toBe(input);
+  expect(output).toEqual(input);
 });
 
 it("vertical offset", () => {
@@ -93,7 +93,7 @@ it("vertical offset", () => {
   const grid = new MockGlobalGrid();
   grid.setVerticalOffset(input);
   const output = grid.getVerticalOffset();
-  expect(output).toBe(input);
+  expect(output).toEqual(input);
 });
 
 it("visibility", () => {
@@ -101,7 +101,7 @@ it("visibility", () => {
   const grid = new MockGlobalGrid();
   grid.setVisibility(input);
   const output = grid.getVisibility();
-  expect(output).toBe(input);
+  expect(output).toEqual(input);
 });
 
 it("width", () => {
@@ -109,5 +109,5 @@ it("width", () => {
   const grid = new MockGlobalGrid();
   grid.setWidth(input);
   const output = grid.getWidth();
-  expect(output).toBe(input);
+  expect(output).toEqual(input);
 });

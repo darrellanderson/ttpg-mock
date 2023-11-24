@@ -41,24 +41,24 @@ it("constructor", () => {
   expect(player.getHandHolder()).toEqual(params.handHolder);
   expect(player.getHeldObjects()).toEqual(params.heldObjects);
   expect(player.getHighlightedObject()).toEqual(params.highlightedObject);
-  expect(player.isBlindfolded()).toBe(params.isBlindfolded);
-  expect(player.isGameMaster()).toBe(params.isGameMaster);
-  expect(player.isHolding()).toBe(true);
-  expect(player.isHoldingObject(heldObject)).toBe(true);
-  expect(player.isHost()).toBe(params.isHost);
-  expect(player.isScriptKeyDown(1)).toBe(true);
-  expect(player.isSpectator()).toBe(params.isSpectator);
-  expect(player.isUsingVR()).toBe(params.isUsingVR);
-  expect(player.isValid()).toBe(params.isValid);
-  expect(player.getName()).toBe(params.name);
+  expect(player.isBlindfolded()).toEqual(params.isBlindfolded);
+  expect(player.isGameMaster()).toEqual(params.isGameMaster);
+  expect(player.isHolding()).toEqual(true);
+  expect(player.isHoldingObject(heldObject)).toEqual(true);
+  expect(player.isHost()).toEqual(params.isHost);
+  expect(player.isScriptKeyDown(1)).toEqual(true);
+  expect(player.isSpectator()).toEqual(params.isSpectator);
+  expect(player.isUsingVR()).toEqual(params.isUsingVR);
+  expect(player.isValid()).toEqual(params.isValid);
+  expect(player.getName()).toEqual(params.name);
   expect(player.getPlayerColor()).toEqual(params.playerColor);
   expect(player.getPosition()).toEqual(params.position);
   expect(player.getPrimaryColor()).toEqual(params.primaryColor);
   expect(player.getRotation()).toEqual(params.rotation);
   expect(player.getSecondaryColor()).toEqual(params.secondaryColor);
   expect(player.getSelectedObjects()).toEqual(params.selectedObjects);
-  expect(player.getSlot()).toBe(params.slot);
-  expect(player.getTeam()).toBe(params.team);
+  expect(player.getSlot()).toEqual(params.slot);
+  expect(player.getTeam()).toEqual(params.team);
 });
 
 it("blindfolded", () => {
@@ -66,7 +66,7 @@ it("blindfolded", () => {
   const player = new MockPlayer();
   player.setBlindfolded(input);
   const output = player.isBlindfolded();
-  expect(output).toBe(input);
+  expect(output).toEqual(input);
 });
 
 it("drawingColor", () => {
@@ -121,7 +121,7 @@ it("slot", () => {
   const player = new MockPlayer();
   player.switchSlot(input);
   const output = player.getSlot();
-  expect(output).toBe(input);
+  expect(output).toEqual(input);
 });
 
 it("getOwnedObjects", () => {

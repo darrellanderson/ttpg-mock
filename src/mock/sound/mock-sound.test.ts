@@ -10,10 +10,10 @@ it("constructor", () => {
     playbackTime: 1,
   };
   const sound = new MockSound(params);
-  expect(sound.getDuration()).toBe(params.duration);
-  expect(sound.isLoaded()).toBe(params.isLoaded);
-  expect(sound.isPlaying()).toBe(params.isPlaying);
-  expect(sound.getPlaybackTime()).toBe(params.playbackTime);
+  expect(sound.getDuration()).toEqual(params.duration);
+  expect(sound.isLoaded()).toEqual(params.isLoaded);
+  expect(sound.isPlaying()).toEqual(params.isPlaying);
+  expect(sound.getPlaybackTime()).toEqual(params.playbackTime);
   expect(sound.getPlaybackFraction()).toBeCloseTo(0.5);
 });
 

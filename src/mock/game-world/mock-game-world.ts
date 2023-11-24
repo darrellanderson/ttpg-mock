@@ -317,19 +317,19 @@ export class MockGameWorld implements GameWorld {
   ): void {}
 
   getAllLabels(): Label[] {
-    return this._labels;
+    return [...this._labels];
   }
 
   getAllObjects(skipContained?: boolean | undefined): GameObject[] {
-    return this._gameObjects;
+    return [...this._gameObjects];
   }
 
   getAllPlayers(): Player[] {
-    return this._players;
+    return [...this._players];
   }
 
   getAllTables(): StaticObject[] {
-    return this._tables;
+    return [...this._tables];
   }
 
   getAllTags(): string[] {
@@ -364,7 +364,7 @@ export class MockGameWorld implements GameWorld {
   }
 
   getAllZones(): Zone[] {
-    return this._zones;
+    return [...this._zones];
   }
 
   getAllowedPackages(): Package[] {
@@ -384,7 +384,7 @@ export class MockGameWorld implements GameWorld {
   }
 
   getDrawingLines(): DrawingLine[] {
-    return this._drawingLines;
+    return [...this._drawingLines];
   }
 
   getGameTime(): number {
@@ -466,7 +466,7 @@ export class MockGameWorld implements GameWorld {
   }
 
   getScreenUIs(): ScreenUIElement[] {
-    return this._screenUIs;
+    return [...this._screenUIs];
   }
 
   getShowDiceRollMessages(): boolean {
@@ -478,7 +478,7 @@ export class MockGameWorld implements GameWorld {
     if (!color) {
       return new MockColor(1, 1, 1, 1);
     }
-    return color;
+    return color.clone();
   }
 
   getSlotTeam(slot: number): number {
@@ -496,7 +496,7 @@ export class MockGameWorld implements GameWorld {
   }
 
   getUIs(): UIElement[] {
-    return this._uis;
+    return [...this._uis];
   }
 
   getZoneById(zoneId: string): Zone | undefined {

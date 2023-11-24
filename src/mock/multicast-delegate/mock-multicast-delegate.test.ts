@@ -17,7 +17,7 @@ it("trigger", () => {
 
   multicastDelegate._trigger(7);
   multicastDelegate._trigger(2);
-  expect(total).toBe(9);
+  expect(total).toEqual(9);
 });
 
 it("add/remove", () => {
@@ -34,7 +34,7 @@ it("add/remove", () => {
   multicastDelegate._trigger(7);
   multicastDelegate.remove(handler);
   multicastDelegate._trigger(2);
-  expect(total).toBe(7);
+  expect(total).toEqual(7);
 });
 
 it("add/clear", () => {
@@ -51,5 +51,5 @@ it("add/clear", () => {
   multicastDelegate._trigger(7);
   multicastDelegate.clear();
   multicastDelegate._trigger(2);
-  expect(total).toBe(7);
+  expect(total).toEqual(7);
 });

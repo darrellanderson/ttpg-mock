@@ -45,22 +45,26 @@ it("constructor", () => {
     _templateIdToMockGameObjectParams: {},
   };
   const gameWorld = new MockGameWorld(params);
-  expect(gameWorld.getBackgroundFilename()).toBe(params.backgroundFilename);
-  expect(gameWorld.getBackgroundPackageId()).toBe(params.backgroundPackageId);
+  expect(gameWorld.getBackgroundFilename()).toEqual(params.backgroundFilename);
+  expect(gameWorld.getBackgroundPackageId()).toEqual(
+    params.backgroundPackageId
+  );
   expect(gameWorld.getDrawingLines()).toEqual(params.drawingLines);
   expect(gameWorld.getAllObjects()).toEqual(params.gameObjects);
   expect(gameWorld.getGameTime()).toEqual(params.gameTime);
-  expect(gameWorld.getGravityMultiplier()).toBe(params.gravityMultiplier);
+  expect(gameWorld.getGravityMultiplier()).toEqual(params.gravityMultiplier);
   expect(gameWorld.getAllLabels()).toEqual(params.labels);
   expect(gameWorld.getAllowedPackages()).toEqual(params.packages);
   expect(gameWorld.getAllPlayers()).toEqual(params.players);
-  expect(gameWorld.getSavedData("my-key")).toBe("my-value");
-  expect(gameWorld.getSavedData()).toBe("my-anon-value");
-  expect(gameWorld.getShowDiceRollMessages()).toBe(params.showDiceRollMessages);
-  expect(gameWorld.getSlotColor(1)).toBe(slotColor);
-  expect(gameWorld.getSlotTeam(1)).toBe(2);
+  expect(gameWorld.getSavedData("my-key")).toEqual("my-value");
+  expect(gameWorld.getSavedData()).toEqual("my-anon-value");
+  expect(gameWorld.getShowDiceRollMessages()).toEqual(
+    params.showDiceRollMessages
+  );
+  expect(gameWorld.getSlotColor(1)).toEqual(slotColor);
+  expect(gameWorld.getSlotTeam(1)).toEqual(2);
   expect(gameWorld.getScreenUIs()).toEqual(params.screenUIs);
-  expect(gameWorld.getTableHeight()).toBe(params.tableHeight);
+  expect(gameWorld.getTableHeight()).toEqual(params.tableHeight);
   expect(gameWorld.getAllTables()).toEqual(params.tables);
   expect(gameWorld.getAllTags()).toEqual(params.tags);
   expect(gameWorld.getUIs()).toEqual(params.uis);
@@ -69,7 +73,7 @@ it("constructor", () => {
 
 it("static getExecutionReason", () => {
   const output = MockGameWorld.getExecutionReason();
-  expect(typeof output).toBe("string");
+  expect(typeof output).toEqual("string");
 });
 
 it("background", () => {
@@ -77,11 +81,11 @@ it("background", () => {
   const packageId = "my-package-id";
   const gameWorld = new MockGameWorld();
   gameWorld.setBackground(filename, packageId);
-  expect(gameWorld.getBackgroundFilename()).toBe(filename);
-  expect(gameWorld.getBackgroundPackageId()).toBe(packageId);
+  expect(gameWorld.getBackgroundFilename()).toEqual(filename);
+  expect(gameWorld.getBackgroundPackageId()).toEqual(packageId);
   gameWorld.setBackground();
-  expect(gameWorld.getBackgroundFilename()).toBe("");
-  expect(gameWorld.getBackgroundPackageId()).toBe("");
+  expect(gameWorld.getBackgroundFilename()).toEqual("");
+  expect(gameWorld.getBackgroundPackageId()).toEqual("");
 });
 
 it("drawingLines", () => {
@@ -113,7 +117,7 @@ it("gravityMultiplier", () => {
   const gameWorld = new MockGameWorld();
   gameWorld.setGravityMultiplier(input);
   const output = gameWorld.getGravityMultiplier();
-  expect(output).toBe(input);
+  expect(output).toEqual(input);
 });
 
 it("labels", () => {
@@ -130,9 +134,9 @@ it("labels", () => {
 it("savedData", () => {
   const gameWorld = new MockGameWorld();
   gameWorld.setSavedData("my-anon-data");
-  expect(gameWorld.getSavedData()).toBe("my-anon-data");
+  expect(gameWorld.getSavedData()).toEqual("my-anon-data");
   gameWorld.setSavedData("my-value", "my-key");
-  expect(gameWorld.getSavedData("my-key")).toBe("my-value");
+  expect(gameWorld.getSavedData("my-key")).toEqual("my-value");
 });
 
 it("screenUIs", () => {
@@ -185,7 +189,7 @@ it("slotTeam", () => {
   const slot = 7;
   const team = 8;
   gameWorld.setSlotTeam(slot, team);
-  expect(gameWorld.getSlotTeam(slot)).toBe(team);
+  expect(gameWorld.getSlotTeam(slot)).toEqual(team);
 });
 
 it("uis", () => {
@@ -318,7 +322,7 @@ it("createObjectFromTemplate", () => {
     _templateIdToMockGameObjectParams: { [templateId]: params },
   });
   const obj = gameWorld.createObjectFromTemplate(templateId, position);
-  expect(obj?.getName()).toBe(params.name);
+  expect(obj?.getName()).toEqual(params.name);
   expect(obj?.getPosition()).toEqual(position);
 
   const nope = gameWorld.createObjectFromTemplate("no-such-id", position);
@@ -333,7 +337,7 @@ it("createTableFromTemplate", () => {
     _templateIdToMockGameObjectParams: { [templateId]: params },
   });
   const obj = gameWorld.createTableFromTemplate(templateId, position);
-  expect(obj?.getName()).toBe(params.name);
+  expect(obj?.getName()).toEqual(params.name);
   expect(obj?.getPosition()).toEqual(position);
 
   const nope = gameWorld.createTableFromTemplate("no-such-id", position);

@@ -13,8 +13,8 @@ it("cardDetails", () => {
       new MockCardDetails({ name: "c" }),
     ],
   });
-  expect(card.getAllCardDetails().length).toBe(3);
-  expect(card.getCardDetails().name).toBe("a");
-  expect(card.getCardDetails(1)?.name).toBe("b");
+  expect(card.getAllCardDetails().length).toEqual(3);
+  expect(card.getCardDetails().name).toEqual("a");
+  expect(card.getCardDetails(1)?.name).toEqual("b");
   expect(card.getCardDetails(3)).toBeUndefined();
 });

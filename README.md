@@ -61,8 +61,8 @@ it("mock class", () => {
     templateMetadata: "my-metadata",
   };
   const obj: GameObject = new MockGameObject(params);
-  expect(obj.getPosition().magnitude()).toBe(1);
-  expect(obj.getTemplateMetadata()).toBe("my-metadata");
+  expect(obj.getPosition().magnitude()).toEqual(1);
+  expect(obj.getTemplateMetadata()).toEqual("my-metadata");
 });
 ```
 
@@ -109,7 +109,7 @@ it("events", () => {
     (sender: Player, message: string) => void
   >;
   mock._trigger(fakePlayer, fakeMessage);
-  expect(listenerCalled).toBe(true);
+  expect(listenerCalled).toEqual(true);
 
   globalEvents.onChatMessage.clear();
 });

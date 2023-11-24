@@ -210,7 +210,7 @@ export class MockStaticObject implements StaticObject {
   }
 
   getDrawingLines(): DrawingLine[] {
-    return this._drawingLines;
+    return this._drawingLines.map((line) => line.clone());
   }
 
   getExtentCenter(currentRotation: boolean, includeGeometry: boolean): Vector {
@@ -253,15 +253,15 @@ export class MockStaticObject implements StaticObject {
   }
 
   getPosition(): Vector {
-    return this._position;
+    return this._position.clone();
   }
 
   getPrimaryColor(): Color {
-    return this._primaryColor;
+    return this._primaryColor.clone();
   }
 
   getRotation(): Rotator {
-    return this._rotation;
+    return this._rotation.clone();
   }
 
   getRoughness(): number {
@@ -273,7 +273,7 @@ export class MockStaticObject implements StaticObject {
   }
 
   getScale(): Vector {
-    return this._scale;
+    return this._scale.clone();
   }
 
   getScriptFilename(): string {
@@ -303,7 +303,7 @@ export class MockStaticObject implements StaticObject {
   }
 
   getTags(): string[] {
-    return this._tags;
+    return [...this._tags];
   }
 
   getTemplateId(): string {
@@ -319,8 +319,9 @@ export class MockStaticObject implements StaticObject {
   }
 
   getUIs(): UIElement[] {
-    return this._uis;
+    return this._uis.map((ui) => ui.clone());
   }
+
   isValid(): boolean {
     return this._isValid;
   }

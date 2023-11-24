@@ -131,15 +131,15 @@ export class MockPlayer implements Player {
   }
 
   getCursorPosition(): Vector {
-    return this._cursorPosition;
+    return this._cursorPosition.clone();
   }
 
   getCursorVelocity(): Vector {
-    return this._cursorVelocity;
+    return this._cursorVelocity.clone();
   }
 
   getHandCards(): Card[] {
-    return this._handCards;
+    return [...this._handCards];
   }
 
   getHandHolder(): CardHolder | undefined {
@@ -147,7 +147,7 @@ export class MockPlayer implements Player {
   }
 
   getHeldObjects(): GameObject[] {
-    return this._heldObjects;
+    return [...this._heldObjects];
   }
 
   getHighlightedObject(): GameObject | undefined {
@@ -166,27 +166,27 @@ export class MockPlayer implements Player {
   }
 
   getPlayerColor(): Color {
-    return this._playerColor;
+    return this._playerColor.clone();
   }
 
   getPosition(): Vector {
-    return this._position;
+    return this._position.clone();
   }
 
   getPrimaryColor(): Color {
-    return this._primaryColor;
+    return this._primaryColor.clone();
   }
 
   getRotation(): Rotator {
-    return this._rotation;
+    return this._rotation.clone();
   }
 
   getSecondaryColor(): Color {
-    return this._secondaryColor;
+    return this._secondaryColor.clone();
   }
 
   getSelectedObjects(): GameObject[] {
-    return this._selectedObjects;
+    return [...this._selectedObjects];
   }
 
   getSlot(): number {

@@ -10,12 +10,12 @@ it("constructor", () => {
     isValid: false,
   };
   const switcher = new MockSwitcher(params);
-  expect(switcher.contains(obj1)).toBe(true);
+  expect(switcher.contains(obj1)).toEqual(true);
   expect(switcher.getCurrentObject()).toEqual(obj2);
-  expect(switcher.getCurrentObjectIndex()).toBe(1);
-  expect(switcher.getNumObjects()).toBe(2);
+  expect(switcher.getCurrentObjectIndex()).toEqual(1);
+  expect(switcher.getNumObjects()).toEqual(2);
   expect(switcher.getObjectAt(0)).toEqual(obj1);
-  expect(switcher.isValid()).toBe(params.isValid);
+  expect(switcher.isValid()).toEqual(params.isValid);
 });
 
 it("addObjects", () => {
@@ -23,23 +23,23 @@ it("addObjects", () => {
   const obj2 = new MockGameObject();
 
   const switcher = new MockSwitcher();
-  expect(switcher.getNumObjects()).toBe(0);
+  expect(switcher.getNumObjects()).toEqual(0);
 
   switcher.addObjects([obj1]);
-  expect(switcher.getNumObjects()).toBe(1);
+  expect(switcher.getNumObjects()).toEqual(1);
   expect(switcher.getObjectAt(0)).toEqual(obj1);
 
   switcher.addObjects([obj2], 0);
-  expect(switcher.getNumObjects()).toBe(2);
+  expect(switcher.getNumObjects()).toEqual(2);
   expect(switcher.getObjectAt(0)).toEqual(obj2);
   expect(switcher.getObjectAt(1)).toEqual(obj1);
 });
 
 it("destroy", () => {
   const switcher = new MockSwitcher();
-  expect(switcher.isValid()).toBe(true);
+  expect(switcher.isValid()).toEqual(true);
   switcher.destroy();
-  expect(switcher.isValid()).toBe(false);
+  expect(switcher.isValid()).toEqual(false);
 });
 
 it("remove", () => {
@@ -47,17 +47,17 @@ it("remove", () => {
   const obj2 = new MockGameObject();
   const switcher = new MockSwitcher();
   switcher.addObjects([obj1, obj2]);
-  expect(switcher.getNumObjects()).toBe(2);
+  expect(switcher.getNumObjects()).toEqual(2);
   expect(switcher.getObjectAt(0)).toEqual(obj1);
   expect(switcher.getObjectAt(1)).toEqual(obj2);
 
   let success = switcher.remove(obj1);
-  expect(success).toBe(true);
-  expect(switcher.getNumObjects()).toBe(1);
+  expect(success).toEqual(true);
+  expect(switcher.getNumObjects()).toEqual(1);
   expect(switcher.getObjectAt(0)).toEqual(obj2);
 
   success = switcher.remove(obj1);
-  expect(success).toBe(false);
+  expect(success).toEqual(false);
 });
 
 it("setObjectIndex", () => {
@@ -65,7 +65,7 @@ it("setObjectIndex", () => {
   const obj2 = new MockGameObject();
   const switcher = new MockSwitcher();
   switcher.addObjects([obj1, obj2]);
-  expect(switcher.getCurrentObjectIndex()).toBe(0);
+  expect(switcher.getCurrentObjectIndex()).toEqual(0);
   switcher.setObjectIndex(1);
-  expect(switcher.getCurrentObjectIndex()).toBe(1);
+  expect(switcher.getCurrentObjectIndex()).toEqual(1);
 });

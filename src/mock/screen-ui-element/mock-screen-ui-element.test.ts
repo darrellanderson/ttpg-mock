@@ -22,16 +22,16 @@ it("constructor", () => {
   };
   const elememt = new MockScreenUIElement(params);
   expect(elememt.widget).toEqual(params.widget);
-  expect(elememt.positionX).toBe(params.positionX);
-  expect(elememt.positionY).toBe(params.positionY);
-  expect(elememt.relativePositionX).toBe(params.relativePositionX);
-  expect(elememt.relativePositionY).toBe(params.relativePositionY);
-  expect(elememt.width).toBe(params.width);
-  expect(elememt.height).toBe(params.height);
-  expect(elememt.relativeWidth).toBe(params.relativeWidth);
-  expect(elememt.relativeHeight).toBe(params.relativeHeight);
-  expect(elememt.anchorX).toBe(params.anchorX);
-  expect(elememt.anchorY).toBe(params.anchorY);
+  expect(elememt.positionX).toEqual(params.positionX);
+  expect(elememt.positionY).toEqual(params.positionY);
+  expect(elememt.relativePositionX).toEqual(params.relativePositionX);
+  expect(elememt.relativePositionY).toEqual(params.relativePositionY);
+  expect(elememt.width).toEqual(params.width);
+  expect(elememt.height).toEqual(params.height);
+  expect(elememt.relativeWidth).toEqual(params.relativeWidth);
+  expect(elememt.relativeHeight).toEqual(params.relativeHeight);
+  expect(elememt.anchorX).toEqual(params.anchorX);
+  expect(elememt.anchorY).toEqual(params.anchorY);
   expect(elememt.players).toEqual(params.players);
 });
 

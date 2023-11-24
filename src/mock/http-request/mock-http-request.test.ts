@@ -11,12 +11,12 @@ it("constructor", () => {
     elapsedTime: 4,
   };
   const request = new MockHttpRequest(params);
-  expect(request.getContent()).toBe(params.content);
-  expect(request.getContentLength()).toBe(params.content?.length);
-  expect(request.getElapsedTime()).toBe(params.elapsedTime);
-  expect(request.getMethod()).toBe(params.method);
-  expect(request.getResponseCode()).toBe(params.responseCode);
-  expect(request.getStatus()).toBe(params.status);
+  expect(request.getContent()).toEqual(params.content);
+  expect(request.getContentLength()).toEqual(params.content?.length);
+  expect(request.getElapsedTime()).toEqual(params.elapsedTime);
+  expect(request.getMethod()).toEqual(params.method);
+  expect(request.getResponseCode()).toEqual(params.responseCode);
+  expect(request.getStatus()).toEqual(params.status);
 });
 
 it("content", () => {
@@ -24,7 +24,7 @@ it("content", () => {
   const request = new MockHttpRequest();
   request.setContent(input);
   const output = request.getContent();
-  expect(output).toBe(input);
+  expect(output).toEqual(input);
 });
 
 it("header", () => {
@@ -37,7 +37,7 @@ it("method", () => {
   const request = new MockHttpRequest();
   request.setMethod(input);
   const output = request.getMethod();
-  expect(output).toBe(input);
+  expect(output).toEqual(input);
 });
 
 it("url", () => {

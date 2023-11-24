@@ -18,22 +18,22 @@ it("constructor", () => {
   };
   const label = new MockLabel(params);
   expect(label.getColor()).toEqual(params.color);
-  expect(label.getFontFileName()).toBe(params.fontFileName);
-  expect(label.getFontPackage()).toBe(params.fontPackageId);
-  expect(label.getId()).toBe(params.id);
-  expect(label.getPlayerSlot()).toBe(params.playerSlot);
+  expect(label.getFontFileName()).toEqual(params.fontFileName);
+  expect(label.getFontPackage()).toEqual(params.fontPackageId);
+  expect(label.getId()).toEqual(params.id);
+  expect(label.getPlayerSlot()).toEqual(params.playerSlot);
   expect(label.getPosition()).toEqual(params.position);
   expect(label.getRotation()).toEqual(params.rotation);
-  expect(label.getScale()).toBe(params.scale);
+  expect(label.getScale()).toEqual(params.scale);
   expect(label.getText()).toEqual(params.text);
-  expect(label.isValid()).toBe(params.valid);
+  expect(label.isValid()).toEqual(params.valid);
 });
 
 it("destroy", () => {
   const label = new MockLabel();
-  expect(label.isValid()).toBe(true);
+  expect(label.isValid()).toEqual(true);
   label.destroy();
-  expect(label.isValid()).toBe(false);
+  expect(label.isValid()).toEqual(false);
 });
 
 it("color", () => {
@@ -49,12 +49,12 @@ it("font", () => {
   const input2 = "my-package-id";
   const label = new MockLabel();
   label.setFont(input1, input2);
-  expect(label.getFontFileName()).toBe(input1);
-  expect(label.getFontPackage()).toBe(input2);
+  expect(label.getFontFileName()).toEqual(input1);
+  expect(label.getFontPackage()).toEqual(input2);
 
   label.setFont("");
-  expect(label.getFontFileName()).toBe("");
-  expect(label.getFontPackage()).toBe("");
+  expect(label.getFontFileName()).toEqual("");
+  expect(label.getFontPackage()).toEqual("");
 });
 
 it("id", () => {

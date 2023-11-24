@@ -11,16 +11,16 @@ it("constructor", () => {
     url: "http://www.example.com",
   };
   const mockFetchResponse = new MockFetchResponse(params);
-  expect(mockFetchResponse.ok).toBe(params.ok);
-  expect(mockFetchResponse.status).toBe(params.status);
-  expect(mockFetchResponse.url).toBe(params.url);
+  expect(mockFetchResponse.ok).toEqual(params.ok);
+  expect(mockFetchResponse.status).toEqual(params.status);
+  expect(mockFetchResponse.url).toEqual(params.url);
 });
 
 it("text", () => {
   const value: string = "my-value";
   const params: MockFetchResponseParams = { _response: value };
   const mockFetchResponse = new MockFetchResponse(params);
-  expect(mockFetchResponse.text()).toBe(value);
+  expect(mockFetchResponse.text()).toEqual(value);
 });
 
 it("json", () => {
