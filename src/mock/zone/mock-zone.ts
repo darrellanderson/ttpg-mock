@@ -63,7 +63,7 @@ export class MockZone implements Zone {
   private _valid: boolean = true;
 
   constructor(params?: MockZoneParams) {
-    if (params?.alwaysVisible) {
+    if (params?.alwaysVisible !== undefined) {
       this._alwaysVisible = params.alwaysVisible;
     }
     if (params?.color) {
@@ -87,28 +87,28 @@ export class MockZone implements Zone {
     if (params?.scale) {
       this._scale = params.scale;
     }
-    if (params?.shape) {
+    if (params?.shape !== undefined) {
       this._shape = params.shape;
     }
-    if (params?.valid) {
+    if (params?.valid !== undefined) {
       this._valid = params.valid;
     }
-    if (params?.perm_cursorHidden) {
+    if (params?.perm_cursorHidden !== undefined) {
       this._perm.cursorHidden = params.perm_cursorHidden;
     }
-    if (params?.perm_inserting) {
+    if (params?.perm_inserting !== undefined) {
       this._perm.inserting = params.perm_inserting;
     }
-    if (params?.perm_objectInteraction) {
+    if (params?.perm_objectInteraction !== undefined) {
       this._perm.objectInteraction = params.perm_objectInteraction;
     }
-    if (params?.perm_objectVisibility) {
+    if (params?.perm_objectVisibility !== undefined) {
       this._perm.objectVisibility = params.perm_objectVisibility;
     }
-    if (params?.perm_snapping) {
+    if (params?.perm_snapping !== undefined) {
       this._perm.snapping = params.perm_snapping;
     }
-    if (params?.perm_stacking) {
+    if (params?.perm_stacking !== undefined) {
       this._perm.stacking = params.perm_stacking;
     }
   }

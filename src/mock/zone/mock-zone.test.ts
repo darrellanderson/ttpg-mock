@@ -39,3 +39,133 @@ it("constructor", () => {
   expect(zone.getSnapping()).toEqual(params.perm_snapping);
   expect(zone.getStacking()).toEqual(params.perm_snapping);
 });
+
+it("alwaysVisible", () => {
+  const input = false;
+  const zone = new MockZone();
+  zone.setAlwaysVisible(input);
+  const output = zone.isAlwaysVisible();
+  expect(output).toEqual(input);
+});
+
+it("color", () => {
+  const input = new MockColor(0.1, 1, 1, 1);
+  const zone = new MockZone();
+  zone.setColor(input);
+  const output = zone.getColor();
+  expect(output).toEqual(input);
+});
+
+it("cursorHidden", () => {
+  const input = ZonePermission.OwnersOnly;
+  const zone = new MockZone();
+  zone.setCursorHidden(input);
+  const output = zone.getCursorHidden();
+  expect(output).toEqual(input);
+});
+
+it("id", () => {
+  const input = "my-id";
+  const zone = new MockZone();
+  zone.setId(input);
+  const output = zone.getId();
+  expect(output).toEqual(input);
+});
+
+it("inserting", () => {
+  const input = ZonePermission.OwnersOnly;
+  const zone = new MockZone();
+  zone.setInserting(input);
+  const output = zone.getInserting();
+  expect(output).toEqual(input);
+});
+
+it("objectInteraction", () => {
+  const input = ZonePermission.OwnersOnly;
+  const zone = new MockZone();
+  zone.setObjectInteraction(input);
+  const output = zone.getObjectInteraction();
+  expect(output).toEqual(input);
+});
+
+it("objectVisibility", () => {
+  const input = ZonePermission.OwnersOnly;
+  const zone = new MockZone();
+  zone.setObjectVisibility(input);
+  const output = zone.getObjectVisibility();
+  expect(output).toEqual(input);
+});
+
+it("position", () => {
+  const input = new MockVector(1, 2, 3);
+  const zone = new MockZone();
+  zone.setPosition(input);
+  const output = zone.getPosition();
+  expect(output).toEqual(input);
+});
+
+it("rotation", () => {
+  const input = new MockRotator(1, 2, 3);
+  const zone = new MockZone();
+  zone.setRotation(input);
+  const output = zone.getRotation();
+  expect(output).toEqual(input);
+});
+
+it("savedData", () => {
+  const input = "my-saved-data";
+  const zone = new MockZone();
+  zone.setSavedData(input);
+  const output = zone.getSavedData();
+  expect(output).toEqual(input);
+});
+
+it("scale", () => {
+  const input = new MockVector(1, 2, 3);
+  const zone = new MockZone();
+  zone.setScale(input);
+  const output = zone.getScale();
+  expect(output).toEqual(input);
+});
+
+it("shape", () => {
+  const input = ZoneShape.Cylinder;
+  const zone = new MockZone();
+  zone.setShape(input);
+  const output = zone.getShape();
+  expect(output).toEqual(input);
+});
+
+it("slotOwns", () => {
+  const slot = 7;
+  const zone = new MockZone();
+  zone.setSlotOwns(slot, true);
+  expect(zone.isSlotOwner(slot)).toEqual(true);
+  expect(zone.getOwningSlots().includes(slot)).toEqual(true);
+  zone.setSlotOwns(slot, false);
+  expect(zone.isSlotOwner(slot)).toEqual(false);
+  expect(zone.getOwningSlots().includes(slot)).toEqual(false);
+});
+
+it("snapping", () => {
+  const input = ZonePermission.OwnersOnly;
+  const zone = new MockZone();
+  zone.setSnapping(input);
+  const output = zone.getSnapping();
+  expect(output).toEqual(input);
+});
+
+it("stacking", () => {
+  const input = ZonePermission.OwnersOnly;
+  const zone = new MockZone();
+  zone.setStacking(input);
+  const output = zone.getStacking();
+  expect(output).toEqual(input);
+});
+
+it("destroy", () => {
+  const zone = new MockZone();
+  expect(zone.isValid()).toEqual(true);
+  zone.destroy();
+  expect(zone.isValid()).toEqual(false);
+});

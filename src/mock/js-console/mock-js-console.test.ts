@@ -5,21 +5,36 @@ it("constructor", () => {
 });
 
 it("warn", () => {
-  MockJSConsole.warn("warn");
+  const mock = jest.spyOn(global.console, "warn").mockImplementation(() => {});
+  MockJSConsole.warn("msg");
+  expect(mock).toHaveBeenCalled();
+  mock.mockRestore();
 });
 
 it("log", () => {
-  MockJSConsole.log("log");
+  const mock = jest.spyOn(global.console, "log").mockImplementation(() => {});
+  MockJSConsole.log("msg");
+  expect(mock).toHaveBeenCalled();
+  mock.mockRestore();
 });
 
 it("info", () => {
-  MockJSConsole.info("info");
+  const mock = jest.spyOn(global.console, "info").mockImplementation(() => {});
+  MockJSConsole.info("msg");
+  expect(mock).toHaveBeenCalled();
+  mock.mockRestore();
 });
 
 it("error", () => {
-  MockJSConsole.error("error");
+  const mock = jest.spyOn(global.console, "error").mockImplementation(() => {});
+  MockJSConsole.error("msg");
+  expect(mock).toHaveBeenCalled();
+  mock.mockRestore();
 });
 
 it("debug", () => {
-  MockJSConsole.debug("debug");
+  const mock = jest.spyOn(global.console, "debug").mockImplementation(() => {});
+  MockJSConsole.debug("msg");
+  expect(mock).toHaveBeenCalled();
+  mock.mockRestore();
 });
