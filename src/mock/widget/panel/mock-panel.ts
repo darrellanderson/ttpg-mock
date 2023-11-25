@@ -1,51 +1,99 @@
 import { Panel, Widget } from "@tabletop-playground/api";
-import { MockWidget } from "../mock-widget";
+import { MockWidget, MockWidgetParams } from "../mock-widget";
+import { HorizontalAlignment, VerticalAlignment } from "../../../enums";
+
+export type MockPanelParams = MockWidgetParams & {
+  children?: Widget[];
+  horizontalAlignment?: number;
+  verticalAlignment?: number;
+};
 
 export class MockPanel extends MockWidget implements Panel {
-  setVerticalAlignment(alignment: number): Panel {
-    throw new Error("Method not implemented.");
+  private _children: Widget[] = [];
+  private _horizontalAlignment: number = HorizontalAlignment.Fill;
+  private _verticalAlignment: number = VerticalAlignment.Fill;
+
+  constructor(params?: MockPanelParams) {
+    super(params);
+    if (params?.children) {
+      this._children = params.children;
+    }
+    if (params?.horizontalAlignment !== undefined) {
+      this._horizontalAlignment = params.horizontalAlignment;
+    }
+    if (params?.verticalAlignment !== undefined) {
+      this._verticalAlignment = params.verticalAlignment;
+    }
   }
-  setHorizontalAlignment(alignment: number): Panel {
-    throw new Error("Method not implemented.");
+
+  addChild(child: Widget, weight?: number | undefined): Panel {
+    this._children.push(child);
+    return this;
   }
-  setEqualChildSize(equal: boolean): Panel {
-    throw new Error("Method not implemented.");
+
+  getAllChildren(): Widget[] {
+    return [...this._children];
   }
-  setChildDistance(distance: number): Panel {
-    throw new Error("Method not implemented.");
+
+  getChildAt(index: number): Widget | undefined {
+    return this._children[index];
   }
-  removeChildAt(index: number): void {
-    throw new Error("Method not implemented.");
+
+  getHorizontalAlignment(): number {
+    return this._horizontalAlignment;
   }
-  removeChild(child: Widget): void {
-    throw new Error("Method not implemented.");
+
+  getNumChildren(): number {
+    return this._children.length;
   }
-  removeAllChildren(): void {
-    throw new Error("Method not implemented.");
+
+  getVerticalAlignment(): number {
+    return this._verticalAlignment;
   }
+
   insertChild(
     child: Widget,
     index: number,
     weight?: number | undefined
   ): Panel {
-    throw new Error("Method not implemented.");
+    this._children = [
+      ...this._children.slice(0, index),
+      child,
+      ...this._children.slice(index),
+    ];
+    return this;
   }
-  getVerticalAlignment(): number {
-    throw new Error("Method not implemented.");
+
+  removeAllChildren(): void {
+    this._children = [];
   }
-  getNumChildren(): number {
-    throw new Error("Method not implemented.");
+
+  removeChild(child: Widget): void {
+    const index = this._children.indexOf(child);
+    this.removeChildAt(index);
   }
-  getHorizontalAlignment(): number {
-    throw new Error("Method not implemented.");
+
+  removeChildAt(index: number): void {
+    if (index >= 0 && index < this._children.length) {
+      this._children.splice(index, 1);
+    }
   }
-  getChildAt(index: number): Widget | undefined {
-    throw new Error("Method not implemented.");
+
+  setChildDistance(distance: number): Panel {
+    return this;
   }
-  getAllChildren(): Widget[] {
-    throw new Error("Method not implemented.");
+
+  setEqualChildSize(equal: boolean): Panel {
+    return this;
   }
-  addChild(child: Widget, weight?: number | undefined): Panel {
-    throw new Error("Method not implemented.");
+
+  setHorizontalAlignment(alignment: number): Panel {
+    this._horizontalAlignment = alignment;
+    return this;
+  }
+
+  setVerticalAlignment(alignment: number): Panel {
+    this._verticalAlignment = alignment;
+    return this;
   }
 }

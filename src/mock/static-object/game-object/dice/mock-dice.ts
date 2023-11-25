@@ -5,7 +5,7 @@ import { MockVector } from "../../../vector/mock-vector";
 export type MockDiceFace = {
   name?: string;
   metadata?: string;
-  direction?: Vector;
+  direction?: Vector | [x: number, y: number, z: number];
 };
 export type MockDiceParams = MockGameObjectParams & {
   currentFace?: number;
@@ -28,7 +28,9 @@ export class MockDice extends MockGameObject implements Dice {
         this._faceNames.push(entry.name ? entry.name : "");
         this._faceMetadata.push(entry.metadata ? entry.metadata : "");
         this._faceDirections.push(
-          entry.direction ? entry.direction : new MockVector(0, 0, 0)
+          entry.direction
+            ? MockVector._from(entry.direction)
+            : new MockVector(0, 0, 0)
         );
       }
     }
@@ -45,7 +47,7 @@ export class MockDice extends MockGameObject implements Dice {
   }
 
   getFaceDirections(): Vector[] {
-    return this._faceDirections;
+    return this._faceDirections.map((x) => x.clone());
   }
 
   getCurrentFaceName(): string {
@@ -61,10 +63,10 @@ export class MockDice extends MockGameObject implements Dice {
   }
 
   getAllFaceNames(): string[] {
-    return this._faceNames;
+    return [...this._faceNames];
   }
 
   getAllFaceMetadata(): string[] {
-    return this._faceMetadata;
+    return [...this._faceMetadata];
   }
 }

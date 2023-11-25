@@ -3,7 +3,7 @@ import { MockColor } from "../color/mock-color";
 import { GridSnapType, GridType, GridVisibility } from "../../enums";
 
 export type MockGlobalGridParams = {
-  color?: Color;
+  color?: Color | [r: number, g: number, b: number, a: number];
   height?: number;
   horizontalOffset?: number;
   rotation?: number;
@@ -29,7 +29,7 @@ export class MockGlobalGrid implements GlobalGrid {
 
   constructor(params?: MockGlobalGridParams) {
     if (params?.color) {
-      this._color = params.color;
+      this._color = MockColor._from(params.color);
     }
     if (params?.height) {
       this._height = params.height;

@@ -1,22 +1,20 @@
 import { Canvas, Widget } from "@tabletop-playground/api";
-import { MockWidget } from "../mock-widget";
+import { MockWidget, MockWidgetParams } from "../mock-widget";
+
+export type MockCanvasParams = MockWidgetParams & {
+  children?: Widget[];
+};
 
 export class MockCanvas extends MockWidget implements Canvas {
-  updateChild(
-    child: Widget,
-    x: number,
-    y: number,
-    width: number,
-    height: number
-  ): void {
-    throw new Error("Method not implemented.");
+  private _children: Widget[] = [];
+
+  constructor(params?: MockCanvasParams) {
+    super(params);
+    if (params?.children) {
+      this._children = params.children;
+    }
   }
-  removeChild(child: Widget): void {
-    throw new Error("Method not implemented.");
-  }
-  getChildren(): Widget[] {
-    throw new Error("Method not implemented.");
-  }
+
   addChild(
     child: Widget,
     x: number,
@@ -24,6 +22,26 @@ export class MockCanvas extends MockWidget implements Canvas {
     width: number,
     height: number
   ): Canvas {
-    throw new Error("Method not implemented.");
+    this._children.push(child);
+    return this;
   }
+
+  getChildren(): Widget[] {
+    return [...this._children];
+  }
+
+  removeChild(child: Widget): void {
+    const index = this._children.indexOf(child);
+    if (index >= 0) {
+      this._children.splice(index, 1);
+    }
+  }
+
+  updateChild(
+    child: Widget,
+    x: number,
+    y: number,
+    width: number,
+    height: number
+  ): void {}
 }

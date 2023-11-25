@@ -8,6 +8,10 @@ export type MockWidgetParams = {
 };
 
 export class MockWidget implements Widget {
+  // two "clean" widgets not expect(a).toEqual(b)!
+  private static __index = 0;
+  private __id = `__widget_${MockWidget.__index++}__`;
+
   private _visible: boolean = true;
   private _enabled: boolean = true;
   private _parent: Widget | undefined = undefined;
@@ -51,5 +55,9 @@ export class MockWidget implements Widget {
 
   getOwningObject(): GameObject | undefined {
     return this._owningObject;
+  }
+
+  _getId(): string {
+    return this.__id;
   }
 }

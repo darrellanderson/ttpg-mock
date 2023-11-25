@@ -1,8 +1,14 @@
 import { MulticastDelegate, WebBrowser } from "@tabletop-playground/api";
-import { MockWidget } from "../mock-widget";
+import { MockWidget, MockWidgetParams } from "../mock-widget";
 import { MockMulticastDelegate } from "../../multicast-delegate/mock-multicast-delegate";
 
+export type MockWebBrowserParams = MockWidgetParams & {
+  url?: string;
+};
+
 export class MockWebBrowser extends MockWidget implements WebBrowser {
+  private _url: string = "";
+
   onURLChanged: MulticastDelegate<(browser: this, uRL: string) => void> =
     new MockMulticastDelegate<(browser: this, uRL: string) => void>();
   onLoadStarted: MulticastDelegate<(browser: this) => void> =
@@ -10,31 +16,31 @@ export class MockWebBrowser extends MockWidget implements WebBrowser {
   onLoadFinished: MulticastDelegate<(browser: this, success: boolean) => void> =
     new MockMulticastDelegate<(browser: this, success: boolean) => void>();
 
-  stopLoad(): void {
-    throw new Error("Method not implemented.");
+  constructor(params?: MockWebBrowserParams) {
+    super(params);
+    if (params?.url) {
+      this._url = params.url;
+    }
   }
+
+  stopLoad(): void {}
   setURL(url: string): WebBrowser {
-    throw new Error("Method not implemented.");
+    this._url = url;
+    return this;
   }
-  reload(): void {
-    throw new Error("Method not implemented.");
-  }
+  reload(): void {}
   isLoading(): boolean {
-    throw new Error("Method not implemented.");
+    return false;
   }
-  goForward(): void {
-    throw new Error("Method not implemented.");
-  }
-  goBack(): void {
-    throw new Error("Method not implemented.");
-  }
+  goForward(): void {}
+  goBack(): void {}
   getURL(): string {
-    throw new Error("Method not implemented.");
+    return this._url;
   }
   canGoForward(): boolean {
-    throw new Error("Method not implemented.");
+    return true;
   }
   canGoBack(): boolean {
-    throw new Error("Method not implemented.");
+    return true;
   }
 }

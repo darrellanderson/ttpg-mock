@@ -4,7 +4,7 @@ import { MockColor } from "../color/mock-color";
 export type MockLightingSettingsParams = {
   altitude?: number;
   azimuth?: number;
-  color?: Color;
+  color?: Color | [r: number, g: number, b: number, a: number];
   intensity?: number;
   specularIntensity?: number;
 };
@@ -24,7 +24,7 @@ export class MockLightingSettings implements LightingSettings {
       this._azimuth = params.azimuth;
     }
     if (params?.color) {
-      this._color = params.color;
+      this._color = MockColor._from(params.color);
     }
     if (params?.intensity) {
       this._intensity = params.intensity;
@@ -43,7 +43,7 @@ export class MockLightingSettings implements LightingSettings {
   }
 
   getMainLightColor(): Color {
-    return this._color;
+    return this._color.clone();
   }
 
   getMainLightIntensity(): number {

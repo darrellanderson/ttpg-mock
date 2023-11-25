@@ -13,8 +13,8 @@ import { MockVector } from "../vector/mock-vector";
 import { MockRotator } from "../rotator/mock-rotator";
 
 export type MockPlayerParams = {
-  cursorPosition?: Vector;
-  cursorVelocity?: Vector;
+  cursorPosition?: Vector | [x: number, y: number, z: number];
+  cursorVelocity?: Vector | [x: number, y: number, z: number];
   handCards?: Card[];
   handHolder?: CardHolder;
   heldObjects?: GameObject[];
@@ -26,11 +26,11 @@ export type MockPlayerParams = {
   isUsingVR?: boolean;
   isValid?: boolean;
   name?: string;
-  playerColor?: Color;
-  position?: Vector;
-  primaryColor?: Color;
-  rotation?: Rotator;
-  secondaryColor?: Color;
+  playerColor?: Color | [r: number, g: number, b: number, a: number];
+  position?: Vector | [x: number, y: number, z: number];
+  primaryColor?: Color | [r: number, g: number, b: number, a: number];
+  rotation?: Rotator | [pitch: number, yaw: number, roll: number];
+  secondaryColor?: Color | [r: number, g: number, b: number, a: number];
   selectedObjects?: GameObject[];
   slot?: number;
   team?: number;
@@ -63,10 +63,10 @@ export class MockPlayer implements Player {
 
   constructor(params?: MockPlayerParams) {
     if (params?.cursorPosition) {
-      this._cursorPosition = params.cursorPosition;
+      this._cursorPosition = MockVector._from(params.cursorPosition);
     }
     if (params?.cursorVelocity) {
-      this._cursorVelocity = params.cursorVelocity;
+      this._cursorVelocity = MockVector._from(params.cursorVelocity);
     }
     if (params?.handCards) {
       this._handCards = params.handCards;
@@ -102,19 +102,19 @@ export class MockPlayer implements Player {
       this._name = params.name;
     }
     if (params?.playerColor) {
-      this._playerColor = params.playerColor;
+      this._playerColor = MockColor._from(params.playerColor);
     }
     if (params?.position) {
-      this._position = params.position;
+      this._position = MockVector._from(params.position);
     }
     if (params?.primaryColor) {
-      this._primaryColor = params.primaryColor;
+      this._primaryColor = MockColor._from(params.primaryColor);
     }
     if (params?.rotation) {
-      this._rotation = params.rotation;
+      this._rotation = MockRotator._from(params.rotation);
     }
     if (params?.secondaryColor) {
-      this._secondaryColor = params.secondaryColor;
+      this._secondaryColor = MockColor._from(params.secondaryColor);
     }
     if (params?.selectedObjects) {
       this._selectedObjects = params.selectedObjects;

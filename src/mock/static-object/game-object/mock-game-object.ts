@@ -20,15 +20,15 @@ import { MockGameWorld } from "../../game-world/mock-game-world";
 import { MockSwitcher } from "../../switcher/mock-switcher";
 
 export type MockGameObjectParams = MockStaticObjectParams & {
-  angularVelocity?: Rotator;
+  angularVelocity?: Rotator | [pitch: number, yaw: number, roll: number];
   areLightsOn?: boolean;
-  centerOfMass?: Vector;
+  centerOfMass?: Vector | [x: number, y: number, z: number];
   container?: Container;
   groupId?: number;
   isHeld?: boolean;
   isSimulatingPhysics?: boolean;
   isSnappingAllowed?: boolean;
-  linearVelocity?: Vector;
+  linearVelocity?: Vector | [x: number, y: number, z: number];
   mass?: number;
   objectType?: number;
   owningPlayerSlot?: number;
@@ -56,13 +56,13 @@ export class MockGameObject extends MockStaticObject implements GameObject {
     super(params);
 
     if (params?.angularVelocity) {
-      this._angularVelocity = params.angularVelocity;
+      this._angularVelocity = MockRotator._from(params.angularVelocity);
     }
     if (params?.areLightsOn !== undefined) {
       this._areLightsOn = params.areLightsOn;
     }
     if (params?.centerOfMass) {
-      this._centerOfMass = params.centerOfMass;
+      this._centerOfMass = MockVector._from(params.centerOfMass);
     }
     if (params?.container) {
       this._container = params.container;
@@ -80,7 +80,7 @@ export class MockGameObject extends MockStaticObject implements GameObject {
       this._isSnappingAllowed = params.isSnappingAllowed;
     }
     if (params?.linearVelocity) {
-      this._linearVelocity = params.linearVelocity;
+      this._linearVelocity = MockVector._from(params.linearVelocity);
     }
     if (params?.mass !== undefined) {
       this._mass = params.mass;

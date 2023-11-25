@@ -1,4 +1,10 @@
 import { HorizontalBox } from "@tabletop-playground/api";
-import { MockPanel } from "../mock-panel";
+import { MockPanel, MockPanelParams } from "../mock-panel";
 
-export class MockHorizontalBox extends MockPanel implements HorizontalBox {}
+export type MockHorizontalBoxParams = MockPanelParams & {};
+
+export class MockHorizontalBox extends MockPanel implements HorizontalBox {
+  constructor(params?: MockHorizontalBoxParams) {
+    super(params);
+  }
+}

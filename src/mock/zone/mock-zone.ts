@@ -14,13 +14,13 @@ import { MockVector } from "../vector/mock-vector";
 
 export type MockZoneParams = {
   alwaysVisible?: boolean;
-  color?: Color;
+  color?: Color | [r: number, g: number, b: number, a: number];
   id?: string;
   owningSlots?: number[];
-  position?: Vector;
-  rotation?: Rotator;
+  position?: Vector | [x: number, y: number, z: number];
+  rotation?: Rotator | [pitch: number, yaw: number, roll: number];
   savedData?: string;
-  scale?: Vector;
+  scale?: Vector | [x: number, y: number, z: number];
   shape?: number;
   valid?: boolean;
   perm_cursorHidden?: number;
@@ -67,7 +67,7 @@ export class MockZone implements Zone {
       this._alwaysVisible = params.alwaysVisible;
     }
     if (params?.color) {
-      this._color = params.color;
+      this._color = MockColor._from(params.color);
     }
     if (params?.id) {
       this._id = params.id;
@@ -76,16 +76,16 @@ export class MockZone implements Zone {
       this._owningSlots = params.owningSlots;
     }
     if (params?.position) {
-      this._position = params.position;
+      this._position = MockVector._from(params.position);
     }
     if (params?.rotation) {
-      this._rotation = params.rotation;
+      this._rotation = MockRotator._from(params.rotation);
     }
     if (params?.savedData) {
       this._savedData = params.savedData;
     }
     if (params?.scale) {
-      this._scale = params.scale;
+      this._scale = MockVector._from(params.scale);
     }
     if (params?.shape !== undefined) {
       this._shape = params.shape;

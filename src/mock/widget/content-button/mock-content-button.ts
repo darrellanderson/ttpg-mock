@@ -5,16 +5,31 @@ import {
   Widget,
 } from "@tabletop-playground/api";
 import { MockMulticastDelegate } from "../../multicast-delegate/mock-multicast-delegate";
-import { MockWidget } from "../mock-widget";
+import { MockWidget, MockWidgetParams } from "../mock-widget";
+
+export type MockContentButtonParams = MockWidgetParams & {
+  child?: Widget;
+};
 
 export class MockContentButton extends MockWidget implements ContentButton {
+  private _child: Widget | undefined = undefined;
+
   onClicked: MulticastDelegate<(button: this, player: Player) => void> =
     new MockMulticastDelegate<(button: this, player: Player) => void>();
 
-  setChild(child?: Widget | undefined): ContentButton {
-    throw new Error("Method not implemented.");
+  constructor(params?: MockContentButtonParams) {
+    super(params);
+    if (params?.child) {
+      this._child = params.child;
+    }
   }
+
   getChild(): Widget | undefined {
-    throw new Error("Method not implemented.");
+    return this._child;
+  }
+
+  setChild(child?: Widget | undefined): ContentButton {
+    this._child = child;
+    return this;
   }
 }

@@ -4,13 +4,13 @@ import { MockRotator } from "../rotator/mock-rotator";
 import { MockVector } from "../vector/mock-vector";
 
 export type MockLabelParams = {
-  color?: Color;
+  color?: Color | [r: number, g: number, b: number, a: number];
   fontFileName?: string;
   fontPackageId?: string;
   id?: string;
   playerSlot?: number;
-  position?: Vector;
-  rotation?: Rotator;
+  position?: Vector | [x: number, y: number, z: number];
+  rotation?: Rotator | [pitch: number, yaw: number, roll: number];
   scale?: number;
   text?: string;
   valid?: boolean;
@@ -32,7 +32,7 @@ export class MockLabel implements Label {
 
   constructor(params?: MockLabelParams) {
     if (params?.color) {
-      this._color = params.color;
+      this._color = MockColor._from(params.color);
     }
     if (params?.fontFileName) {
       this._fontFileName = params.fontFileName;
@@ -47,10 +47,10 @@ export class MockLabel implements Label {
       this._playerSlot = params.playerSlot;
     }
     if (params?.position) {
-      this._position = params.position;
+      this._position = MockVector._from(params.position);
     }
     if (params?.rotation) {
-      this._rotation = params.rotation;
+      this._rotation = MockRotator._from(params.rotation);
     }
     if (params?.scale !== undefined) {
       this._scale = params.scale;

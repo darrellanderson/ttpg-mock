@@ -9,9 +9,9 @@ import { SnapPointFlipValidity, SnapPointShape } from "../../enums";
 
 export type MockSnapPointParams = {
   flipValidity?: number;
-  globalPosition?: Vector;
+  globalPosition?: Vector | [x: number, y: number, z: number];
   index?: number;
-  localPosition?: Vector;
+  localPosition?: Vector | [x: number, y: number, z: number];
   parentObject?: StaticObject;
   range?: number;
   shape?: number;
@@ -43,13 +43,13 @@ export class MockSnapPoint implements SnapPoint {
       this._flipValidity = params.flipValidity;
     }
     if (params?.globalPosition) {
-      this._globalPosition = params.globalPosition;
+      this._globalPosition = MockVector._from(params.globalPosition);
     }
     if (params?.index !== undefined) {
       this._index = params.index;
     }
     if (params?.localPosition) {
-      this._localPosition = params.localPosition;
+      this._localPosition = MockVector._from(params.localPosition);
     }
     if (params?.parentObject) {
       this._parentObject = params.parentObject;
