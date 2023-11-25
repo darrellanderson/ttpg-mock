@@ -1,21 +1,48 @@
 import { Button, MulticastDelegate, Player } from "@tabletop-playground/api";
 import { MockMulticastDelegate } from "../../../multicast-delegate/mock-multicast-delegate";
-import { MockTextWidgetBase } from "../mock-text-widget-base";
+import {
+  MockTextWidgetBase,
+  MockTextWidgetBaseParams,
+} from "../mock-text-widget-base";
+import { TextJustification } from "../../../../enums";
+
+export type MockButtonParams = MockTextWidgetBaseParams & {
+  justification?: number;
+  text?: string;
+};
 
 export class MockButton extends MockTextWidgetBase implements Button {
+  private _justification: number = TextJustification.Center;
+  private _text: string = "";
+
   onClicked: MulticastDelegate<(button: this, player: Player) => void> =
     new MockMulticastDelegate();
 
-  setText(text: string): Button {
-    throw new Error("Method not implemented.");
+  constructor(params?: MockButtonParams) {
+    super(params);
+    if (params?.justification !== undefined) {
+      this._justification = params.justification;
+    }
+    if (params?.text) {
+      this._text = params.text;
+    }
   }
-  setJustification(justification: number): Button {
-    throw new Error("Method not implemented.");
-  }
-  getText(): string {
-    throw new Error("Method not implemented.");
-  }
+
   getJustification(): number {
-    throw new Error("Method not implemented.");
+    return this._justification;
+  }
+
+  getText(): string {
+    return this._text;
+  }
+
+  setJustification(justification: number): Button {
+    this._justification = justification;
+    return this;
+  }
+
+  setText(text: string): Button {
+    this._text = text;
+    return this;
   }
 }

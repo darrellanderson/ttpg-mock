@@ -1,42 +1,83 @@
 import { MulticastDelegate, Player, Slider } from "@tabletop-playground/api";
-import { MockTextWidgetBase } from "../mock-text-widget-base";
+import {
+  MockTextWidgetBase,
+  MockTextWidgetBaseParams,
+} from "../mock-text-widget-base";
 import { MockMulticastDelegate } from "../../../multicast-delegate/mock-multicast-delegate";
 
+export type MockSliderParams = MockTextWidgetBaseParams & {
+  maxValue?: number;
+  minValue?: number;
+  stepSize?: number;
+  textBoxWidth?: number;
+  value?: number;
+};
+
 export class MockSlider extends MockTextWidgetBase implements Slider {
+  private _maxValue: number = 0;
+  private _minValue: number = 0;
+  private _stepSize: number = 0;
+  private _textBoxWidth: number = 0;
+  private _value: number = 0;
+
   onValueChanged: MulticastDelegate<
     (slider: this, player: Player, value: number) => void
   > = new MockMulticastDelegate<
     (slider: this, player: Player, value: number) => void
   >();
 
-  setValue(value: number): Slider {
-    throw new Error("Method not implemented.");
+  constructor(params?: MockSliderParams) {
+    super(params);
+    if (params?.maxValue !== undefined) {
+      this._maxValue = params.maxValue;
+    }
+    if (params?.minValue !== undefined) {
+      this._minValue = params.minValue;
+    }
+    if (params?.stepSize !== undefined) {
+      this._stepSize = params.stepSize;
+    }
+    if (params?.textBoxWidth !== undefined) {
+      this._textBoxWidth = params.textBoxWidth;
+    }
+    if (params?.value !== undefined) {
+      this._value = params.value;
+    }
   }
-  setTextBoxWidth(width: number): Slider {
-    throw new Error("Method not implemented.");
-  }
-  setStepSize(stepSize: number): Slider {
-    throw new Error("Method not implemented.");
-  }
-  setMinValue(minValue: number): Slider {
-    throw new Error("Method not implemented.");
-  }
-  setMaxValue(maxValue: number): Slider {
-    throw new Error("Method not implemented.");
-  }
-  getValue(): number {
-    throw new Error("Method not implemented.");
-  }
-  getTextBoxWidth(): number {
-    throw new Error("Method not implemented.");
-  }
-  getStepSize(): number {
-    throw new Error("Method not implemented.");
+
+  getMaxValue(): number {
+    return this._maxValue;
   }
   getMinValue(): number {
-    throw new Error("Method not implemented.");
+    return this._minValue;
   }
-  getMaxValue(): number {
-    throw new Error("Method not implemented.");
+  getStepSize(): number {
+    return this._stepSize;
+  }
+  getTextBoxWidth(): number {
+    return this._textBoxWidth;
+  }
+  getValue(): number {
+    return this._value;
+  }
+  setMaxValue(maxValue: number): Slider {
+    this._maxValue = maxValue;
+    return this;
+  }
+  setMinValue(minValue: number): Slider {
+    this._minValue = minValue;
+    return this;
+  }
+  setStepSize(stepSize: number): Slider {
+    this._stepSize = stepSize;
+    return this;
+  }
+  setTextBoxWidth(width: number): Slider {
+    this._textBoxWidth = width;
+    return this;
+  }
+  setValue(value: number): Slider {
+    this._value = value;
+    return this;
   }
 }
