@@ -1,3 +1,5 @@
+import { Euler, Matrix4, Vector3 } from "three";
+import { MockRotator } from "../rotator/mock-rotator";
 import { MockVector } from "./mock-vector";
 
 it("_from", () => {
@@ -115,6 +117,78 @@ it("equals", () => {
   expect(a.equals(b, 0.2)).toEqual(true);
 });
 
+it("findClosestPointOnLine", () => {
+  const a = new MockVector(0, 0, 0);
+  const b = new MockVector(1, 0, 0);
+
+  let c = new MockVector(-1, 1, 0);
+  let want = new MockVector(-1, 0, 0);
+  let closest = c.findClosestPointOnLine(a, b);
+  expect(want.distance(closest)).toBeCloseTo(0);
+
+  c = new MockVector(0.33, 1, 0);
+  want = new MockVector(0.33, 0, 0);
+  closest = c.findClosestPointOnLine(a, b);
+  expect(want.distance(closest)).toBeCloseTo(0);
+
+  c = new MockVector(2, 1, 0);
+  want = new MockVector(2, 0, 0);
+  closest = c.findClosestPointOnLine(a, b);
+  expect(want.distance(closest)).toBeCloseTo(0);
+});
+
+it("findClosestPointOnSegment", () => {
+  const a = new MockVector(0, 0, 0);
+  const b = new MockVector(1, 0, 0);
+
+  let c = new MockVector(-1, 1, 0);
+  let want = a;
+  let closest = c.findClosestPointOnSegment(a, b);
+  expect(closest.toString()).toEqual(want.toString());
+
+  c = new MockVector(0.33, 1, 0);
+  want = new MockVector(0.33, 0, 0);
+  closest = c.findClosestPointOnSegment(a, b);
+  expect(closest.toString()).toEqual(want.toString());
+
+  c = new MockVector(2, 1, 0);
+  want = b;
+  closest = c.findClosestPointOnSegment(a, b);
+  expect(closest.toString()).toEqual(want.toString());
+});
+
+it("findLookRotation", () => {
+  let src = new MockVector(0, 0, 0);
+  let dst = new MockVector(1, 0, 0);
+  let rot = src.findLookAtRotation(dst);
+  let want = new MockRotator(0, 0, 0); // from TTPG
+  expect(rot.toString()).toEqual(want.toString());
+
+  src = new MockVector(0, 0, 0);
+  dst = new MockVector(1, 1, 0);
+  rot = src.findLookAtRotation(dst);
+  want = new MockRotator(0, 45, 0); // from TTPG
+  expect(rot.toString()).toEqual(want.toString());
+
+  src = new MockVector(0, 0, 0);
+  dst = new MockVector(0, 1, 0);
+  rot = src.findLookAtRotation(dst);
+  want = new MockRotator(0, 90, 0);
+  expect(rot.toString()).toEqual(want.toString());
+
+  src = new MockVector(0, 0, 0);
+  dst = new MockVector(0, 0, 1);
+  rot = src.findLookAtRotation(dst);
+  want = new MockRotator(0, 0, 180);
+  expect(rot.toString()).toEqual(want.toString());
+
+  src = new MockVector(0, 0, 0);
+  dst = new MockVector(1, 2, 3);
+  rot = src.findLookAtRotation(dst);
+  want = new MockRotator(53.301, 63.435, 0);
+  expect(rot.toString()).toEqual(want.toString());
+});
+
 it("getMaxElement", () => {
   const a = new MockVector(1, 2, 3);
   const value = a.getMaxElement();
@@ -125,6 +199,14 @@ it("getMinElement", () => {
   const a = new MockVector(1, 2, 3);
   const value = a.getMinElement();
   expect(value).toEqual(1);
+});
+
+it("getRefelctionVector", () => {
+  const a = new MockVector(1, 2, 3);
+  const surfaceNormal = new MockVector(5, 6, 7);
+  const b = a.getReflectionVector(surfaceNormal);
+  const want = new MockVector(-2.455, -2.145, -1.836); // from TTPG
+  expect(b.distance(want)).toBeCloseTo(0);
 });
 
 it("isInBox", () => {
@@ -173,22 +255,50 @@ it("negate", () => {
 });
 
 it("rotateAngleAxis", () => {
-  const a = new MockVector(2, 0, 3.5);
-  const angleDeg = 90;
-  const axis = new MockVector(0, 0, 1);
-  const b = a.rotateAngleAxis(angleDeg, axis);
-  expect(a.x).toEqual(2);
-  expect(a.y).toEqual(0);
-  expect(a.z).toEqual(3.5);
-  expect(b.x).toBeCloseTo(0);
-  expect(b.y).toBeCloseTo(2);
-  expect(b.z).toEqual(3.5);
+  let a = new MockVector(1, 0, 2);
+  let angleDeg = 90;
+  let axis = new MockVector(0, 0, 1);
+  let b = a.rotateAngleAxis(angleDeg, axis);
+  let want = new MockVector(0, 1, 2);
+  expect(b.toString()).toEqual(want.toString());
 
-  // Only [0,0,1] axis supported by Mock.
-  const not001 = new MockVector(1, 2, 3);
-  expect(() => {
-    a.rotateAngleAxis(angleDeg, not001);
-  }).toThrow();
+  // Vary degrees.
+  a = new MockVector(1, 0, 2);
+  angleDeg = 10;
+  axis = new MockVector(0, 0, 1);
+  b = a.rotateAngleAxis(angleDeg, axis);
+  want = new MockVector(0.985, 0.174, 2); // from TTPG's console
+  expect(b.toString()).toEqual(want.toString());
+
+  a = new MockVector(1, 0, 2);
+  angleDeg = 130;
+  axis = new MockVector(0, 0, 1);
+  b = a.rotateAngleAxis(angleDeg, axis);
+  want = new MockVector(-0.643, 0.766, 2); // from TTPG's console
+  expect(b.toString()).toEqual(want.toString());
+
+  // Other axis (aligned).
+  a = new MockVector(1, 0, 2);
+  angleDeg = 90;
+  axis = new MockVector(0, 1, 0);
+  b = a.rotateAngleAxis(angleDeg, axis);
+  want = new MockVector(2, 0, -1); // from TTPG's console
+  expect(b.toString()).toEqual(want.toString());
+
+  a = new MockVector(1, 0, 2);
+  angleDeg = 90;
+  axis = new MockVector(1, 0, 0);
+  b = a.rotateAngleAxis(angleDeg, axis);
+  want = new MockVector(1, -2, 0); // from TTPG's console
+  expect(b.toString()).toEqual(want.toString());
+
+  // Noisy.
+  a = new MockVector(1, 2, 3);
+  angleDeg = 40;
+  axis = new MockVector(5, 6, 7);
+  b = a.rotateAngleAxis(angleDeg, axis);
+  want = new MockVector(1.415, 1.527, 3.109); // from TTPG's console
+  expect(b.toString()).toEqual(want.toString());
 });
 
 it("subract", () => {
@@ -291,4 +401,25 @@ it("static.randomUnitVector", () => {
   d = point.magnitude();
   expect(d).toBeCloseTo(1);
   jest.spyOn(global.Math, "random").mockRestore();
+});
+
+// --------------------------------
+
+// Some THREE.js tests.
+it("three to/from", () => {
+  const v1 = new MockVector(1, 2, 3);
+  const v2 = MockVector._fromThreeVector(MockVector._toThreeVector(v1));
+  expect(v1).toEqual(v2);
+});
+
+it("three look forward in local setup", () => {
+  const eye = new Vector3(0, 0, 0);
+  const target = new Vector3(0, 0, -1); // camera looks -Z
+  const up = new Vector3(0, 1, 0); // up is +Y
+  const matrix = new Matrix4().lookAt(eye, target, up);
+  const order = "XYZ";
+  const euler = new Euler().setFromRotationMatrix(matrix, order);
+  expect(euler.x).toBeCloseTo(0);
+  expect(euler.y).toBeCloseTo(0);
+  expect(euler.z).toBeCloseTo(0);
 });

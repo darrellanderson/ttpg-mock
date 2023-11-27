@@ -1,5 +1,6 @@
 import { Rotator, Vector } from "@tabletop-playground/api";
 import { MockVector } from "../vector/mock-vector";
+import { Euler, EulerOrder, Matrix4 } from "three";
 
 export class MockRotator implements Rotator {
   static _from(
@@ -9,6 +10,35 @@ export class MockRotator implements Rotator {
       return b.clone();
     }
     return new MockRotator(b[0], b[1], b[2]);
+  }
+
+  // Use "three.js" for transform math.
+  static _THREE_ORDER: EulerOrder = "ZYX";
+  static _toThreeEuler(rot: Rotator): Euler {
+    const s = Math.PI / 180;
+    //const x = rot.roll * s;
+    const x = -rot.roll * s;
+    const y = -rot.pitch * s;
+    const z = rot.yaw * s;
+    return new Euler(x, y, z, MockRotator._THREE_ORDER);
+  }
+  static _fromThreeEuler(euler: Euler): Rotator {
+    const s = 180 / Math.PI;
+    const pitch = -euler.y * s;
+    const yaw = euler.z * s;
+    const roll = -euler.x * s;
+    return new MockRotator(pitch, yaw, roll);
+  }
+  static _toThreeMatrix(rot: Rotator): Matrix4 {
+    const euler = MockRotator._toThreeEuler(rot);
+    return new Matrix4().makeRotationFromEuler(euler);
+  }
+  static _fromThreeMatrix(matrix: Matrix4): Rotator {
+    const euler = new Euler().setFromRotationMatrix(
+      matrix,
+      MockRotator._THREE_ORDER
+    );
+    return MockRotator._fromThreeEuler(euler);
   }
 
   pitch: number;
@@ -56,6 +86,17 @@ export class MockRotator implements Rotator {
     return new MockRotator(this.pitch, this.yaw, this.roll);
   }
 
+  compose(b: Rotator | [pitch: number, yaw: number, roll: number]): Rotator {
+    b = MockRotator._from(b);
+
+    // Use THREE's Vector3.
+    const aMatrix = MockRotator._toThreeMatrix(this);
+    const bMatrix = MockRotator._toThreeMatrix(b);
+    const cMatrix = aMatrix.premultiply(bMatrix);
+
+    return MockRotator._fromThreeMatrix(cMatrix);
+  }
+
   equals(
     b: Rotator | [pitch: number, yaw: number, roll: number],
     errorTolerance: number
@@ -71,6 +112,24 @@ export class MockRotator implements Rotator {
     );
   }
 
+  getForwardVector(): Vector {
+    return this.rotateVector([1, 0, 0]);
+  }
+
+  getInverse(): Rotator {
+    const matrix = MockRotator._toThreeMatrix(this);
+    matrix.invert();
+    return MockRotator._fromThreeMatrix(matrix);
+  }
+
+  getRightVector(): Vector {
+    return this.rotateVector([0, 1, 0]);
+  }
+
+  getUpVector(): Vector {
+    return this.rotateVector([0, 0, 1]);
+  }
+
   multiply(b: number): Rotator {
     return new MockRotator(this.pitch * b, this.yaw * b, this.roll * b);
   }
@@ -79,13 +138,33 @@ export class MockRotator implements Rotator {
     return new MockRotator(-this.pitch, -this.yaw, -this.roll);
   }
 
+  rotateVector(v: Vector | [x: number, y: number, z: number]): Vector {
+    v = MockVector._from(v);
+
+    // Use THREE's Vector3.
+    const e3 = MockRotator._toThreeEuler(this);
+    const v3 = MockVector._toThreeVector(v);
+    v3.applyEuler(e3);
+
+    return MockVector._fromThreeVector(v3);
+  }
+
+  unrotateVector(v: Vector | [x: number, y: number, z: number]): Vector {
+    return this.getInverse().rotateVector(v);
+  }
+
   toString(): string {
-    return `(P=${this.pitch},Y=${this.yaw},R=${this.roll})`;
+    const p = Math.round(this.pitch * 1000) / 1000;
+    const y = Math.round(this.yaw * 1000) / 1000;
+    const r = Math.round(this.roll * 1000) / 1000;
+    return `(P=${p},Y=${y},R=${r})`;
   }
 
   toVector(): Vector {
     return new MockVector(this.pitch, this.yaw, this.roll);
   }
+
+  // --------------------------------
 
   static interpolateTo(
     current: Rotator | [pitch: number, yaw: number, roll: number],
@@ -132,34 +211,15 @@ export class MockRotator implements Rotator {
     );
   }
 
-  // --------------------------------
-
-  compose(b: Rotator | [pitch: number, yaw: number, roll: number]): Rotator {
-    throw new Error("Method not implemented.");
-  }
-  getForwardVector(): Vector {
-    throw new Error("Method not implemented.");
-  }
-  getRightVector(): Vector {
-    throw new Error("Method not implemented.");
-  }
-  getUpVector(): Vector {
-    throw new Error("Method not implemented.");
-  }
-  rotateVector(v: Vector | [x: number, y: number, z: number]): Vector {
-    throw new Error("Method not implemented.");
-  }
-  unrotateVector(v: Vector | [x: number, y: number, z: number]): Vector {
-    throw new Error("Method not implemented.");
-  }
-  getInverse(): Rotator {
-    throw new Error("Method not implemented.");
-  }
-
   static fromAxisAngle(
     axis: Vector | [x: number, y: number, z: number],
     angle: number
   ): Rotator {
-    throw new Error("Method not implemented.");
+    axis = MockVector._from(axis);
+
+    const axis3 = MockVector._toThreeVector(axis);
+    angle *= Math.PI / 180;
+    const matrix = new Matrix4().makeRotationAxis(axis3, angle);
+    return MockRotator._fromThreeMatrix(matrix);
   }
 }

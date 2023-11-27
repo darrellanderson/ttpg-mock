@@ -2,12 +2,24 @@ import { Color, Rotator, Vector } from "@tabletop-playground/api";
 import { MockRotator } from "../rotator/mock-rotator";
 import { MockColor } from "../color/mock-color";
 
+import { Vector3, Line3, Matrix4 } from "three";
+
 export class MockVector implements Vector {
   static _from(b: Vector | [x: number, y: number, z: number]): Vector {
     if (b instanceof MockVector) {
       return b.clone();
     }
     return new MockVector(b[0], b[1], b[2]);
+  }
+
+  // Use "three.js" for transform math.
+  // THREE "camera looks down local, negative Z axis"
+  // THREE default up is "0,1,0"
+  static _toThreeVector(vec: Vector): Vector3 {
+    return new Vector3(vec.x, vec.y, vec.z);
+  }
+  static _fromThreeVector(vec3: Vector3): Vector {
+    return new MockVector(vec3.x, vec3.y, vec3.z);
   }
 
   x: number;
@@ -103,6 +115,55 @@ export class MockVector implements Vector {
     return dx <= errorTolerance && dy <= errorTolerance && dz <= errorTolerance;
   }
 
+  findClosestPointOnLine(
+    lineOrigin: Vector | [x: number, y: number, z: number],
+    lineDirection: Vector | [x: number, y: number, z: number]
+  ): Vector {
+    const a = MockVector._from(lineOrigin);
+    const b = MockVector._from(lineDirection).add(a);
+
+    // Use THREE's Vector3.
+    const this3 = MockVector._toThreeVector(this);
+    const a3 = MockVector._toThreeVector(a);
+    const b3 = MockVector._toThreeVector(b);
+    const line3 = new Line3(a3, b3);
+    const clampToLine = false; // clamp to segment
+    const p = line3.closestPointToPoint(this3, clampToLine, new Vector3());
+
+    return MockVector._fromThreeVector(p);
+  }
+
+  findClosestPointOnSegment(
+    segmentStart: Vector | [x: number, y: number, z: number],
+    segmentEnd: Vector | [x: number, y: number, z: number]
+  ): Vector {
+    const a = MockVector._from(segmentStart);
+    const b = MockVector._from(segmentEnd);
+
+    // Use THREE's Vector3.
+    const this3 = MockVector._toThreeVector(this);
+    const a3 = MockVector._toThreeVector(a);
+    const b3 = MockVector._toThreeVector(b);
+    const line3 = new Line3(a3, b3);
+    const clampToLine = true; // clamp to segment
+    const p = line3.closestPointToPoint(this3, clampToLine, new Vector3());
+
+    return MockVector._fromThreeVector(p);
+  }
+
+  findLookAtRotation(
+    target: Vector | [x: number, y: number, z: number]
+  ): Rotator {
+    target = MockVector._from(target);
+
+    // Use THREE's Vector3.
+    const this3 = MockVector._toThreeVector(this);
+    const targ3 = MockVector._toThreeVector(target);
+    const up3 = MockVector._toThreeVector(new MockVector(0, 0, 1));
+    const matrix = new Matrix4().lookAt(this3, targ3, up3);
+    return MockRotator._fromThreeMatrix(matrix);
+  }
+
   getDistanceToLine(
     lineOrigin: Vector | [x: number, y: number, z: number],
     lineDirection: Vector | [x: number, y: number, z: number]
@@ -125,6 +186,18 @@ export class MockVector implements Vector {
 
   getMinElement(): number {
     return Math.min(this.x, this.y, this.z);
+  }
+
+  getReflectionVector(
+    surfaceNormal: Vector | [x: number, y: number, z: number]
+  ): Vector {
+    surfaceNormal = MockVector._from(surfaceNormal);
+
+    // Use THREE's Vector3.
+    const this3 = MockVector._toThreeVector(this);
+    const norm3 = MockVector._toThreeVector(surfaceNormal).normalize();
+    const refl3 = this3.reflect(norm3);
+    return MockVector._fromThreeVector(refl3);
   }
 
   isInBox(
@@ -160,15 +233,13 @@ export class MockVector implements Vector {
     axis: Vector | [x: number, y: number, z: number]
   ): Vector {
     axis = MockVector._from(axis);
-    if (axis.x !== 0 || axis.y !== 0 || axis.z !== 1) {
-      throw new Error("MockVector.rotateAngleAxis only supports[0,0,1]");
-    }
-    const radians = (angleDeg * Math.PI) / 180;
-    const cos = Math.cos(radians);
-    const sin = Math.sin(radians);
-    const x = cos * this.x + sin * this.y;
-    const y = sin * this.x + cos * this.y;
-    return new MockVector(x, y, this.z);
+
+    // Use THREE's Vector3.
+    const this3 = MockVector._toThreeVector(this);
+    const axis3 = MockVector._toThreeVector(axis).normalize();
+    const angleRad = (angleDeg * Math.PI) / 180;
+    this3.applyAxisAngle(axis3, angleRad);
+    return MockVector._fromThreeVector(this3);
   }
 
   subtract(b: Vector | [x: number, y: number, z: number]): Vector {
@@ -185,7 +256,10 @@ export class MockVector implements Vector {
   }
 
   toString(): string {
-    return `(X=${this.x},Y=${this.y},Z=${this.z})`;
+    const x = Math.round(this.x * 1000) / 1000;
+    const y = Math.round(this.y * 1000) / 1000;
+    const z = Math.round(this.z * 1000) / 1000;
+    return `(X=${x},Y=${y},Z=${z})`;
   }
 
   unit(): Vector {
@@ -270,30 +344,5 @@ export class MockVector implements Vector {
       result.x = 1; // clamp fails for very unlikely zero vector
     }
     return result;
-  }
-
-  // --------------------------------
-
-  findClosestPointOnLine(
-    lineOrigin: Vector | [x: number, y: number, z: number],
-    lineDirection: Vector | [x: number, y: number, z: number]
-  ): Vector {
-    throw new Error("Method not implemented.");
-  }
-  findClosestPointOnSegment(
-    segmentStart: Vector | [x: number, y: number, z: number],
-    segmentEnd: Vector | [x: number, y: number, z: number]
-  ): Vector {
-    throw new Error("Method not implemented.");
-  }
-  findLookAtRotation(
-    target: Vector | [x: number, y: number, z: number]
-  ): Rotator {
-    throw new Error("Method not implemented.");
-  }
-  getReflectionVector(
-    surfaceNormal: Vector | [x: number, y: number, z: number]
-  ): Vector {
-    throw new Error("Method not implemented.");
   }
 }
