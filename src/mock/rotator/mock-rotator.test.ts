@@ -217,10 +217,16 @@ it("negate", () => {
 });
 
 it("rotateVector", () => {
-  const vec = new MockVector(1, 2, 3);
-  const rot = new MockRotator(4, 5, 6);
-  const out = rot.rotateVector(vec);
-  const want = new MockVector(0.6, 2.364, 2.838); // from TTPG
+  let vec = new MockVector(1, 2, 3);
+  let rot = new MockRotator(0, 90, 0);
+  let out = rot.rotateVector(vec);
+  let want = new MockVector(-2, 1, 3); // from TTPG
+  expect(out.toString()).toEqual(want.toString());
+
+  vec = new MockVector(1, 2, 3);
+  rot = new MockRotator(4, 5, 6);
+  out = rot.rotateVector(vec);
+  want = new MockVector(0.6, 2.364, 2.838); // from TTPG
   expect(out.toString()).toEqual(want.toString());
 });
 

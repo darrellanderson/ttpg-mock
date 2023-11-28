@@ -45,7 +45,7 @@ it("constructor", () => {
   expect(obj.getDescription()).toEqual(params.description);
   expect(obj.getDrawingLines()).toEqual(params.drawingLines);
   expect(obj.getExtent(false, false).toString()).toEqual("(X=6.5,Y=7,Z=7.5)");
-  expect(obj.getExtentCenter(false, false).toString()).toEqual("(X=0,Y=0,Z=0)");
+  expect(obj.getExtentCenter(false, false).toString()).toEqual("(X=7,Y=8,Z=9)"); // position
   expect(obj.getFriction()).toEqual(params.friction);
   expect(obj.getId()).toEqual(params.id);
   expect(obj.getMetallic()).toEqual(params.metallic);
@@ -104,6 +104,34 @@ it("drawingLines", () => {
   expect(obj.getDrawingLines()).toEqual([input]);
   obj.removeDrawingLine(0);
   expect(obj.getDrawingLines()).toEqual([]);
+});
+
+it("extent", () => {
+  const obj = new MockStaticObject({
+    _modelSize: [20, 30, 40],
+    _modelCenter: [2, 3, 4],
+    rotation: [0, 90, 0],
+  });
+  let currentRotation = false;
+  const includeGeometry = false;
+  let center = obj.getExtentCenter(currentRotation, includeGeometry);
+  let want = new MockVector(2, 3, 4);
+  expect(center.toString()).toEqual(want.toString());
+
+  currentRotation = true;
+  center = obj.getExtentCenter(currentRotation, includeGeometry);
+  want = new MockVector(-3, 2, 4);
+  expect(center.toString()).toEqual(want.toString());
+
+  currentRotation = false;
+  let extent = obj.getExtent(currentRotation, includeGeometry);
+  want = new MockVector(10, 15, 20);
+  expect(extent.toString()).toEqual(want.toString());
+
+  currentRotation = true;
+  extent = obj.getExtent(currentRotation, includeGeometry);
+  want = new MockVector(15, 10, 20);
+  expect(extent.toString()).toEqual(want.toString());
 });
 
 it("friction", () => {
@@ -298,4 +326,48 @@ it("getSnapPoint", () => {
   const obj = new MockStaticObject(params);
   const output = obj.getSnapPoint(0);
   expect(output).toEqual(input);
+});
+
+it("world/local position", () => {
+  // Created this object in TTPG.
+  const obj = new MockStaticObject({
+    position: new MockVector(-2.278, -11.371, 85.72),
+    rotation: new MockRotator(88.2512, 107.7911, -0.0977),
+    scale: new MockVector(2, 3, 4),
+  });
+  const pos = new MockVector(1, 2, 3);
+
+  let out = obj.worldPositionToLocal(pos);
+  let want = new MockVector(-41.162, -2.41, -3.559);
+  expect(out.x).toBeCloseTo(out.x, 1);
+  expect(out.y).toBeCloseTo(out.y, 1);
+  expect(out.z).toBeCloseTo(out.z, 1);
+
+  out = obj.localPositionToWorld(pos);
+  want = new MockVector(-4.322, -24.571, 88.085);
+  expect(out.x).toBeCloseTo(out.x, 1);
+  expect(out.y).toBeCloseTo(out.y, 1);
+  expect(out.z).toBeCloseTo(out.z, 1);
+});
+
+it("world/local rotation", () => {
+  // Created this object in TTPG.
+  const obj = new MockStaticObject({
+    position: new MockVector(-2.278, -11.371, 85.72),
+    rotation: new MockRotator(88.2512, 107.7911, -0.0977),
+    scale: new MockVector(2, 3, 4),
+  });
+  const rot = new MockRotator(1, 2, 3);
+
+  let out = obj.worldRotationToLocal(rot);
+  let want = new MockRotator(15.9102, -89.4555, 91.4662);
+  expect(out.pitch).toBeCloseTo(out.pitch, 1);
+  expect(out.yaw).toBeCloseTo(out.yaw, 1);
+  expect(out.roll).toBeCloseTo(out.roll, 1);
+
+  out = obj.localRotationToWorld(rot);
+  want = new MockRotator(87.868, 177.3503, 73.4141);
+  expect(out.pitch).toBeCloseTo(out.pitch, 1);
+  expect(out.yaw).toBeCloseTo(out.yaw, 1);
+  expect(out.roll).toBeCloseTo(out.roll, 1);
 });

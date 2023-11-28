@@ -214,18 +214,30 @@ export class MockStaticObject implements StaticObject {
   }
 
   getExtentCenter(currentRotation: boolean, includeGeometry: boolean): Vector {
-    const center = this.__modelCenter;
+    let offset = this.__modelCenter;
+    if (currentRotation) {
+      offset = this._rotation.rotateVector(offset);
+    }
     const scale = this.getScale();
-    return new MockVector(
-      center.x * scale.x,
-      center.y * scale.y,
-      center.z * scale.z
+    offset = new MockVector(
+      offset.x * scale.x,
+      offset.y * scale.y,
+      offset.z * scale.z
     );
+    return this.getPosition().add(offset);
   }
 
   getExtent(currentRotation: boolean, includeGeometry: boolean): Vector {
-    const size = this.getSize();
-    return size.multiply(0.5);
+    let extent = this.__modelSize.multiply(0.5);
+    if (currentRotation) {
+      extent = this._rotation.rotateVector(extent);
+    }
+    const scale = this.getScale();
+    return new MockVector(
+      Math.abs(extent.x * scale.x),
+      Math.abs(extent.y * scale.y),
+      Math.abs(extent.z * scale.z)
+    );
   }
 
   getFriction(): number {
@@ -440,21 +452,36 @@ export class MockStaticObject implements StaticObject {
   worldRotationToLocal(
     rotation: Rotator | [pitch: number, yaw: number, roll: number]
   ): Rotator {
-    throw new Error("Method not implemented.");
+    rotation = MockRotator._from(rotation);
+    return rotation.compose(this.getRotation().getInverse());
   }
+
   worldPositionToLocal(
     position: Vector | [x: number, y: number, z: number]
   ): Vector {
-    throw new Error("Method not implemented.");
+    position = MockVector._from(position);
+    const offset = position.subtract(this.getPosition());
+    offset.x /= this.getScale().x;
+    offset.y /= this.getScale().y;
+    offset.z /= this.getScale().z;
+    return this.getRotation().rotateVector(offset);
   }
+
   localRotationToWorld(
     rotation: Rotator | [pitch: number, yaw: number, roll: number]
   ): Rotator {
-    throw new Error("Method not implemented.");
+    rotation = MockRotator._from(rotation);
+    return rotation.compose(this.getRotation());
   }
+
   localPositionToWorld(
     position: Vector | [x: number, y: number, z: number]
   ): Vector {
-    throw new Error("Method not implemented.");
+    position = MockVector._from(position);
+    position.x *= this.getScale().x;
+    position.y *= this.getScale().y;
+    position.z *= this.getScale().z;
+    const offset = this.getRotation().rotateVector(position);
+    return this.getPosition().add(offset);
   }
 }
