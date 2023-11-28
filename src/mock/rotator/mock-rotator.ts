@@ -166,6 +166,18 @@ export class MockRotator implements Rotator {
 
   // --------------------------------
 
+  static fromAxisAngle(
+    axis: Vector | [x: number, y: number, z: number],
+    angle: number
+  ): Rotator {
+    axis = MockVector._from(axis);
+
+    const axis3 = MockVector._toThreeVector(axis).normalize();
+    angle *= Math.PI / 180;
+    const matrix = new Matrix4().makeRotationAxis(axis3, angle);
+    return MockRotator._fromThreeMatrix(matrix);
+  }
+
   static interpolateTo(
     current: Rotator | [pitch: number, yaw: number, roll: number],
     target: Rotator | [pitch: number, yaw: number, roll: number],
@@ -209,17 +221,5 @@ export class MockRotator implements Rotator {
       a.yaw + d.yaw * alpha,
       a.roll + d.roll * alpha
     );
-  }
-
-  static fromAxisAngle(
-    axis: Vector | [x: number, y: number, z: number],
-    angle: number
-  ): Rotator {
-    axis = MockVector._from(axis);
-
-    const axis3 = MockVector._toThreeVector(axis);
-    angle *= Math.PI / 180;
-    const matrix = new Matrix4().makeRotationAxis(axis3, angle);
-    return MockRotator._fromThreeMatrix(matrix);
   }
 }
