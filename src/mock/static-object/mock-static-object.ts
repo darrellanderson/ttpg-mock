@@ -1,6 +1,9 @@
 import {
   Color,
   DrawingLine,
+  GameObject,
+  MulticastDelegate,
+  Player,
   Rotator,
   SnapPoint,
   StaticObject,
@@ -10,6 +13,7 @@ import {
 import { MockColor } from "../color/mock-color";
 import { MockRotator } from "../rotator/mock-rotator";
 import { MockVector } from "../vector/mock-vector";
+import { MockMulticastDelegate } from "../multicast-delegate/mock-multicast-delegate";
 
 export type MockStaticObjectParams = {
   _modelSize?: Vector | [x: number, y: number, z: number];
@@ -75,6 +79,24 @@ export class MockStaticObject implements StaticObject {
   private _templateMetadata: string = "";
   private _templateName: string = "";
   private _uis: UIElement[] = [];
+
+  onSnappedTo: MulticastDelegate<
+    (
+      object: GameObject,
+      player: Player,
+      snapPoint: SnapPoint,
+      grabPosition: Vector | [x: number, y: number, z: number],
+      grabRotation: Rotator | [pitch: number, yaw: number, roll: number]
+    ) => void
+  > = new MockMulticastDelegate<
+    (
+      object: GameObject,
+      player: Player,
+      snapPoint: SnapPoint,
+      grabPosition: Vector | [x: number, y: number, z: number],
+      grabRotation: Rotator | [pitch: number, yaw: number, roll: number]
+    ) => void
+  >();
 
   static getExecutionReason(): string {
     return "";

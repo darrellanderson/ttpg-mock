@@ -52,57 +52,12 @@ export class MockGameObject extends MockStaticObject implements GameObject {
   private _snappedToPoint: SnapPoint | undefined = undefined;
   private _switcher: Switcher | undefined = undefined;
 
-  constructor(params?: MockGameObjectParams) {
-    super(params);
-
-    if (params?.angularVelocity) {
-      this._angularVelocity = MockRotator._from(params.angularVelocity);
-    }
-    if (params?.areLightsOn !== undefined) {
-      this._areLightsOn = params.areLightsOn;
-    }
-    if (params?.centerOfMass) {
-      this._centerOfMass = MockVector._from(params.centerOfMass);
-    }
-    if (params?.container) {
-      this._container = params.container;
-    }
-    if (params?.groupId !== undefined) {
-      this._groupId = params.groupId;
-    }
-    if (params?.isHeld !== undefined) {
-      this._isHeld = params.isHeld;
-    }
-    if (params?.isSimulatingPhysics !== undefined) {
-      this._isSimulatingPhysics = params.isSimulatingPhysics;
-    }
-    if (params?.isSnappingAllowed !== undefined) {
-      this._isSnappingAllowed = params.isSnappingAllowed;
-    }
-    if (params?.linearVelocity) {
-      this._linearVelocity = MockVector._from(params.linearVelocity);
-    }
-    if (params?.mass !== undefined) {
-      this._mass = params.mass;
-    }
-    if (params?.objectType !== undefined) {
-      this._objectType = params.objectType;
-    }
-    if (params?.owningPlayerSlot !== undefined) {
-      this._owningPlayerSlot = params.owningPlayerSlot;
-    }
-    if (params?.snappedToPoint) {
-      this._snappedToPoint = params.snappedToPoint;
-    }
-    if (params?.switcher) {
-      this._switcher = params.switcher;
-    }
-  }
-
   onCreated: MulticastDelegate<(object: this) => void> =
     new MockMulticastDelegate();
   onDestroyed: MulticastDelegate<(object: this) => void> =
     new MockMulticastDelegate();
+  onFlipUpright: MulticastDelegate<(object: this, player: Player) => void> =
+    new MockMulticastDelegate<(object: this, player: Player) => void>();
   onTick: MulticastDelegate<(object: this, deltaTime: number) => void> =
     new MockMulticastDelegate();
   onGrab: MulticastDelegate<(object: this, player: Player) => void> =
@@ -156,6 +111,53 @@ export class MockGameObject extends MockStaticObject implements GameObject {
   > = new MockMulticastDelegate();
   onMovementStopped: MulticastDelegate<(object: this) => void> =
     new MockMulticastDelegate();
+
+  constructor(params?: MockGameObjectParams) {
+    super(params);
+
+    if (params?.angularVelocity) {
+      this._angularVelocity = MockRotator._from(params.angularVelocity);
+    }
+    if (params?.areLightsOn !== undefined) {
+      this._areLightsOn = params.areLightsOn;
+    }
+    if (params?.centerOfMass) {
+      this._centerOfMass = MockVector._from(params.centerOfMass);
+    }
+    if (params?.container) {
+      this._container = params.container;
+    }
+    if (params?.groupId !== undefined) {
+      this._groupId = params.groupId;
+    }
+    if (params?.isHeld !== undefined) {
+      this._isHeld = params.isHeld;
+    }
+    if (params?.isSimulatingPhysics !== undefined) {
+      this._isSimulatingPhysics = params.isSimulatingPhysics;
+    }
+    if (params?.isSnappingAllowed !== undefined) {
+      this._isSnappingAllowed = params.isSnappingAllowed;
+    }
+    if (params?.linearVelocity) {
+      this._linearVelocity = MockVector._from(params.linearVelocity);
+    }
+    if (params?.mass !== undefined) {
+      this._mass = params.mass;
+    }
+    if (params?.objectType !== undefined) {
+      this._objectType = params.objectType;
+    }
+    if (params?.owningPlayerSlot !== undefined) {
+      this._owningPlayerSlot = params.owningPlayerSlot;
+    }
+    if (params?.snappedToPoint) {
+      this._snappedToPoint = params.snappedToPoint;
+    }
+    if (params?.switcher) {
+      this._switcher = params.switcher;
+    }
+  }
 
   addCustomAction(
     name: string,
