@@ -64,6 +64,11 @@ export class MockGlobalScriptingEvents implements GlobalScriptingEvents {
     (player: Player, index: number) => void
   > = new MockMulticastDelegate<(player: Player, index: number) => void>();
 
+  onShake: MulticastDelegate<(player: Player, objects: GameObject[]) => void> =
+    new MockMulticastDelegate<
+      (player: Player, objects: GameObject[]) => void
+    >();
+
   onTeamChatMessage: MulticastDelegate<
     (sender: Player, team: number, message: string) => void
   > = new MockMulticastDelegate<
