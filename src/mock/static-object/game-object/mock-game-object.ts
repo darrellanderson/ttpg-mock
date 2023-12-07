@@ -278,6 +278,10 @@ export class MockGameObject extends MockStaticObject implements GameObject {
     this._isSnappingAllowed = allowed;
   }
 
+  snap(animationSpeed?: number | undefined): SnapPoint | undefined {
+    return undefined;
+  }
+
   snapToGround(): void {
     const pos = this.getPosition();
     pos.z = MockGameWorld.__sharedInstance.getTableHeight();
@@ -298,9 +302,6 @@ export class MockGameObject extends MockStaticObject implements GameObject {
 
   // ----------------------------------
 
-  snap(animationSpeed?: number | undefined): SnapPoint | undefined {
-    throw new Error("Method not implemented.");
-  }
   flipOrUpright(): void {
     throw new Error("Method not implemented.");
   }
