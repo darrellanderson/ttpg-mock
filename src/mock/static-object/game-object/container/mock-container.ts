@@ -39,6 +39,9 @@ export class MockContainer extends MockGameObject implements Container {
     }
     if (params?.items) {
       this._items = params.items;
+      for (const item of this._items) {
+        (item as MockGameObject)._setContainer(this);
+      }
     }
     if (params?.maxItems !== undefined) {
       this._maxItems = params.maxItems;
@@ -59,9 +62,15 @@ export class MockContainer extends MockGameObject implements Container {
       ...objects,
       ...this._items.slice(index),
     ];
+    for (const item of this._items) {
+      (item as MockGameObject)._setContainer(this);
+    }
   }
 
   clear(): void {
+    for (const item of this._items) {
+      (item as MockGameObject)._setContainer(undefined);
+    }
     this._items = [];
   }
 
@@ -113,7 +122,8 @@ export class MockContainer extends MockGameObject implements Container {
     if (index < 0 || index >= this._items.length) {
       return false;
     }
-    this._items.splice(index, 1);
+    const [obj] = this._items.splice(index, 1);
+    (obj as MockGameObject)._setContainer(undefined);
     return true;
   }
 

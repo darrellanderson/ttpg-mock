@@ -159,6 +159,10 @@ export class MockGameObject extends MockStaticObject implements GameObject {
     }
   }
 
+  _setContainer(container: Container | undefined) {
+    this._container = container;
+  }
+
   addCustomAction(
     name: string,
     tooltip?: string | undefined,

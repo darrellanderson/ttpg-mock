@@ -9,6 +9,7 @@ Using the package manager of your choice, install (yarn in this case):
 
 ```
 yarn add -D ttpg-mock
+yarn add -D three
 ```
 
 Create or edit your `jest.config.js` file to have this `moduleNameMapper` entry, redirecting the TTPG api to our mock version:
