@@ -180,6 +180,8 @@ export class MockGameObject extends MockStaticObject implements GameObject {
     return new MockSwitcher({ gameObjects: [this, ...objects] });
   }
 
+  flipOrUpright(): void {}
+
   freeze(): void {
     this.setObjectType(ObjectType.Ground);
   }
@@ -302,9 +304,6 @@ export class MockGameObject extends MockStaticObject implements GameObject {
 
   // ----------------------------------
 
-  flipOrUpright(): void {
-    throw new Error("Method not implemented.");
-  }
   applyTorque(
     torque: Vector | [x: number, y: number, z: number],
     useMass?: boolean | undefined
