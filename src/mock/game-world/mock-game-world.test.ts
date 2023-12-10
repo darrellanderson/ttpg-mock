@@ -352,6 +352,28 @@ it("getPlayerBySlot", () => {
   expect(output).toEqual(player);
 });
 
+it("getTemplateName", () => {
+  const templateId = "my-template-id";
+  const templateName = "my-template-name";
+  const gameWorld = new MockGameWorld({
+    _templateIdToMockGameObjectParams: { [templateId]: { name: templateName } },
+  });
+  const output = gameWorld.getTemplateName(templateId);
+  expect(output).toEqual(templateName);
+});
+
+it("getTemplatePackageId", () => {
+  const templateId = "my-template-id";
+  const templatePackageId = "my-template-package-id";
+  const gameWorld = new MockGameWorld({
+    _templateIdToMockGameObjectParams: {
+      [templateId]: { packageId: templatePackageId },
+    },
+  });
+  const output = gameWorld.getTemplatePackageId(templateId);
+  expect(output).toEqual(templatePackageId);
+});
+
 it("getZoneById", () => {
   const id = "my-zone";
   const zone = new MockZone({ id });

@@ -495,6 +495,18 @@ export class MockGameWorld implements GameWorld {
     return this._tableHeight;
   }
 
+  getTemplateName(templateId: string): string {
+    const params: MockGameObjectParams | undefined =
+      this.__templateIdToMockGameObjectParams[templateId];
+    return params && params.name ? params.name : "";
+  }
+
+  getTemplatePackageId(templateId: string): string {
+    const params: MockGameObjectParams | undefined =
+      this.__templateIdToMockGameObjectParams[templateId];
+    return params && params.packageId ? params.packageId : "";
+  }
+
   getUIs(): UIElement[] {
     return [...this._uis];
   }
@@ -705,12 +717,6 @@ export class MockGameWorld implements GameWorld {
     throw new Error("Method not implemented.");
   }
   importText(filename: string, packageId?: string | undefined): string {
-    throw new Error("Method not implemented.");
-  }
-  getTemplatePackageId(templateId: string): string {
-    throw new Error("Method not implemented.");
-  }
-  getTemplateName(templateId: string): string {
     throw new Error("Method not implemented.");
   }
 }
