@@ -326,6 +326,7 @@ it("getSnapPoint", () => {
   const obj = new MockStaticObject(params);
   const output = obj.getSnapPoint(0);
   expect(output).toEqual(input);
+  expect(input.getParentObject()).toEqual(obj);
 });
 
 it("world/local position", () => {

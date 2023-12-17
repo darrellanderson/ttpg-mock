@@ -14,6 +14,7 @@ import { MockColor } from "../color/mock-color";
 import { MockRotator } from "../rotator/mock-rotator";
 import { MockVector } from "../vector/mock-vector";
 import { MockMulticastDelegate } from "../multicast-delegate/mock-multicast-delegate";
+import { MockSnapPoint } from "../snap-point/mock-snap-point";
 
 export type MockStaticObjectParams = {
   _modelSize?: Vector | [x: number, y: number, z: number];
@@ -172,6 +173,9 @@ export class MockStaticObject implements StaticObject {
     }
     if (params?.snapPoints) {
       this._snapPoints = params.snapPoints;
+      for (const snapPoint of this._snapPoints) {
+        (snapPoint as MockSnapPoint)._setParentObject(this);
+      }
     }
     if (params?.surfaceType) {
       this._surfaceType = params.surfaceType;

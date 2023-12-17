@@ -80,6 +80,10 @@ export class MockSnapPoint implements SnapPoint {
     }
   }
 
+  _setParentObject(obj: StaticObject) {
+    this._parentObject = obj;
+  }
+
   getFlipValidity(): number {
     return this._flipValidity;
   }
