@@ -209,6 +209,14 @@ it("slotTeam", () => {
   expect(gameWorld.getSlotTeam(slot2)).toEqual(noTeam);
 });
 
+it("turn", () => {
+  const gameWorld = new MockGameWorld();
+  const turn = gameWorld.getCurrentTurn();
+  expect(turn).toBeDefined();
+  gameWorld.nextTurn();
+  gameWorld.previousTurn();
+});
+
 it("uis", () => {
   const input = new MockUIElement();
   const gameWorld = new MockGameWorld();

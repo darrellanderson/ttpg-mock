@@ -25,3 +25,25 @@ it("play/stop", () => {
   sound.stop();
   sound.stopLoop();
 });
+
+it("get with duration zero", () => {
+  const params: MockSoundParams = {
+    duration: 0,
+    isLoaded: true,
+    isPlaying: true,
+    playbackTime: 0,
+  };
+  const sound = new MockSound(params);
+  expect(sound.getDuration()).toEqual(params.duration);
+  expect(sound.isLoaded()).toEqual(params.isLoaded);
+  expect(sound.isPlaying()).toEqual(params.isPlaying);
+  expect(sound.getPlaybackTime()).toEqual(params.playbackTime);
+  expect(sound.getPlaybackFraction()).toBeCloseTo(0);
+});
+
+it("play with offset", () => {
+  const startTime = 13;
+  const sound = new MockSound();
+  sound.play(startTime);
+  expect(sound.getPlaybackTime()).toBe(startTime);
+});

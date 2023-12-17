@@ -107,6 +107,21 @@ export class MockCard extends MockGameObject implements Card {
     return dx + dy < 0.1;
   }
 
+  deal(
+    count?: number | undefined,
+    slots?: number[] | undefined,
+    faceDown?: boolean | undefined,
+    dealToAllHolders?: boolean | undefined
+  ): void {
+    const numPlayers: number = slots ? slots.length : 1; // TODO: should be "everyone" if undefined
+    if (count === undefined) {
+      count = 1;
+    }
+    count = count * numPlayers;
+    count = Math.min(count, this.getStackSize());
+    this.takeCards(count); // TODO: taken cards should move to players' hands
+  }
+
   divide(numCards: number): Card[] {
     const numStacks = Math.ceil(this.getStackSize() / numCards);
     const result: Card[] = [];
@@ -146,8 +161,10 @@ export class MockCard extends MockGameObject implements Card {
   }
 
   isInHand(): boolean {
-    return this._cardHolder &&
-      this._cardHolder?.getOwningPlayer()?.getHandHolder() === this._cardHolder
+    const playerPrimaryHolder = this._cardHolder
+      ?.getOwningPlayer()
+      ?.getHandHolder();
+    return playerPrimaryHolder && playerPrimaryHolder === this._cardHolder
       ? true
       : false;
   }
@@ -271,16 +288,5 @@ export class MockCard extends MockGameObject implements Card {
       cardDetails = this._cardDetails.splice(index, numCards);
     }
     return new MockCard({ cardDetails });
-  }
-
-  // ----------------------------------
-
-  deal(
-    count?: number | undefined,
-    slots?: number[] | undefined,
-    faceDown?: boolean | undefined,
-    dealToAllHolders?: boolean | undefined
-  ): void {
-    throw new Error("Method not implemented.");
   }
 }

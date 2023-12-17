@@ -118,6 +118,11 @@ it("release", () => {
   expect(obj.isHeld()).toEqual(false);
 });
 
+it("snap", () => {
+  const obj = new MockGameObject();
+  obj.snap();
+});
+
 it("snapToGround", () => {
   const obj = new MockGameObject({ position: new MockVector(1, 2, 999) });
   obj.snapToGround();

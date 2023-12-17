@@ -58,10 +58,10 @@ export class MockTurnSystem implements TurnSystem {
     this._currentPhaseIndex = phase;
   }
   previousTurn(): void {
-    throw new Error("Method not implemented.");
+    // pass without side effects
   }
   nextTurn(): void {
-    throw new Error("Method not implemented.");
+    // pass without side effects
   }
   getCurrentTurn(): number {
     return this._currentTurn;

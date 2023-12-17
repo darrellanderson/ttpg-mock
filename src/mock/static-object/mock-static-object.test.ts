@@ -234,10 +234,16 @@ it("script", () => {
   const input2 = "my-pacakge-id";
   const obj = new MockStaticObject();
   obj.setScript(input1, input2);
-  const output1 = obj.getScriptFilename();
-  const output2 = obj.getScriptPackageId();
+  let output1 = obj.getScriptFilename();
+  let output2 = obj.getScriptPackageId();
   expect(output1).toEqual(input1);
   expect(output2).toEqual(input2);
+
+  obj.setScript(input1);
+  output1 = obj.getScriptFilename();
+  output2 = obj.getScriptPackageId();
+  expect(output1).toEqual(input1);
+  expect(output2).toEqual("");
 });
 
 it("secondaryColor", () => {

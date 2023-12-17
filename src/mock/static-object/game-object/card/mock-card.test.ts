@@ -2,6 +2,9 @@ import { MockCard, MockCardParams } from "./mock-card";
 import { MockCardDetails } from "../../../card-details/mock-card-details";
 import { MockCardHolder } from "../card-holder/mock-card-holder";
 import { MockVector } from "../../../vector/mock-vector";
+import { CardDetails } from "@tabletop-playground/api";
+import { MockPlayer } from "../../../player/mock-player";
+import { MockGameWorld } from "../../../game-world/mock-game-world";
 
 it("constructor", () => {
   const params: MockCardParams = {
@@ -139,6 +142,54 @@ it("cardDetails", () => {
   expect(card.getCardDetails(3)).toBeUndefined();
 });
 
+it("deal", () => {
+  const origCardDetails: CardDetails[] = [
+    new MockCardDetails({ name: "src1" }),
+    new MockCardDetails({ name: "src2" }),
+    new MockCardDetails({ name: "src3" }),
+  ];
+
+  let src = new MockCard({
+    cardDetails: [...origCardDetails],
+  });
+  expect(src.getStackSize()).toEqual(3);
+
+  let count: number | undefined = undefined; // 1
+  let slots: number[] | undefined = undefined; // 1
+  src.deal(count, slots);
+  expect(src.getStackSize()).toEqual(2);
+
+  src = new MockCard({
+    cardDetails: [...origCardDetails],
+  });
+  expect(src.getStackSize()).toEqual(3);
+
+  count = 1;
+  slots = [1];
+  src.deal(count, slots);
+  expect(src.getStackSize()).toEqual(2);
+
+  src = new MockCard({
+    cardDetails: [...origCardDetails],
+  });
+  expect(src.getStackSize()).toEqual(3);
+
+  count = 1;
+  slots = [1, 2];
+  src.deal(count, slots);
+  expect(src.getStackSize()).toEqual(1);
+
+  src = new MockCard({
+    cardDetails: [...origCardDetails],
+  });
+  expect(src.getStackSize()).toEqual(3);
+
+  count = 2;
+  slots = [1];
+  src.deal(count, slots);
+  expect(src.getStackSize()).toEqual(1);
+});
+
 it("divide", () => {
   const src = new MockCard({
     cardDetails: [
@@ -152,6 +203,20 @@ it("divide", () => {
   const [a, b] = stacks;
   expect(a.getStackSize()).toEqual(2);
   expect(b.getStackSize()).toEqual(1);
+});
+
+it("isInHand", () => {
+  const playerSlot = 17;
+  const player = new MockPlayer({ slot: playerSlot });
+  MockGameWorld.__sharedInstance._reset({ players: [player] });
+  const cardHolder = new MockCardHolder({ owningPlayerSlot: playerSlot });
+  player.setHandHolder(cardHolder);
+  const card = new MockCard({ cardHolder: cardHolder });
+  const value = card.isInHand();
+  expect(value).toBeTruthy();
+
+  const looseCard = new MockCard();
+  expect(looseCard.isInHand()).toBeFalsy();
 });
 
 it("moveCardInStack", () => {

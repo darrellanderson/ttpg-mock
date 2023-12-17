@@ -281,7 +281,7 @@ export class MockGameObject extends MockStaticObject implements GameObject {
   }
 
   snap(animationSpeed?: number | undefined): SnapPoint | undefined {
-    return undefined;
+    return undefined; // TODO look for snap point?
   }
 
   snapToGround(): void {
