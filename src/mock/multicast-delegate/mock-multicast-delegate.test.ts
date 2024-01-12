@@ -1,7 +1,7 @@
 import { MockMulticastDelegate } from "./mock-multicast-delegate";
 
 it("constructor", () => {
-  new MockMulticastDelegate<number>();
+  new MockMulticastDelegate<() => void>();
 });
 
 it("trigger", () => {

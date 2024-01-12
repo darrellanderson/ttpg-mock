@@ -1,6 +1,8 @@
 import { MulticastDelegate } from "@tabletop-playground/api";
 
-export class MockMulticastDelegate<T> implements MulticastDelegate<T> {
+export class MockMulticastDelegate<T extends (...args: any) => any>
+  implements MulticastDelegate<T>
+{
   private readonly _listeners: T[] = [];
 
   add(fn: T): void {
@@ -17,10 +19,10 @@ export class MockMulticastDelegate<T> implements MulticastDelegate<T> {
     this._listeners.splice(0);
   }
 
-  _trigger(...args: any): void {
+  _trigger(...args: Parameters<T>): void {
     for (const fn of this._listeners) {
       if (typeof fn === "function") {
-        fn(...args);
+        fn.apply(null, args);
       }
     }
   }
