@@ -28,3 +28,8 @@ it("process clearTicks then flushTicks", () => {
   process.flushTicks();
   expect(count).toEqual(0);
 });
+
+it("global", () => {
+  globalThis.process = MockProcess.__sharedInstance;
+  process.clearTicks(); // make sure this passes type checking
+});
