@@ -52,6 +52,7 @@ export type MockGameWorldParams = {
   tags?: string[];
   uis?: UIElement[];
   zones?: Zone[];
+  _scriptFileToData?: { [key: string]: string };
   _templateIdToMockGameObjectParams?: {
     [key: string]: MockGameObjectParams;
   };
@@ -86,6 +87,7 @@ export class MockGameWorld implements GameWorld {
   private _tags: string[] = [];
   private _uis: UIElement[] = [];
   private _zones: Zone[] = [];
+  private __scriptFileToData: { [key: string]: string } = {};
   private __templateIdToMockGameObjectParams: {
     [key: string]: MockGameObjectParams;
   } = {};
@@ -107,7 +109,7 @@ export class MockGameWorld implements GameWorld {
    *
    * @param params
    */
-  _reset(params?: MockGameWorldParams) {
+  _reset(params?: MockGameWorldParams): this {
     if (params?.backgroundFilename) {
       this._backgroundFilename = params.backgroundFilename;
     } else {
@@ -211,7 +213,15 @@ export class MockGameWorld implements GameWorld {
     if (params?._templateIdToMockGameObjectParams) {
       this.__templateIdToMockGameObjectParams =
         params._templateIdToMockGameObjectParams;
+    } else {
+      this.__templateIdToMockGameObjectParams = {};
     }
+    if (params?._scriptFileToData) {
+      this.__scriptFileToData = params._scriptFileToData;
+    } else {
+      this.__scriptFileToData = {};
+    }
+    return this;
   }
 
   addCustomAction(
@@ -531,6 +541,10 @@ export class MockGameWorld implements GameWorld {
     return new MockSound();
   }
 
+  importText(filename: string, packageId?: string | undefined): string {
+    return this.__scriptFileToData[filename];
+  }
+
   previousTurn(): void {
     this.turns.previousTurn();
   }
@@ -714,9 +728,6 @@ export class MockGameWorld implements GameWorld {
     start: Vector | [x: number, y: number, z: number],
     end: Vector | [x: number, y: number, z: number]
   ): TraceHit[] {
-    throw new Error("Method not implemented.");
-  }
-  importText(filename: string, packageId?: string | undefined): string {
     throw new Error("Method not implemented.");
   }
 }

@@ -396,6 +396,16 @@ it("importSound", () => {
   gameWorld.importSoundFromURL("url");
 });
 
+it("importText", () => {
+  const fileName: string = "my-file-name";
+  const fileContent: string = "my-file-data";
+  const gameWorld = new MockGameWorld()._reset({
+    _scriptFileToData: { [fileName]: fileContent },
+  });
+  const text = gameWorld.importText(fileName);
+  expect(text).toEqual(fileContent);
+});
+
 it("resetScripting", () => {
   const gameWorld = new MockGameWorld();
   gameWorld.resetScripting();
