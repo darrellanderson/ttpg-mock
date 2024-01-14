@@ -1,4 +1,9 @@
-import { MockGameWorld, MockGlobalScriptingEvents, mockFetch } from "./mock";
+import {
+  MockGameWorld,
+  MockGlobalScriptingEvents,
+  MockProcess,
+  mockFetch,
+} from "./mock";
 
 // Enums.
 export * from "./enums";
@@ -77,5 +82,5 @@ export { globalEvents as mockGlobalEvents, world as mockWorld };
 const fetch = mockFetch;
 export { fetch };
 
-const isTTPG =
-  "platform" in process && process.platform === "TabletopPlayground";
+// Globals.
+globalThis.process = MockProcess.__sharedInstance;

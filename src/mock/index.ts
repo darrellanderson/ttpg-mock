@@ -16,6 +16,7 @@ export * from "./package/mock-package";
 export * from "./phase-details/mock-phase-details";
 export * from "./player-permission/mock-player-permission";
 export * from "./player/mock-player";
+export * from "./process/mock-process";
 export * from "./rotator/mock-rotator";
 export * from "./screen-ui-element/mock-screen-ui-element";
 export * from "./snap-point/mock-snap-point";
