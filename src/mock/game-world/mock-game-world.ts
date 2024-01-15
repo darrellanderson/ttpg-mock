@@ -18,18 +18,22 @@ import {
   Vector,
   Zone,
 } from "@tabletop-playground/api";
-import { MockGlobalGrid } from "../global-grid/mock-global-grid";
-import { MockLightingSettings } from "../lighting-settings/mock-lighting-settings";
-import { MockTurnSystem } from "../turn-system/mock-turn-system";
-import { MockLabel } from "../label/mock-label";
-import { MockZone } from "../zone/mock-zone";
 import { MockColor } from "../color/mock-color";
-import { MockSound } from "../sound/mock-sound";
+import { MockGlobalGrid } from "../global-grid/mock-global-grid";
+import { MockLabel } from "../label/mock-label";
+import { MockLightingSettings } from "../lighting-settings/mock-lighting-settings";
+import { MockZone } from "../zone/mock-zone";
 import {
   MockGameObject,
   MockGameObjectParams,
 } from "../static-object/game-object/mock-game-object";
+import { MockRotator } from "../rotator/mock-rotator";
+import { MockSound } from "../sound/mock-sound";
 import { MockStaticObject } from "../static-object/mock-static-object";
+import { MockTraceHit } from "../trace-hit/mock-trace-hit";
+import { MockTurnSystem } from "../turn-system/mock-turn-system";
+import { MockVector } from "../vector/mock-vector";
+import { SharedObjects } from "../../shared-objects";
 
 export type MockGameWorldParams = {
   backgroundFilename?: string;
@@ -659,7 +663,26 @@ export class MockGameWorld implements GameWorld {
       | [pitch: number, yaw: number, roll: number]
       | undefined
   ): GameObject[] {
-    throw new Error("Method not implemented.");
+    const p0: Vector = MockVector._from(position);
+    const ext: Vector = MockVector._from(extent);
+    const rot: Rotator = MockRotator._from(orientation ?? [0, 0, 0]);
+    const invRot = rot.getInverse();
+    const result: GameObject[] = [];
+    for (const obj of this._gameObjects) {
+      const offsetRaw = obj.getPosition().subtract(p0);
+      const offset = invRot.rotateVector(offsetRaw);
+      if (
+        offset.x >= -ext.x &&
+        offset.x <= ext.x &&
+        offset.y >= -ext.y &&
+        offset.y <= ext.y &&
+        offset.z >= -ext.z &&
+        offset.z <= ext.z
+      ) {
+        result.push(obj);
+      }
+    }
+    return result;
   }
 
   boxTrace(
@@ -671,7 +694,39 @@ export class MockGameWorld implements GameWorld {
       | [pitch: number, yaw: number, roll: number]
       | undefined
   ): TraceHit[] {
-    throw new Error("Method not implemented.");
+    const p0 = MockVector._from(start);
+    const p1 = MockVector._from(end);
+    const ext = MockVector._from(extent);
+    const rot: Rotator = MockRotator._from(orientation ?? [0, 0, 0]);
+    const invRot = rot.getInverse();
+    const result: TraceHit[] = [];
+    for (const obj of this._gameObjects) {
+      const closest = obj.getPosition().findClosestPointOnSegment(p0, p1);
+      const offsetRaw = obj.getPosition().subtract(closest);
+      const offset = invRot.rotateVector(offsetRaw);
+      if (
+        offset.x >= -ext.x &&
+        offset.x <= ext.x &&
+        offset.y >= -ext.y &&
+        offset.y <= ext.y &&
+        offset.z >= -ext.z &&
+        offset.z <= ext.z
+      ) {
+        result.push(
+          new MockTraceHit({
+            distance: obj.getPosition().subtract(p0).magnitude(),
+            impactPosition: new MockVector(0, 0, 0),
+            normal: new MockVector(0, 0, 0),
+            object: obj,
+            position: new MockVector(0, 0, 0),
+          })
+        );
+      }
+      result.sort((a, b) => {
+        return a.distance - b.distance;
+      });
+    }
+    return result;
   }
 
   capsuleOverlap(
@@ -731,3 +786,5 @@ export class MockGameWorld implements GameWorld {
     throw new Error("Method not implemented.");
   }
 }
+
+SharedObjects.gameWorld = MockGameWorld.__sharedInstance;

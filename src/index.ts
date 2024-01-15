@@ -1,3 +1,4 @@
+import { JestSetup } from "./jest-setup";
 import {
   MockGameWorld,
   MockGlobalScriptingEvents,
@@ -44,6 +45,7 @@ export {
   MockPhaseDetails as PhaseDetails,
   MockPlayer as Player,
   MockPlayerPermission as PlayerPermission,
+  MockProcess as Process,
   MockProgressBar as ProgressBar,
   MockRichText as RichText,
   MockRotator as Rotator,
@@ -84,3 +86,6 @@ export { fetch };
 
 // Globals.
 globalThis.process = MockProcess.__sharedInstance;
+
+// Tell jest to scrub everything after each test.
+JestSetup.enableAfterEachResets();

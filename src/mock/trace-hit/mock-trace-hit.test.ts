@@ -19,7 +19,7 @@ it("constructor", () => {
 });
 
 it("clone", () => {
-  const hit = new MockTraceHit();
+  const hit = new MockTraceHit({ object: new MockGameObject() });
   const clone = hit.clone();
   expect(clone).toEqual(hit);
 });

@@ -3,14 +3,15 @@ import {
   CardHolder,
   Color,
   GameObject,
+  GameWorld,
   Player,
   Rotator,
   Vector,
 } from "@tabletop-playground/api";
 import { MockColor } from "../color/mock-color";
-import { MockGameWorld } from "../game-world/mock-game-world";
 import { MockVector } from "../vector/mock-vector";
 import { MockRotator } from "../rotator/mock-rotator";
+import { SharedObjects } from "../../shared-objects";
 
 export type MockPlayerParams = {
   cursorPosition?: Vector | [x: number, y: number, z: number];
@@ -160,7 +161,8 @@ export class MockPlayer implements Player {
 
   getOwnedObjects(): GameObject[] {
     const slot = this.getSlot();
-    return MockGameWorld.__sharedInstance
+    const gameWorld: GameWorld = SharedObjects.gameWorld;
+    return gameWorld
       .getAllObjects()
       .filter((obj) => obj.getOwningPlayerSlot() === slot);
   }

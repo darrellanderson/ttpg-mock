@@ -440,3 +440,33 @@ it("createTableFromTemplate", () => {
   const nope = gameWorld.createTableFromTemplate("no-such-id", position);
   expect(nope).toBeUndefined();
 });
+
+it("boxOverlap", () => {
+  const objYes = new MockGameObject({ position: [1, 2, 3] });
+  const objNo = new MockGameObject({ position: [10, 2, 3] });
+  const gameWorld = new MockGameWorld({ gameObjects: [objYes, objNo] });
+
+  const pos = new MockVector(1, 2, 3);
+  const ext = new MockVector(1, 1, 1);
+  const rot = undefined;
+  const objs = gameWorld.boxOverlap(pos, ext, rot);
+  expect(objs).toEqual([objYes]);
+});
+
+it("boxTrace", () => {
+  const obj1 = new MockGameObject({ id: "obj1", position: [1, 0, 0] });
+  const obj2 = new MockGameObject({ id: "obj2", position: [2, 0, 0] });
+  const obj3 = new MockGameObject({ id: "obj3", position: [3, 0, 0] });
+  const objNo = new MockGameObject({ id: "objNo", position: [10, 0, 0] });
+  const gameWorld = new MockGameWorld({
+    gameObjects: [obj2, obj1, obj3, objNo], // out of order
+  });
+
+  const p0 = new MockVector(0, 0, 0);
+  const p1 = new MockVector(8, 0, 0);
+  const ext = new MockVector(1, 1, 1);
+  const rot = undefined;
+  const hits = gameWorld.boxTrace(p0, p1, ext, rot);
+  const ids = hits.map((hit) => hit.object.getId());
+  expect(ids).toEqual(["obj1", "obj2", "obj3"]);
+});

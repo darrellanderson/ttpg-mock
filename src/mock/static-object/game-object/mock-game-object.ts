@@ -1,6 +1,7 @@
 import {
   Container,
   GameObject,
+  GameWorld,
   MulticastDelegate,
   Player,
   Rotator,
@@ -14,10 +15,10 @@ import {
 } from "../mock-static-object";
 import { MockMulticastDelegate } from "../../multicast-delegate/mock-multicast-delegate";
 import { MockRotator } from "../../rotator/mock-rotator";
+import { MockSwitcher } from "../../switcher/mock-switcher";
 import { MockVector } from "../../vector/mock-vector";
 import { ObjectType } from "../../../enums";
-import { MockGameWorld } from "../../game-world/mock-game-world";
-import { MockSwitcher } from "../../switcher/mock-switcher";
+import { SharedObjects } from "../../../shared-objects";
 
 export type MockGameObjectParams = MockStaticObjectParams & {
   angularVelocity?: Rotator | [pitch: number, yaw: number, roll: number];
@@ -215,7 +216,8 @@ export class MockGameObject extends MockStaticObject implements GameObject {
   }
 
   getOwningPlayer(): Player | undefined {
-    for (const player of MockGameWorld.__sharedInstance.getAllPlayers()) {
+    const gameWorld: GameWorld = SharedObjects.gameWorld;
+    for (const player of gameWorld.getAllPlayers()) {
       if (player.getSlot() === this._owningPlayerSlot) {
         return player;
       }
@@ -286,7 +288,8 @@ export class MockGameObject extends MockStaticObject implements GameObject {
 
   snapToGround(): void {
     const pos = this.getPosition();
-    pos.z = MockGameWorld.__sharedInstance.getTableHeight();
+    const gameWorld: GameWorld = SharedObjects.gameWorld;
+    pos.z = gameWorld.getTableHeight();
     this.setPosition(pos);
   }
 

@@ -8,10 +8,23 @@ import {
   Player,
 } from "@tabletop-playground/api";
 import { MockMulticastDelegate } from "../multicast-delegate/mock-multicast-delegate";
+import { SharedObjects } from "../../shared-objects";
 
 export class MockGlobalScriptingEvents implements GlobalScriptingEvents {
   public static readonly __sharedInstance: MockGlobalScriptingEvents =
     new MockGlobalScriptingEvents();
+
+  public _reset() {
+    this.onChatMessage.clear();
+    this.onDiceRolled.clear();
+    this.onObjectCreated.clear();
+    this.onObjectDestroyed.clear();
+    this.onPackageAdded.clear();
+    this.onPlayerJoined.clear();
+    this.onPlayerLeft.clear();
+    this.onShake.clear();
+    this.onTick.clear();
+  }
 
   onChatMessage: MulticastDelegate<(sender: Player, message: string) => void> =
     new MockMulticastDelegate<(sender: Player, message: string) => void>();
@@ -84,3 +97,6 @@ export class MockGlobalScriptingEvents implements GlobalScriptingEvents {
     (sender: Player, recipient: Player, message: string) => void
   >();
 }
+
+SharedObjects.globalScriptingEvents =
+  MockGlobalScriptingEvents.__sharedInstance;

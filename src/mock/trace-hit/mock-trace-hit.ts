@@ -1,26 +1,23 @@
 import { GameObject, TraceHit, Vector } from "@tabletop-playground/api";
-import { MockGameObject } from "../static-object/game-object/mock-game-object";
 import { MockVector } from "../vector/mock-vector";
 
 export type MockTraceHitParams = {
   object: GameObject;
-  distance: number;
-  position: Vector;
-  impactPosition: Vector;
-  normal: Vector;
+  distance?: number;
+  position?: Vector;
+  impactPosition?: Vector;
+  normal?: Vector;
 };
 
 export class MockTraceHit implements TraceHit {
-  object: GameObject = new MockGameObject();
+  object: GameObject;
   distance: number = 0;
   position: Vector = new MockVector(0, 0, 0);
   impactPosition: Vector = new MockVector(0, 0, 0);
   normal: Vector = new MockVector(0, 0, 0);
 
-  constructor(params?: MockTraceHitParams) {
-    if (params?.object) {
-      this.object = params.object;
-    }
+  constructor(params: MockTraceHitParams) {
+    this.object = params.object;
     if (params?.distance !== undefined) {
       this.distance = params.distance;
     }
@@ -36,7 +33,7 @@ export class MockTraceHit implements TraceHit {
   }
 
   clone(): TraceHit {
-    const clone = new TraceHit();
+    const clone = new MockTraceHit({ object: this.object });
     clone.object = this.object;
     clone.distance = this.distance;
     clone.position = this.position;

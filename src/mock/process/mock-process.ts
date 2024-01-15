@@ -1,5 +1,7 @@
 // "Module '"@tabletop-playground/api"' has no exported member 'Process'.ts(2305)"
-// import { Process } from "@tabletop-playground/api";
+//import type { Process } from "@tabletop-playground/api";
+
+import { SharedObjects } from "../../shared-objects";
 
 export type ProcessRunnableType = (milliseconds: number) => void;
 
@@ -23,3 +25,5 @@ export class MockProcess /*implements Process*/ {
     }
   }
 }
+
+SharedObjects.process = MockProcess.__sharedInstance;
