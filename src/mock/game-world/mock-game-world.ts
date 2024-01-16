@@ -346,7 +346,7 @@ export class MockGameWorld implements GameWorld {
   }
 
   getAllObjects(skipContained?: boolean | undefined): GameObject[] {
-    return [...this._gameObjects];
+    return this._gameObjects.filter((obj) => obj.isValid());
   }
 
   getAllPlayers(): Player[] {
