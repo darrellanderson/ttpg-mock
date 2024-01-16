@@ -470,3 +470,77 @@ it("boxTrace", () => {
   const ids = hits.map((hit) => hit.object.getId());
   expect(ids).toEqual(["obj1", "obj2", "obj3"]);
 });
+
+it("capsuleOverlap", () => {
+  const objYes = new MockGameObject({ position: [1, 2, 3] });
+  const objNo = new MockGameObject({ position: [10, 2, 3] });
+  const gameWorld = new MockGameWorld({ gameObjects: [objYes, objNo] });
+
+  const pos = new MockVector(1, 2, 3);
+  const ext = new MockVector(1, 1, 1);
+  const rot = undefined;
+  const objs = gameWorld.capsuleOverlap(pos, ext, rot);
+  expect(objs).toEqual([objYes]);
+});
+
+it("capsuleTrace", () => {
+  const obj1 = new MockGameObject({ id: "obj1", position: [1, 0, 0] });
+  const obj2 = new MockGameObject({ id: "obj2", position: [2, 0, 0] });
+  const obj3 = new MockGameObject({ id: "obj3", position: [3, 0, 0] });
+  const objNo = new MockGameObject({ id: "objNo", position: [10, 0, 0] });
+  const gameWorld = new MockGameWorld({
+    gameObjects: [obj2, obj1, obj3, objNo], // out of order
+  });
+
+  const p0 = new MockVector(0, 0, 0);
+  const p1 = new MockVector(8, 0, 0);
+  const ext = new MockVector(1, 1, 1);
+  const rot = undefined;
+  const hits = gameWorld.capsuleTrace(p0, p1, ext, rot);
+  const ids = hits.map((hit) => hit.object.getId());
+  expect(ids).toEqual(["obj1", "obj2", "obj3"]);
+});
+
+it("sphereOverlap", () => {
+  const objYes = new MockGameObject({ position: [1, 2, 3] });
+  const objNo = new MockGameObject({ position: [10, 2, 3] });
+  const gameWorld = new MockGameWorld({ gameObjects: [objYes, objNo] });
+
+  const pos = new MockVector(1, 2, 3);
+  const radius = 1;
+  const objs = gameWorld.sphereOverlap(pos, radius);
+  expect(objs).toEqual([objYes]);
+});
+
+it("sphereTrace", () => {
+  const obj1 = new MockGameObject({ id: "obj1", position: [1, 0, 0] });
+  const obj2 = new MockGameObject({ id: "obj2", position: [2, 0, 0] });
+  const obj3 = new MockGameObject({ id: "obj3", position: [3, 0, 0] });
+  const objNo = new MockGameObject({ id: "objNo", position: [10, 0, 0] });
+  const gameWorld = new MockGameWorld({
+    gameObjects: [obj2, obj1, obj3, objNo], // out of order
+  });
+
+  const p0 = new MockVector(0, 0, 0);
+  const p1 = new MockVector(8, 0, 0);
+  const radius = 1;
+  const hits = gameWorld.sphereTrace(p0, p1, radius);
+  const ids = hits.map((hit) => hit.object.getId());
+  expect(ids).toEqual(["obj1", "obj2", "obj3"]);
+});
+
+it("lineTrace", () => {
+  const obj1 = new MockGameObject({ id: "obj1", position: [1, 0, 0] });
+  const obj2 = new MockGameObject({ id: "obj2", position: [2, 0, 0] });
+  const obj3 = new MockGameObject({ id: "obj3", position: [3, 0, 0] });
+  const objNo = new MockGameObject({ id: "objNo", position: [10, 0, 0] });
+  const gameWorld = new MockGameWorld({
+    gameObjects: [obj2, obj1, obj3, objNo], // out of order
+  });
+
+  const p0 = new MockVector(0, 0, 0);
+  const p1 = new MockVector(8, 0, 0);
+  const hits = gameWorld.lineTrace(p0, p1);
+  const ids = hits.map((hit) => hit.object.getId());
+  expect(ids).toEqual(["obj1", "obj2", "obj3"]);
+});

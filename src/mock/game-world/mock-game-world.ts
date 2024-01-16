@@ -737,7 +737,8 @@ export class MockGameWorld implements GameWorld {
       | [pitch: number, yaw: number, roll: number]
       | undefined
   ): GameObject[] {
-    throw new Error("Method not implemented.");
+    // "close enough".
+    return this.boxOverlap(position, extent, orientation);
   }
 
   capsuleTrace(
@@ -749,7 +750,8 @@ export class MockGameWorld implements GameWorld {
       | [pitch: number, yaw: number, roll: number]
       | undefined
   ): TraceHit[] {
-    throw new Error("Method not implemented.");
+    // "close enough".
+    return this.boxTrace(start, end, extent, orientation);
   }
 
   createObjectFromJSON(
@@ -771,19 +773,56 @@ export class MockGameWorld implements GameWorld {
     end: Vector | [x: number, y: number, z: number],
     radius: number
   ): TraceHit[] {
-    throw new Error("Method not implemented.");
+    const extent: Vector = new MockVector(radius, radius, radius);
+    return this.boxTrace(start, end, extent, undefined);
   }
+
   sphereOverlap(
     position: Vector | [x: number, y: number, z: number],
     radius: number
   ): GameObject[] {
-    throw new Error("Method not implemented.");
+    const extent: Vector = new MockVector(radius, radius, radius);
+    return this.boxOverlap(position, extent, undefined);
   }
+
   lineTrace(
     start: Vector | [x: number, y: number, z: number],
     end: Vector | [x: number, y: number, z: number]
   ): TraceHit[] {
-    throw new Error("Method not implemented.");
+    const p0 = MockVector._from(start);
+    const p1 = MockVector._from(end);
+    const result: TraceHit[] = [];
+    for (const obj of this._gameObjects) {
+      const ext = obj.getExtent(false, false);
+      const rot = obj.getRotation();
+      const invRot = rot.getInverse();
+      const objPos = obj.getPosition();
+      const closest = objPos.findClosestPointOnSegment(p0, p1);
+      const offsetRaw = closest.subtract(objPos);
+      const offset = invRot.rotateVector(offsetRaw);
+      if (
+        offset.x >= -ext.x &&
+        offset.x <= ext.x &&
+        offset.y >= -ext.y &&
+        offset.y <= ext.y &&
+        offset.z >= -ext.z &&
+        offset.z <= ext.z
+      ) {
+        result.push(
+          new MockTraceHit({
+            distance: obj.getPosition().subtract(p0).magnitude(),
+            impactPosition: new MockVector(0, 0, 0),
+            normal: new MockVector(0, 0, 0),
+            object: obj,
+            position: new MockVector(0, 0, 0),
+          })
+        );
+      }
+      result.sort((a, b) => {
+        return a.distance - b.distance;
+      });
+    }
+    return result;
   }
 }
 
