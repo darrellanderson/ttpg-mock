@@ -34,6 +34,7 @@ import { MockTraceHit } from "../trace-hit/mock-trace-hit";
 import { MockTurnSystem } from "../turn-system/mock-turn-system";
 import { MockVector } from "../vector/mock-vector";
 import { SharedObjects } from "../../shared-objects";
+import { MockContainer } from "../static-object/game-object/container/mock-container";
 
 export type MockGameWorldParams = {
   backgroundFilename?: string;
@@ -269,6 +270,11 @@ export class MockGameWorld implements GameWorld {
     templateId: string,
     position: Vector | [x: number, y: number, z: number]
   ): GameObject | undefined {
+    if (templateId === "A44BAA604E0ED034CD67FA9502214AA7") {
+      return new MockContainer(); // built-in container
+    } else if (templateId === "83FDE12C4E6D912B16B85E9A00422F43") {
+      return new MockGameObject(); // built-in cube
+    }
     const params = this.__templateIdToMockGameObjectParams[templateId];
     if (!params) {
       return undefined;
