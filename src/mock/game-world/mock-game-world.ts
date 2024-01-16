@@ -270,17 +270,22 @@ export class MockGameWorld implements GameWorld {
     templateId: string,
     position: Vector | [x: number, y: number, z: number]
   ): GameObject | undefined {
+    let obj: GameObject | undefined;
     if (templateId === "A44BAA604E0ED034CD67FA9502214AA7") {
-      return new MockContainer(); // built-in container
+      obj = new MockContainer(); // built-in container
     } else if (templateId === "83FDE12C4E6D912B16B85E9A00422F43") {
-      return new MockGameObject(); // built-in cube
+      obj = new MockGameObject(); // built-in cube
+    } else {
+      const params = this.__templateIdToMockGameObjectParams[templateId];
+      if (!params) {
+        return undefined;
+      }
+      obj = new MockGameObject(params);
     }
-    const params = this.__templateIdToMockGameObjectParams[templateId];
-    if (!params) {
-      return undefined;
+    if (obj) {
+      obj.setPosition(position);
+      this._gameObjects.push(obj);
     }
-    const obj = new MockGameObject(params);
-    obj.setPosition(position);
     return obj;
   }
 
