@@ -17,6 +17,14 @@ import { MockMulticastDelegate } from "../multicast-delegate/mock-multicast-dele
 import { MockSnapPoint } from "../snap-point/mock-snap-point";
 
 export type MockStaticObjectParams = {
+  _objType?:
+    | "Card"
+    | "CardHolder"
+    | "Container"
+    | "Dice"
+    | "GameObject"
+    | "MultistateObject"
+    | "StaticObject";
   _modelSize?: Vector | [x: number, y: number, z: number];
   _modelCenter?: Vector | [x: number, y: number, z: number];
   bounciness?: number;

@@ -17,6 +17,12 @@ import {
 import { MockUIElement } from "../ui-element/mock-ui-element";
 import { MockVector } from "../vector/mock-vector";
 import { MockZone } from "../zone/mock-zone";
+import { GameWorld } from "@tabletop-playground/api";
+import { MockContainer } from "../static-object/game-object/container/mock-container";
+import { MockCard } from "../static-object/game-object/card/mock-card";
+import { MockDice } from "../static-object/game-object/dice/mock-dice";
+import { MockMultistateObject } from "../static-object/game-object/multistate-object/mock-multistate-object";
+import { MockCardHolder } from "../static-object/game-object/card-holder/mock-card-holder";
 
 it("constructor", () => {
   new MockGameWorld();
@@ -424,6 +430,49 @@ it("createObjectFromTemplate", () => {
 
   const nope = gameWorld.createObjectFromTemplate("no-such-id", position);
   expect(nope).toBeUndefined();
+});
+
+it("createObjectFromTemplate (built-ins)", () => {
+  const gameWorld = new MockGameWorld();
+
+  let templateId = "A44BAA604E0ED034CD67FA9502214AA7";
+  let obj = gameWorld.createObjectFromTemplate(templateId, [0, 0, 0]);
+  expect(obj).toBeInstanceOf(MockContainer);
+
+  templateId = "83FDE12C4E6D912B16B85E9A00422F43";
+  obj = gameWorld.createObjectFromTemplate(templateId, [0, 0, 0]);
+  expect(obj).toBeInstanceOf(MockGameObject);
+});
+
+it("createObjectFromTemplate (typed)", () => {
+  const gameWorld = new MockGameWorld({
+    _templateIdToMockGameObjectParams: {
+      card: { _objType: "Card" },
+      cardHolder: { _objType: "CardHolder" },
+      container: { _objType: "Container" },
+      dice: { _objType: "Dice" },
+      gameObject: { _objType: "GameObject" },
+      multistateObject: { _objType: "MultistateObject" },
+    },
+  });
+
+  let obj = gameWorld.createObjectFromTemplate("card", [0, 0, 0]);
+  expect(obj).toBeInstanceOf(MockCard);
+
+  obj = gameWorld.createObjectFromTemplate("cardHolder", [0, 0, 0]);
+  expect(obj).toBeInstanceOf(MockCardHolder);
+
+  obj = gameWorld.createObjectFromTemplate("container", [0, 0, 0]);
+  expect(obj).toBeInstanceOf(MockContainer);
+
+  obj = gameWorld.createObjectFromTemplate("dice", [0, 0, 0]);
+  expect(obj).toBeInstanceOf(MockDice);
+
+  obj = gameWorld.createObjectFromTemplate("gameObject", [0, 0, 0]);
+  expect(obj).toBeInstanceOf(MockGameObject);
+
+  obj = gameWorld.createObjectFromTemplate("multistateObject", [0, 0, 0]);
+  expect(obj).toBeInstanceOf(MockMultistateObject);
 });
 
 it("createTableFromTemplate", () => {

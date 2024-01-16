@@ -18,11 +18,15 @@ import {
   Vector,
   Zone,
 } from "@tabletop-playground/api";
+import { MockCard } from "../static-object/game-object/card/mock-card";
+import { MockCardHolder } from "../static-object/game-object/card-holder/mock-card-holder";
 import { MockColor } from "../color/mock-color";
+import { MockContainer } from "../static-object/game-object/container/mock-container";
+import { MockDice } from "../static-object/game-object/dice/mock-dice";
 import { MockGlobalGrid } from "../global-grid/mock-global-grid";
 import { MockLabel } from "../label/mock-label";
 import { MockLightingSettings } from "../lighting-settings/mock-lighting-settings";
-import { MockZone } from "../zone/mock-zone";
+import { MockMultistateObject } from "../static-object/game-object/multistate-object/mock-multistate-object";
 import {
   MockGameObject,
   MockGameObjectParams,
@@ -33,8 +37,8 @@ import { MockStaticObject } from "../static-object/mock-static-object";
 import { MockTraceHit } from "../trace-hit/mock-trace-hit";
 import { MockTurnSystem } from "../turn-system/mock-turn-system";
 import { MockVector } from "../vector/mock-vector";
+import { MockZone } from "../zone/mock-zone";
 import { SharedObjects } from "../../shared-objects";
-import { MockContainer } from "../static-object/game-object/container/mock-container";
 
 export type MockGameWorldParams = {
   backgroundFilename?: string;
@@ -270,18 +274,39 @@ export class MockGameWorld implements GameWorld {
     templateId: string,
     position: Vector | [x: number, y: number, z: number]
   ): GameObject | undefined {
-    let obj: GameObject | undefined;
-    if (templateId === "A44BAA604E0ED034CD67FA9502214AA7") {
-      obj = new MockContainer(); // built-in container
-    } else if (templateId === "83FDE12C4E6D912B16B85E9A00422F43") {
-      obj = new MockGameObject(); // built-in cube
-    } else {
-      const params = this.__templateIdToMockGameObjectParams[templateId];
-      if (!params) {
-        return undefined;
+    // Fetch params (support a few built-in objects).
+    let params: MockGameObjectParams | undefined =
+      this.__templateIdToMockGameObjectParams[templateId];
+    if (!params) {
+      if (templateId === "A44BAA604E0ED034CD67FA9502214AA7") {
+        params = { _objType: "Container" }; // built-in container
+      } else if (templateId === "83FDE12C4E6D912B16B85E9A00422F43") {
+        params = { _objType: "GameObject" }; // built-in cube
       }
-      obj = new MockGameObject(params);
     }
+
+    // Fail if unknown.
+    if (!params) {
+      return undefined;
+    }
+
+    let obj: GameObject | undefined;
+    if (params._objType === "Card") {
+      obj = new MockCard(params);
+    } else if (params._objType === "CardHolder") {
+      obj = new MockCardHolder(params);
+    } else if (params._objType === "Container") {
+      obj = new MockContainer(params);
+    } else if (params._objType === "Dice") {
+      obj = new MockDice(params);
+    } else if (params._objType === "GameObject") {
+      obj = new MockGameObject(params);
+    } else if (params._objType === "MultistateObject") {
+      obj = new MockMultistateObject(params);
+    } else {
+      obj = new MockGameObject(params); // default
+    }
+
     if (obj) {
       obj.setPosition(position);
       this._gameObjects.push(obj);
