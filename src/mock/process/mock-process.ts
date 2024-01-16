@@ -5,7 +5,7 @@ import { SharedObjects } from "../../shared-objects";
 
 export type ProcessRunnableType = (milliseconds: number) => void;
 
-export class MockProcess /*implements Process*/ {
+export class MockProcess implements Process {
   public static readonly __sharedInstance = new MockProcess();
   private _runQueue: ProcessRunnableType[] = [];
 
