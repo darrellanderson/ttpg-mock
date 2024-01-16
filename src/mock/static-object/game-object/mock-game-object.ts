@@ -311,36 +311,36 @@ export class MockGameObject extends MockStaticObject implements GameObject {
     torque: Vector | [x: number, y: number, z: number],
     useMass?: boolean | undefined
   ): void {
-    throw new Error("Method not implemented.");
+    // ignore
   }
   applyImpulseAtPosition(
     impulse: Vector | [x: number, y: number, z: number],
     position: Vector | [x: number, y: number, z: number]
   ): void {
-    throw new Error("Method not implemented.");
+    // ignore
   }
   applyImpulse(
     impulse: Vector | [x: number, y: number, z: number],
     useMass?: boolean | undefined
   ): void {
-    throw new Error("Method not implemented.");
+    // ignore
   }
   applyForceAtPosition(
     force: Vector | [x: number, y: number, z: number],
     position: Vector | [x: number, y: number, z: number]
   ): void {
-    throw new Error("Method not implemented.");
+    // ignore
   }
   applyForce(
     force: Vector | [x: number, y: number, z: number],
     useMass?: boolean | undefined
   ): void {
-    throw new Error("Method not implemented.");
+    // ignore
   }
   applyAngularImpulse(
     impulse: Vector | [x: number, y: number, z: number],
     useMass?: boolean | undefined
   ): void {
-    throw new Error("Method not implemented.");
+    // ignore
   }
 }
