@@ -115,7 +115,3 @@ it("events", () => {
   globalEvents.onChatMessage.clear();
 });
 ```
-
-## Caveats
-
-Mocking is NOT complete. Some methods (such as hit detection and "look at" rotation) aren't supported; those methods will throw a "Method not implemented" error.
