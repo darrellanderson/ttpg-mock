@@ -32,7 +32,7 @@ export function mockFetch(
       if (response.ok) {
         response.blob().then(blobResolve, reject);
       } else {
-        reject("result not ok");
+        reject(response);
       }
     };
 
