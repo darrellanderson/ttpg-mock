@@ -331,6 +331,23 @@ it("takeCard (numCards)", () => {
   expect(dstNames).toEqual(["src2", "src3"]);
 });
 
+it("takeCard (excess numCards)", () => {
+  const src = new MockCard({
+    cardDetails: [
+      new MockCardDetails({ name: "src1" }),
+      new MockCardDetails({ name: "src2" }),
+      new MockCardDetails({ name: "src3" }),
+    ],
+  });
+  const numCards = 3; // leaves one card behind
+  const dst = src.takeCards(numCards);
+  expect(dst).toBeInstanceOf(MockCard);
+  const srcNames = src.getAllCardDetails().map((details) => details.name);
+  const dstNames = dst?.getAllCardDetails().map((details) => details.name);
+  expect(srcNames).toEqual(["src1"]);
+  expect(dstNames).toEqual(["src2", "src3"]);
+});
+
 it("takeCard (fromFront)", () => {
   const src = new MockCard({
     cardDetails: [

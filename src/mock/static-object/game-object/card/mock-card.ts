@@ -265,12 +265,15 @@ export class MockCard extends MockGameObject implements Card {
     offset?: number | undefined,
     keep?: boolean | undefined
   ): Card | undefined {
-    if (this._cardDetails.length === 1) {
+    if (this._cardDetails.length <= 1) {
       return undefined; // "Returns undefined if this object is only a single card"
     }
 
     numCards = numCards !== undefined ? numCards : 1;
     offset = offset !== undefined ? offset : 0;
+
+    // At least one card will always remain.
+    numCards = Math.min(numCards, this._cardDetails.length - 1);
 
     let index = fromFront ? 0 : this._cardDetails.length - numCards;
     if (offset) {
