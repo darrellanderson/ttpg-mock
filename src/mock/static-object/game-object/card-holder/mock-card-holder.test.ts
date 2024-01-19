@@ -1,4 +1,4 @@
-import { HiddenCardsType } from "@tabletop-playground/api";
+import { Card, HiddenCardsType } from "@tabletop-playground/api";
 import { MockCard } from "../card/mock-card";
 import { MockCardHolder, MockCardHolderParams } from "./mock-card-holder";
 
@@ -62,7 +62,8 @@ it("removeAt", () => {
   const card2 = new MockCard();
   const holder = new MockCardHolder({ cards: [card1, card2] });
   expect(holder.getCards()).toEqual([card1, card2]);
-  holder.removeAt(0);
+  const removed: Card | undefined = holder.removeAt(0);
+  expect(removed).toEqual(card1);
   expect(holder.getCards()).toEqual([card2]);
 });
 
@@ -71,4 +72,6 @@ it("card assign", () => {
   const holder = new MockCardHolder({ cards: [card] });
   expect(holder.getCards()).toEqual([card]);
   expect(card.getHolder()).toEqual(holder);
+  holder.removeAt(0);
+  expect(card.getHolder()).toBeUndefined();
 });

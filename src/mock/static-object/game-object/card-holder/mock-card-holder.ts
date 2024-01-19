@@ -97,7 +97,11 @@ export class MockCardHolder extends MockGameObject implements CardHolder {
   }
 
   removeAt(index: number): Card | undefined {
-    return this._cards.splice(index, 1)[0];
+    const card: Card | undefined = this._cards.splice(index, 1)[0];
+    if (card) {
+      (card as MockCard)._setCardHolder(undefined);
+    }
+    return card;
   }
 
   setHiddenCardsType(newType: number): void {

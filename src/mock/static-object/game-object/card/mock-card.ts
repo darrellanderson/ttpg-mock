@@ -54,7 +54,7 @@ export class MockCard extends MockGameObject implements Card {
     }
   }
 
-  _setCardHolder(cardHolder: CardHolder) {
+  _setCardHolder(cardHolder: CardHolder | undefined) {
     this._cardHolder = cardHolder;
   }
 
