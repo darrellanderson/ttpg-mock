@@ -54,6 +54,10 @@ export class MockCard extends MockGameObject implements Card {
     }
   }
 
+  _setCardHolder(cardHolder: CardHolder) {
+    this._cardHolder = cardHolder;
+  }
+
   addCards(
     cards: Card,
     toFront?: boolean | undefined,

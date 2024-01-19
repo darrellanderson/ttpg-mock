@@ -7,6 +7,7 @@ import {
 import { MockGameObject, MockGameObjectParams } from "../mock-game-object";
 import { MockMulticastDelegate } from "../../../multicast-delegate/mock-multicast-delegate";
 import { HiddenCardsType } from "../../../../enums";
+import { MockCard } from "../card/mock-card";
 
 export type MockCardHolderParams = MockGameObjectParams & {
   cards?: Card[];
@@ -46,6 +47,9 @@ export class MockCardHolder extends MockGameObject implements CardHolder {
     super(params);
     if (params?.cards) {
       this._cards = params.cards;
+      for (const card of this._cards) {
+        (card as MockCard)._setCardHolder(this);
+      }
     }
     if (params?.onlyOwnerTakesCards !== undefined) {
       this._onlyOwnerTakesCards = params.onlyOwnerTakesCards;

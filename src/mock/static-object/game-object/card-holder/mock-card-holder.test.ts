@@ -65,3 +65,10 @@ it("removeAt", () => {
   holder.removeAt(0);
   expect(holder.getCards()).toEqual([card2]);
 });
+
+it("card assign", () => {
+  const card = new MockCard();
+  const holder = new MockCardHolder({ cards: [card] });
+  expect(holder.getCards()).toEqual([card]);
+  expect(card.getHolder()).toEqual(holder);
+});
