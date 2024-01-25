@@ -20,12 +20,10 @@ export class MockDice extends MockGameObject implements Dice {
 
   constructor(params?: MockDiceParams) {
     super(params);
-    if (params?.currentFace !== undefined) {
-      this._currentFace = params.currentFace;
-    }
+    this._currentFace = params?.currentFace ?? 0;
     if (params?.faces) {
       for (const entry of params.faces) {
-        this._faceNames.push(entry.name ??  "");
+        this._faceNames.push(entry.name ?? "");
         this._faceMetadata.push(entry.metadata ?? "");
         this._faceDirections.push(
           entry.direction
@@ -40,7 +38,7 @@ export class MockDice extends MockGameObject implements Dice {
     this._currentFace = index;
   }
 
-  roll(player?: Player | undefined): void {}
+  roll(player?: Player | undefined): void { }
 
   getNumFaces(): number {
     return this._faceNames.length;
