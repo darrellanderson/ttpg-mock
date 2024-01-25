@@ -25,8 +25,8 @@ export class MockDice extends MockGameObject implements Dice {
     }
     if (params?.faces) {
       for (const entry of params.faces) {
-        this._faceNames.push(entry.name ? entry.name : "");
-        this._faceMetadata.push(entry.metadata ? entry.metadata : "");
+        this._faceNames.push(entry.name ??  "");
+        this._faceMetadata.push(entry.metadata ?? "");
         this._faceDirections.push(
           entry.direction
             ? MockVector._from(entry.direction)
