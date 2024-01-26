@@ -11,6 +11,7 @@ import { MockMulticastDelegate } from "../multicast-delegate/mock-multicast-dele
 import { MockColor } from "../color/mock-color";
 import { MockRotator } from "../rotator/mock-rotator";
 import { MockVector } from "../vector/mock-vector";
+import { MockGameWorld } from "../game-world/mock-game-world";
 
 export type MockZoneParams = {
   alwaysVisible?: boolean;
@@ -141,6 +142,10 @@ export class MockZone implements Zone {
     return this._perm.objectVisibility;
   }
 
+  getOverlappingObjects(): GameObject[] {
+    return MockGameWorld.__sharedInstance.boxOverlap(this._position, this._scale, this._rotation)
+  }
+
   getOwningSlots(): number[] {
     return [...this._owningSlots];
   }
@@ -175,6 +180,10 @@ export class MockZone implements Zone {
 
   isAlwaysVisible(): boolean {
     return this._alwaysVisible;
+  }
+
+  isOverlapping(object: GameObject): boolean {
+    return this.getOverlappingObjects().includes(object)
   }
 
   isSlotOwner(playerIndex: number): boolean {
@@ -251,15 +260,5 @@ export class MockZone implements Zone {
 
   setStacking(permission: number): void {
     this._perm.stacking = permission;
-  }
-
-  // --------------------------------
-
-  getOverlappingObjects(): GameObject[] {
-    throw new Error("Method not implemented.");
-  }
-
-  isOverlapping(object: GameObject): boolean {
-    throw new Error("Method not implemented.");
   }
 }

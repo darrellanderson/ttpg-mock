@@ -1,4 +1,6 @@
 import { MockColor } from "../color/mock-color";
+import { MockGameObject } from '../static-object/game-object/mock-game-object'
+import { MockGameWorld } from "../game-world/mock-game-world";
 import { MockRotator } from "../rotator/mock-rotator";
 import { MockVector } from "../vector/mock-vector";
 import { MockZone, MockZoneParams } from "./mock-zone";
@@ -169,3 +171,22 @@ it("destroy", () => {
   zone.destroy();
   expect(zone.isValid()).toEqual(false);
 });
+
+it('getOverlappingObjects', () => {
+  const objYes = new MockGameObject({
+    id: 'yes',
+    position: [0, 0, 0]
+  })
+  const objNo = new MockGameObject({
+    id: 'no',
+    position: [2, 0, 0]
+  })
+  MockGameWorld.__sharedInstance._reset({ gameObjects: [objYes, objNo] })
+  const zone = new MockZone()
+  const objs = zone.getOverlappingObjects()
+  const ids = objs.map((obj) => obj.getId())
+  expect(ids).toEqual(['yes'])
+
+  expect(zone.isOverlapping(objYes)).toBeTruthy()
+  expect(zone.isOverlapping(objNo)).toBeFalsy()
+})
