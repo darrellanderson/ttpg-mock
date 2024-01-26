@@ -5,8 +5,8 @@ it("constructor", () => {
   const params: MockDiceParams = {
     currentFace: 1,
     faces: [
-      { name: "name1", metadata: "metadata1", direction: [1,0,0] },
-      { name: "name2", metadata: "metadata2", direction: [0,1,0] },
+      { name: "name1", metadata: "metadata1", direction: [1, 0, 0] },
+      { name: "name2", metadata: "metadata2", direction: [0, 1, 0] },
       {}
     ],
   };
@@ -16,9 +16,15 @@ it("constructor", () => {
   expect(dice.getCurrentFaceIndex()).toEqual(params.currentFace);
   expect(dice.getCurrentFaceName()).toEqual("name2");
   expect(dice.getCurrentFaceMetadata()).toEqual("metadata2");
-  expect(dice.getFaceDirections()[0]).toEqual(new MockVector(1,0,0))
+  expect(dice.getFaceDirections()[0]).toEqual(new MockVector(1, 0, 0))
   expect(dice.getNumFaces()).toEqual(3)
 });
+
+it('constructor (defaults)', () => {
+  const dice = new MockDice()
+  expect(dice.getCurrentFaceIndex()).toEqual(0);
+
+})
 
 it('setCurrentFace', () => {
   const params: MockDiceParams = {
