@@ -32,12 +32,15 @@ export class MockMultistateObject
   setState(state: number): void {
     this._state = state;
   }
+
   setRandomState(): void {
     this._state = Math.floor(Math.random() * this._numStates);
   }
+
   getState(): number {
     return this._state;
   }
+
   getNumStates(): number {
     return this._numStates;
   }

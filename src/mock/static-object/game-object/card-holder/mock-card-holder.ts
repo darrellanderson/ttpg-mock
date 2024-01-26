@@ -3,6 +3,7 @@ import {
   CardHolder,
   MulticastDelegate,
   Player,
+  Rotator,
 } from "@tabletop-playground/api";
 import { MockGameObject, MockGameObjectParams } from "../mock-game-object";
 import { MockMulticastDelegate } from "../../../multicast-delegate/mock-multicast-delegate";
@@ -59,6 +60,10 @@ export class MockCardHolder extends MockGameObject implements CardHolder {
     }
   }
 
+  flipCard(card: Card): void {
+    card.flipOrUpright()
+  }
+
   getCards(): Card[] {
     return [...this._cards];
   }
@@ -88,6 +93,16 @@ export class MockCardHolder extends MockGameObject implements CardHolder {
     return true; // editor setting for max limit
   }
 
+  isCardFaceUp(card: Card): boolean {
+    return card.isFaceUp()
+  }
+
+  isCardUpsideDown(card: Card): boolean {
+    const rot: Rotator = card.getRotation()
+    return Math.abs(rot.yaw % 360) > 90
+  }
+
+
   moveCard(card: Card, index: number): void {
     const oldIndex = this._cards.indexOf(card);
     if (oldIndex >= 0) {
@@ -104,27 +119,17 @@ export class MockCardHolder extends MockGameObject implements CardHolder {
     return card;
   }
 
+  rotateCard(card: Card): void {
+    const rot: Rotator = card.getRotation()
+    rot.yaw = (rot.yaw + 180) % 360
+    card.setRotation(rot)
+  }
+
   setHiddenCardsType(newType: number): void {
     this._hiddenCardsType = newType;
   }
 
   setOnlyOwnerTakesCards(onlyOwner: boolean): void {
     this._onlyOwnerTakesCards = onlyOwner;
-  }
-
-  // ----------------------------------
-
-  flipCard(card: Card): void {
-    throw new Error("Method not implemented.");
-  }
-
-  isCardFaceUp(card: Card): boolean {
-    throw new Error("Method not implemented.");
-  }
-  isCardUpsideDown(card: Card): boolean {
-    throw new Error("Method not implemented.");
-  }
-  rotateCard(card: Card): void {
-    throw new Error("Method not implemented.");
   }
 }

@@ -205,6 +205,15 @@ it("divide", () => {
   expect(b.getStackSize()).toEqual(1);
 });
 
+it('flipOrUpright', () => {
+  const card = new MockCard()
+  expect(card.isFaceUp()).toBeFalsy()
+  card.flipOrUpright()
+  expect(card.isFaceUp()).toBeTruthy()
+  card.flipOrUpright()
+  expect(card.isFaceUp()).toBeFalsy()
+})
+
 it("isInHand", () => {
   const playerSlot = 17;
   const player = new MockPlayer({ slot: playerSlot });

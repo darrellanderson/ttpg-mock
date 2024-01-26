@@ -17,12 +17,13 @@ import {
 import { MockUIElement } from "../ui-element/mock-ui-element";
 import { MockVector } from "../vector/mock-vector";
 import { MockZone } from "../zone/mock-zone";
-import { GameWorld } from "@tabletop-playground/api";
+import { GameWorld, LightingSettings } from "@tabletop-playground/api";
 import { MockContainer } from "../static-object/game-object/container/mock-container";
 import { MockCard } from "../static-object/game-object/card/mock-card";
 import { MockDice } from "../static-object/game-object/dice/mock-dice";
 import { MockMultistateObject } from "../static-object/game-object/multistate-object/mock-multistate-object";
 import { MockCardHolder } from "../static-object/game-object/card-holder/mock-card-holder";
+import { MockRotator } from "../rotator/mock-rotator";
 
 it("constructor", () => {
   new MockGameWorld();
@@ -372,8 +373,11 @@ it("getTemplateName", () => {
   const gameWorld = new MockGameWorld({
     _templateIdToMockGameObjectParams: { [templateId]: { name: templateName } },
   });
-  const output = gameWorld.getTemplateName(templateId);
+  let output = gameWorld.getTemplateName(templateId);
   expect(output).toEqual(templateName);
+
+  output = gameWorld.getTemplateName('unknown')
+  expect(output).toEqual('')
 });
 
 it("getTemplatePackageId", () => {
@@ -384,8 +388,12 @@ it("getTemplatePackageId", () => {
       [templateId]: { packageId: templatePackageId },
     },
   });
-  const output = gameWorld.getTemplatePackageId(templateId);
+  let output = gameWorld.getTemplatePackageId(templateId);
   expect(output).toEqual(templatePackageId);
+
+  output = gameWorld.getTemplatePackageId('unknown');
+  expect(output).toEqual('');
+
 });
 
 it("getZoneById", () => {
@@ -497,8 +505,11 @@ it("boxOverlap", () => {
 
   const pos = new MockVector(1, 2, 3);
   const ext = new MockVector(1, 1, 1);
-  const rot = undefined;
-  const objs = gameWorld.boxOverlap(pos, ext, rot);
+  const rot = new MockRotator(0, 0, 0);
+  let objs = gameWorld.boxOverlap(pos, ext, rot);
+  expect(objs).toEqual([objYes]);
+
+  objs = gameWorld.boxOverlap(pos, ext, undefined);
   expect(objs).toEqual([objYes]);
 });
 
@@ -514,9 +525,13 @@ it("boxTrace", () => {
   const p0 = new MockVector(0, 0, 0);
   const p1 = new MockVector(8, 0, 0);
   const ext = new MockVector(1, 1, 1);
-  const rot = undefined;
-  const hits = gameWorld.boxTrace(p0, p1, ext, rot);
-  const ids = hits.map((hit) => hit.object.getId());
+  const rot = new MockRotator(0, 0, 0);
+  let hits = gameWorld.boxTrace(p0, p1, ext, rot);
+  let ids = hits.map((hit) => hit.object.getId());
+  expect(ids).toEqual(["obj1", "obj2", "obj3"]);
+
+  hits = gameWorld.boxTrace(p0, p1, ext, undefined);
+  ids = hits.map((hit) => hit.object.getId());
   expect(ids).toEqual(["obj1", "obj2", "obj3"]);
 });
 
@@ -593,3 +608,17 @@ it("lineTrace", () => {
   const ids = hits.map((hit) => hit.object.getId());
   expect(ids).toEqual(["obj1", "obj2", "obj3"]);
 });
+
+it('createObjectFromJSON', () => {
+  const gameWorld = new MockGameWorld()
+  expect(() => {
+    gameWorld.createObjectFromJSON('', [0, 0, 0])
+  }).toThrow()
+})
+
+it('createStaticObjectFromJSON', () => {
+  const gameWorld = new MockGameWorld()
+  expect(() => {
+    gameWorld.createStaticObjectFromJSON('', [0, 0, 0])
+  }).toThrow()
+})

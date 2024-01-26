@@ -1,4 +1,4 @@
-import { Card, HiddenCardsType } from "@tabletop-playground/api";
+import { Card, CardHolder, HiddenCardsType } from "@tabletop-playground/api";
 import { MockCard } from "../card/mock-card";
 import { MockCardHolder, MockCardHolderParams } from "./mock-card-holder";
 
@@ -14,6 +14,20 @@ it("constructor", () => {
   expect(holder.getOnlyOwnerTakesCards()).toEqual(params.onlyOwnerTakesCards);
   expect(holder.getHiddenCardsType()).toEqual(params.hiddenCardsType);
 });
+
+it('flipCard', () => {
+  const card = new MockCard()
+  const holder = new MockCardHolder({
+    cards: [card],
+    onlyOwnerTakesCards: true,
+    hiddenCardsType: HiddenCardsType.Back,
+  });
+  expect(holder.isCardFaceUp(card)).toBeFalsy()
+  holder.flipCard(card)
+  expect(holder.isCardFaceUp(card)).toBeTruthy()
+  holder.flipCard(card)
+  expect(holder.isCardFaceUp(card)).toBeFalsy()
+})
 
 it("hiddenType", () => {
   const input = HiddenCardsType.Back;
@@ -66,6 +80,21 @@ it("removeAt", () => {
   expect(removed).toEqual(card1);
   expect(holder.getCards()).toEqual([card2]);
 });
+
+it('rotateCard', () => {
+  const card = new MockCard()
+  const holder = new MockCardHolder({
+    cards: [card],
+    onlyOwnerTakesCards: true,
+    hiddenCardsType: HiddenCardsType.Back,
+  });
+  expect(holder.isCardUpsideDown(card)).toBeFalsy()
+  holder.rotateCard(card)
+  expect(holder.isCardUpsideDown(card)).toBeTruthy()
+  holder.rotateCard(card)
+  expect(holder.isCardUpsideDown(card)).toBeFalsy()
+
+})
 
 it("card assign", () => {
   const card = new MockCard();
