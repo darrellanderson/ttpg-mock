@@ -79,11 +79,11 @@ export class MockContainer extends MockGameObject implements Container {
   }
 
   getContainerTags(): string[] {
-    return this._containerTags;
+    return [...this._containerTags];
   }
 
   getItems(): GameObject[] {
-    return this._items;
+    return [...this._items];
   }
 
   getMaxItems(): number {
