@@ -189,6 +189,22 @@ it("findLookRotation", () => {
   expect(rot.toString()).toEqual(want.toString());
 });
 
+it('getDistanceToLine', () => {
+  const p0 = new MockVector(0, 0, 0)
+  const p1 = new MockVector(1, 0, 0)
+  const v = new MockVector(2, 1, 0)
+  const d = v.getDistanceToLine(p0, p1)
+  expect(d).toBeCloseTo(1)
+})
+
+it('getDistanceToSegment', () => {
+  const p0 = new MockVector(0, 0, 0)
+  const p1 = new MockVector(1, 0, 0)
+  const v = new MockVector(2, 1, 0)
+  const d = v.getDistanceToSegment(p0, p1)
+  expect(d).toBeCloseTo(1.414)
+})
+
 it("getMaxElement", () => {
   const a = new MockVector(1, 2, 3);
   const value = a.getMaxElement();
