@@ -90,6 +90,11 @@ it("addObjects", () => {
   const obj4 = new MockGameObject();
   container.addObjects([obj4]);
   expect(container.getItems()).toEqual([obj4, obj1, obj3, obj2]);
+
+  const obj5 = new MockGameObject();
+  const obj6 = new MockGameObject();
+  container.addObjects([obj5, obj6]);
+  expect(container.getItems()).toEqual([obj5, obj6, obj4, obj1, obj3, obj2]);
 });
 
 it("insert", () => {
