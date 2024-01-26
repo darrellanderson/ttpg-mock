@@ -1,4 +1,5 @@
 import { GameObject, TraceHit, Vector } from "@tabletop-playground/api";
+import { MockGameObject } from "../static-object/game-object/mock-game-object";
 import { MockVector } from "../vector/mock-vector";
 
 export type MockTraceHitParams = {
@@ -10,14 +11,16 @@ export type MockTraceHitParams = {
 };
 
 export class MockTraceHit implements TraceHit {
-  object: GameObject;
+  object: GameObject = new MockGameObject()
   distance: number = 0;
   position: Vector = new MockVector(0, 0, 0);
   impactPosition: Vector = new MockVector(0, 0, 0);
   normal: Vector = new MockVector(0, 0, 0);
 
-  constructor(params: MockTraceHitParams) {
-    this.object = params.object;
+  constructor(params?: MockTraceHitParams) {
+    if (params?.object) {
+      this.object = params.object;
+    }
     if (params?.distance !== undefined) {
       this.distance = params.distance;
     }

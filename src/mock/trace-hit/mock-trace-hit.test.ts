@@ -18,6 +18,16 @@ it("constructor", () => {
   expect(hit.normal).toEqual(params.normal);
 });
 
+it("constructor (defaults)", () => {
+  const zeroVector = new MockVector(0, 0, 0)
+  const hit = new MockTraceHit();
+  expect(hit.object).toBeDefined()
+  expect(hit.distance).toEqual(0);
+  expect(hit.position).toEqual(zeroVector);
+  expect(hit.impactPosition).toEqual(zeroVector);
+  expect(hit.normal).toEqual(zeroVector);
+});
+
 it("clone", () => {
   const hit = new MockTraceHit({ object: new MockGameObject() });
   const clone = hit.clone();
