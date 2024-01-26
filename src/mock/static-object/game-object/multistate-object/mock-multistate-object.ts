@@ -9,8 +9,7 @@ export type MockMultistateObjectParams = MockGameObjectParams & {
 
 export class MockMultistateObject
   extends MockGameObject
-  implements MultistateObject
-{
+  implements MultistateObject {
   private _numStates: number = 0;
   private _state: number = 0;
 
@@ -34,7 +33,7 @@ export class MockMultistateObject
     this._state = state;
   }
   setRandomState(): void {
-    this._state = 0;
+    this._state = Math.floor(Math.random() * this._numStates);
   }
   getState(): number {
     return this._state;
