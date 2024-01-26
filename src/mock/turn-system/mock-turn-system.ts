@@ -46,38 +46,49 @@ export class MockTurnSystem implements TurnSystem {
   }
 
   setPhases(phases: PhaseDetails[]): void {
-    this._phases = phases;
+    this._phases = phases.map((phase) => phase.clone())
   }
+
   setCurrentTurn(turn: number): void {
     this._currentTurn = turn;
   }
+
   setCurrentRound(round: number): void {
     this._currentRound = round;
   }
+
   setCurrentPhaseIndex(phase: number): void {
     this._currentPhaseIndex = phase;
   }
+
   previousTurn(): void {
     // pass without side effects
   }
+
   nextTurn(): void {
     // pass without side effects
   }
+
   getCurrentTurn(): number {
     return this._currentTurn;
   }
+
   getCurrentRound(): number {
     return this._currentRound;
   }
+
   getCurrentPhaseIndex(): number {
     return this._currentPhaseIndex;
   }
+
   getCurrentPhase(): PhaseDetails {
     return this._phases[this._currentPhaseIndex];
   }
+
   getAllPhases(): PhaseDetails[] {
     return this._phases;
   }
+
   getActivePlayers(): Player[] {
     return this._activePlayers;
   }
