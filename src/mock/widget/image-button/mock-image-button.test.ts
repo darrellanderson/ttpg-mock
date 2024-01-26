@@ -21,3 +21,31 @@ it("constructor", () => {
   expect(imageButton.getImageHeight()).toEqual(params.imageHeight);
   expect(imageButton.getImageWidth()).toEqual(params.imageWidth);
 });
+
+it('setImage', () => {
+  const imageButton = new MockImageButton()
+  imageButton.setImage('textureName', 'packageId')
+  imageButton.setImage('textureName')
+})
+
+it('setImageSize', () => {
+  const imageButton = new MockImageButton()
+  imageButton.setImageSize()
+  imageButton.setImageSize(1, 1)
+})
+
+it('setImageURL', () => {
+  const imageButton = new MockImageButton()
+  imageButton.setImageURL('http://example.com/foo.jpg')
+})
+
+it('setSourceCard', () => {
+  const imageButton = new MockImageButton()
+  const card = new MockCard()
+  imageButton.setSourceCard(card)
+})
+
+it('setTintColor', () => {
+  const imageButton = new MockImageButton()
+  imageButton.setTintColor([1, 1, 1, 1])
+})

@@ -174,10 +174,10 @@ export class MockLayoutBox extends MockWidget implements LayoutBox {
     top?: number | undefined,
     bottom?: number | undefined
   ): LayoutBox {
-    this._paddingLeft = left ? left : 0;
-    this._paddingRight = right ? right : 0;
-    this._paddingTop = top ? top : 0;
-    this._paddingBottom = bottom ? bottom : 0;
+    this._paddingLeft = left ?? 0;
+    this._paddingRight = right ?? 0;
+    this._paddingTop = top ?? 0;
+    this._paddingBottom = bottom ?? 0;
     return this;
   }
 

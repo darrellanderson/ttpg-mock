@@ -1,3 +1,4 @@
+import { HorizontalAlignment, VerticalAlignment } from "@tabletop-playground/api";
 import { MockWidget } from "../mock-widget";
 import { MockLayoutBox, MockLayoutBoxParams } from "./mock-layout-box";
 
@@ -32,3 +33,67 @@ it("constructor", () => {
   expect(box.getTopPadding()).toEqual(params.paddingTop);
   expect(box.getVerticalAlignment()).toEqual(params.verticalAlignment);
 });
+
+it('setChild', () => {
+  const box = new MockLayoutBox()
+  const child = new MockWidget()
+  box.setChild(child)
+  expect(box.getChild()).toEqual(child)
+})
+
+it('getHorizontalAlignment', () => {
+  const box = new MockLayoutBox()
+  box.setHorizontalAlignment(HorizontalAlignment.Left)
+  expect(box.getHorizontalAlignment()).toEqual(HorizontalAlignment.Left)
+})
+
+it('setMaximumHeight', () => {
+  const box = new MockLayoutBox()
+  box.setMaximumHeight(7)
+  expect(box.getMaximumHeight()).toEqual(7)
+})
+
+it('setMaximumWidth', () => {
+  const box = new MockLayoutBox()
+  box.setMaximumWidth(7)
+  expect(box.getMaximumWidth()).toEqual(7)
+})
+
+it('setMinimumHeight', () => {
+  const box = new MockLayoutBox()
+  box.setMinimumHeight(7)
+  expect(box.getMinimumHeight()).toEqual(7)
+})
+
+it('setMinimumWidth', () => {
+  const box = new MockLayoutBox()
+  box.setMinimumWidth(7)
+  expect(box.getMinimumWidth()).toEqual(7)
+})
+
+it('setOverrideHeight', () => {
+  const box = new MockLayoutBox()
+  box.setOverrideHeight(7)
+  expect(box.getOverrideHeight()).toEqual(7)
+})
+
+it('setOverrideWidth', () => {
+  const box = new MockLayoutBox()
+  box.setOverrideWidth(7)
+  expect(box.getOverrideWidth()).toEqual(7)
+})
+
+it('setPadding', () => {
+  const box = new MockLayoutBox()
+  box.setPadding(1, 2, 3, 4)
+  expect(box.getLeftPadding()).toEqual(1)
+  expect(box.getRightPadding()).toEqual(2)
+  expect(box.getTopPadding()).toEqual(3)
+  expect(box.getBottomPadding()).toEqual(4)
+})
+
+it('setVerticalAlignment', () => {
+  const box = new MockLayoutBox()
+  box.setVerticalAlignment(VerticalAlignment.Bottom)
+  expect(box.getVerticalAlignment()).toEqual(VerticalAlignment.Bottom)
+})

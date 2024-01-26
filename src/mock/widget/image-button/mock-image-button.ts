@@ -74,39 +74,48 @@ export class MockImageButton extends MockWidget implements ImageButton {
   getImageFileHeight(): number {
     return this._imageFileHeight;
   }
+
   getImageFileWidth(): number {
     return this._imageFileWidth;
   }
+
   getImageHeight(): number {
     return this._imageHeight;
   }
+
   getImageWidth(): number {
     return this._imageWidth;
   }
+
   getTintColor(): Color {
     return this._tintColor.clone();
   }
+
   setImage(textureName: string, packageId?: string | undefined): ImageButton {
     this._imageTextureName = textureName;
-    this._imageTexturePackageId = packageId ? packageId : "";
+    this._imageTexturePackageId = packageId ?? "";
     return this;
   }
+
   setImageSize(
     width?: number | undefined,
     height?: number | undefined
   ): ImageButton {
-    this._imageHeight = height ? height : 0;
-    this._imageWidth = width ? width : 0;
+    this._imageHeight = height ?? 0;
+    this._imageWidth = width ?? 0;
     return this;
   }
+
   setImageURL(url: string): ImageButton {
     this._imageUrl = url;
     return this;
   }
+
   setSourceCard(sourceCard: Card): ImageButton {
     this._sourceCard = sourceCard;
     return this;
   }
+
   setTintColor(
     color: Color | [r: number, g: number, b: number, a: number]
   ): ImageButton {
