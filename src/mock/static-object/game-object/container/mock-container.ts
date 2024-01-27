@@ -33,7 +33,7 @@ export class MockContainer extends MockGameObject implements Container {
   >();
 
   constructor(params?: MockContainerParams) {
-    super(params);
+    super(params, false);
     if (params?.containerTags) {
       this._containerTags = params.containerTags;
     }
@@ -49,6 +49,7 @@ export class MockContainer extends MockGameObject implements Container {
     if (params?.type !== undefined) {
       this._type = params.type;
     }
+    this._triggerOnCreated();
   }
 
   addObjects(

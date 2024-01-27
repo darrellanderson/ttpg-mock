@@ -46,7 +46,7 @@ export class MockCardHolder extends MockGameObject implements CardHolder {
   > = new MockMulticastDelegate<(holder: this, player: Player) => void>();
 
   constructor(params?: MockCardHolderParams) {
-    super(params);
+    super(params, false);
     if (params?.cards) {
       this._cards = params.cards;
       for (const card of this._cards) {
@@ -59,6 +59,7 @@ export class MockCardHolder extends MockGameObject implements CardHolder {
     if (params?.hiddenCardsType !== undefined) {
       this._hiddenCardsType = params.hiddenCardsType;
     }
+    this._triggerOnCreated();
   }
 
   flipCard(card: Card): void {

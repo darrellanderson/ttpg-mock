@@ -120,7 +120,7 @@ export class MockGameObject extends MockStaticObject implements GameObject {
   public readonly onMovementStopped: MulticastDelegate<(object: this) => void> =
     new MockMulticastDelegate();
 
-  constructor(params?: MockGameObjectParams) {
+  constructor(params?: MockGameObjectParams, triggerOnCreated: boolean = true) {
     super(params);
 
     if (params?.angularVelocity) {
@@ -170,6 +170,12 @@ export class MockGameObject extends MockStaticObject implements GameObject {
       (SharedObjects.gameWorld as MockGameWorld)._addGameObject(this);
     }
 
+    if (triggerOnCreated) {
+      this._triggerOnCreated();
+    }
+  }
+
+  _triggerOnCreated() {
     const onCreated = this.onCreated as MockMulticastDelegate<
       (object: this) => void
     >;

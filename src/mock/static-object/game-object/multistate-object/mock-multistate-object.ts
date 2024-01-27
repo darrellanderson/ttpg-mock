@@ -21,13 +21,14 @@ export class MockMultistateObject
   >();
 
   constructor(params?: MockMultistateObjectParams) {
-    super(params);
+    super(params, false);
     if (params?.numStates !== undefined) {
       this._numStates = params.numStates;
     }
     if (params?.state !== undefined) {
       this._state = params.state;
     }
+    this._triggerOnCreated();
   }
 
   setState(state: number): void {

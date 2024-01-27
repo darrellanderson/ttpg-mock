@@ -19,7 +19,7 @@ export class MockDice extends MockGameObject implements Dice {
   private _faceDirections: Vector[] = [];
 
   constructor(params?: MockDiceParams) {
-    super(params);
+    super(params, false);
     this._currentFace = params?.currentFace ?? 0;
     if (params?.faces) {
       for (const entry of params.faces) {
@@ -32,13 +32,14 @@ export class MockDice extends MockGameObject implements Dice {
         );
       }
     }
+    this._triggerOnCreated();
   }
 
   setCurrentFace(index: number): void {
     this._currentFace = index;
   }
 
-  roll(player?: Player | undefined): void { }
+  roll(player?: Player | undefined): void {}
 
   getNumFaces(): number {
     return this._faceNames.length;

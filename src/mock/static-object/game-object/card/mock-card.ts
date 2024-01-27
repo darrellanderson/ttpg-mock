@@ -42,7 +42,7 @@ export class MockCard extends MockGameObject implements Card {
   >();
 
   constructor(params?: MockCardParams) {
-    super(params);
+    super(params, false);
     if (params?.cardDetails) {
       this._cardDetails.push(...params.cardDetails);
     } else {
@@ -54,6 +54,7 @@ export class MockCard extends MockGameObject implements Card {
     if (params?.isFaceUp !== undefined) {
       this._isFaceUp = params.isFaceUp;
     }
+    this._triggerOnCreated();
   }
 
   _setCardHolder(cardHolder: CardHolder | undefined) {
