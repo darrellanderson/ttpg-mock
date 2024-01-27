@@ -376,8 +376,8 @@ it("getTemplateName", () => {
   let output = gameWorld.getTemplateName(templateId);
   expect(output).toEqual(templateName);
 
-  output = gameWorld.getTemplateName('unknown')
-  expect(output).toEqual('')
+  output = gameWorld.getTemplateName("unknown");
+  expect(output).toEqual("");
 });
 
 it("getTemplatePackageId", () => {
@@ -391,9 +391,8 @@ it("getTemplatePackageId", () => {
   let output = gameWorld.getTemplatePackageId(templateId);
   expect(output).toEqual(templatePackageId);
 
-  output = gameWorld.getTemplatePackageId('unknown');
-  expect(output).toEqual('');
-
+  output = gameWorld.getTemplatePackageId("unknown");
+  expect(output).toEqual("");
 });
 
 it("getZoneById", () => {
@@ -429,27 +428,34 @@ it("createObjectFromTemplate", () => {
   const templateId = "my-template-id";
   const position = new MockVector(1, 2, 3);
   const params: MockGameObjectParams = { name: "my-object-name" };
-  const gameWorld = new MockGameWorld({
+  const gameWorld = MockGameWorld.__sharedInstance._reset({
     _templateIdToMockGameObjectParams: { [templateId]: params },
   });
+  expect(gameWorld.getAllObjects().length).toEqual(0);
+
   const obj = gameWorld.createObjectFromTemplate(templateId, position);
   expect(obj?.getName()).toEqual(params.name);
   expect(obj?.getPosition()).toEqual(position);
+  expect(gameWorld.getAllObjects().length).toEqual(1);
 
   const nope = gameWorld.createObjectFromTemplate("no-such-id", position);
   expect(nope).toBeUndefined();
+  expect(gameWorld.getAllObjects().length).toEqual(1);
 });
 
 it("createObjectFromTemplate (built-ins)", () => {
-  const gameWorld = new MockGameWorld();
+  const gameWorld = MockGameWorld.__sharedInstance._reset();
+  expect(gameWorld.getAllObjects().length).toEqual(0);
 
   let templateId = "A44BAA604E0ED034CD67FA9502214AA7";
   let obj = gameWorld.createObjectFromTemplate(templateId, [0, 0, 0]);
   expect(obj).toBeInstanceOf(MockContainer);
+  expect(gameWorld.getAllObjects().length).toEqual(1);
 
   templateId = "83FDE12C4E6D912B16B85E9A00422F43";
   obj = gameWorld.createObjectFromTemplate(templateId, [0, 0, 0]);
   expect(obj).toBeInstanceOf(MockGameObject);
+  expect(gameWorld.getAllObjects().length).toEqual(2);
 });
 
 it("createObjectFromTemplate (typed)", () => {
@@ -609,16 +615,16 @@ it("lineTrace", () => {
   expect(ids).toEqual(["obj1", "obj2", "obj3"]);
 });
 
-it('createObjectFromJSON', () => {
-  const gameWorld = new MockGameWorld()
+it("createObjectFromJSON", () => {
+  const gameWorld = new MockGameWorld();
   expect(() => {
-    gameWorld.createObjectFromJSON('', [0, 0, 0])
-  }).toThrow()
-})
+    gameWorld.createObjectFromJSON("", [0, 0, 0]);
+  }).toThrow();
+});
 
-it('createStaticObjectFromJSON', () => {
-  const gameWorld = new MockGameWorld()
+it("createStaticObjectFromJSON", () => {
+  const gameWorld = new MockGameWorld();
   expect(() => {
-    gameWorld.createStaticObjectFromJSON('', [0, 0, 0])
-  }).toThrow()
-})
+    gameWorld.createStaticObjectFromJSON("", [0, 0, 0]);
+  }).toThrow();
+});

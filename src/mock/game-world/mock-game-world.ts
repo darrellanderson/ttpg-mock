@@ -305,6 +305,7 @@ export class MockGameWorld implements GameWorld {
       return undefined;
     }
 
+    // Create object (adds to world._gameObjects).
     let obj: GameObject | undefined;
     if (params._objType === "Card") {
       obj = new MockCard(params);
@@ -324,7 +325,6 @@ export class MockGameWorld implements GameWorld {
 
     if (obj) {
       obj.setPosition(position);
-      this._gameObjects.push(obj);
     }
     return obj;
   }
