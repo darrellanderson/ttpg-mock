@@ -91,7 +91,7 @@ export class MockStaticObject implements StaticObject {
   private _templateName: string = "";
   private _uis: UIElement[] = [];
 
-  onSnappedTo: MulticastDelegate<
+  public readonly onSnappedTo: MulticastDelegate<
     (
       object: GameObject,
       player: Player,

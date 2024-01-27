@@ -20,7 +20,7 @@ export class MockCard extends MockGameObject implements Card {
   private _cardHolder: CardHolder | undefined = undefined;
   private _isFaceUp: boolean = false;
 
-  onInserted: MulticastDelegate<
+  public readonly onInserted: MulticastDelegate<
     (
       card: this,
       insertedCard: Card,
@@ -35,7 +35,7 @@ export class MockCard extends MockGameObject implements Card {
       player: Player | undefined
     ) => void
   >();
-  onRemoved: MulticastDelegate<
+  public readonly onRemoved: MulticastDelegate<
     (card: this, removedCard: Card, position: number, player: Player) => void
   > = new MockMulticastDelegate<
     (card: this, removedCard: Card, position: number, player: Player) => void

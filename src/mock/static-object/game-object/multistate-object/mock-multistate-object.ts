@@ -9,11 +9,12 @@ export type MockMultistateObjectParams = MockGameObjectParams & {
 
 export class MockMultistateObject
   extends MockGameObject
-  implements MultistateObject {
+  implements MultistateObject
+{
   private _numStates: number = 0;
   private _state: number = 0;
 
-  onStateChanged: MulticastDelegate<
+  public readonly onStateChanged: MulticastDelegate<
     (multistateObject: this, newState: number, oldState: number) => void
   > = new MockMulticastDelegate<
     (multistateObject: this, newState: number, oldState: number) => void
