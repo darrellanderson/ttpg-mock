@@ -23,8 +23,12 @@ export abstract class SharedObjects {
     return this._gameWorld;
   }
 
+  static get maybeGameWorld(): GameWorld | undefined {
+    return this._gameWorld
+  }
+
   static set globalScriptingEvents(value: GlobalScriptingEvents) {
-    SharedObjects._globalScriptingEvents = value;
+    this._globalScriptingEvents = value;
   }
 
   static get globalScriptingEvents(): GlobalScriptingEvents {
@@ -34,6 +38,10 @@ export abstract class SharedObjects {
       );
     }
     return this._globalScriptingEvents;
+  }
+
+  static get maybeGlobalScriptingEvents(): GlobalScriptingEvents | undefined {
+    return this._globalScriptingEvents
   }
 
   static set process(value: Process) {
@@ -47,5 +55,9 @@ export abstract class SharedObjects {
       );
     }
     return this._process;
+  }
+
+  static get maybeProcess(): Process | undefined {
+    return this._process
   }
 }

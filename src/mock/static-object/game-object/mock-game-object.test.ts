@@ -2,11 +2,13 @@ import { ObjectType } from "../../../enums";
 import { MockContainer } from "./container/mock-container";
 import { MockGameObject, MockGameObjectParams } from "./mock-game-object";
 import { MockGameWorld } from "../../game-world/mock-game-world";
+import { MockGlobalScriptingEvents } from '../../global-scripting-events/mock-global-scripting-events'
 import { MockPlayer } from "../../player/mock-player";
 import { MockRotator } from "../../rotator/mock-rotator";
 import { MockSnapPoint } from "../../snap-point/mock-snap-point";
 import { MockSwitcher } from "../../switcher/mock-switcher";
 import { MockVector } from "../../vector/mock-vector";
+import { GameObject, globalEvents } from "@tabletop-playground/api";
 
 it("constructor", () => {
   const params: MockGameObjectParams = {
@@ -145,3 +147,30 @@ it("toggleLock", () => {
   obj.toggleLock();
   expect(obj.getObjectType()).toEqual(ObjectType.Regular);
 });
+
+it('onObjectCreated', () => {
+  expect(MockGlobalScriptingEvents).toBeDefined()
+  let onObjectCreatedCount = 0
+  globalEvents.onObjectCreated.add((object: GameObject) => {
+    onObjectCreatedCount++
+  })
+  new MockGameObject()
+  expect(onObjectCreatedCount).toEqual(1)
+})
+
+it('onObjectDestroyed', () => {
+  const obj = new MockGameObject()
+
+  let onObjectDestroyedCount = 0
+  globalEvents.onObjectDestroyed.add((object: GameObject) => {
+    onObjectDestroyedCount++
+  })
+  let onDestroyedCount = 0
+  obj.onDestroyed.add((object: MockGameObject) => {
+    onDestroyedCount++
+  })
+
+  obj.destroy()
+  expect(onObjectDestroyedCount).toEqual(1)
+  expect(onDestroyedCount).toEqual(1)
+})

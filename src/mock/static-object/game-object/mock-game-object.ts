@@ -158,6 +158,11 @@ export class MockGameObject extends MockStaticObject implements GameObject {
     if (params?.switcher) {
       this._switcher = params.switcher;
     }
+
+    const onCreated = this.onCreated as MockMulticastDelegate<(object: this) => void>
+    const onObjectCreated = SharedObjects.maybeGlobalScriptingEvents?.onObjectCreated as MockMulticastDelegate<(object: GameObject) => void>
+    onCreated._trigger(this)
+    onObjectCreated?._trigger(this)
   }
 
   _setContainer(container: Container | undefined) {
@@ -168,7 +173,7 @@ export class MockGameObject extends MockStaticObject implements GameObject {
     name: string,
     tooltip?: string | undefined,
     identifier?: string | undefined
-  ): void {}
+  ): void { }
 
   areLightsOn(): boolean {
     return this._areLightsOn;
@@ -181,7 +186,19 @@ export class MockGameObject extends MockStaticObject implements GameObject {
     return new MockSwitcher({ gameObjects: [this, ...objects] });
   }
 
-  flipOrUpright(): void {}
+  destroy(): void {
+    super.destroy();
+
+    const onDestroyed =
+      this.onDestroyed as MockMulticastDelegate<(object: this) => void>
+    onDestroyed._trigger(this)
+
+    const onObjectDestroyed =
+      SharedObjects.maybeGlobalScriptingEvents?.onObjectDestroyed as MockMulticastDelegate<(object: GameObject) => void> | undefined
+    onObjectDestroyed?._trigger(this)
+  }
+
+  flipOrUpright(): void { }
 
   freeze(): void {
     this.setObjectType(ObjectType.Ground);
@@ -252,7 +269,7 @@ export class MockGameObject extends MockStaticObject implements GameObject {
     this._isHeld = false;
   }
 
-  removeCustomAction(identifier: string): void {}
+  removeCustomAction(identifier: string): void { }
 
   setAngularVelocity(
     velocity: Rotator | [pitch: number, yaw: number, roll: number]
