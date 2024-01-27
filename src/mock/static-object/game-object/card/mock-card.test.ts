@@ -21,6 +21,11 @@ it("constructor", () => {
   expect(card.isFaceUp()).toEqual(params.isFaceUp);
 });
 
+it("defaults to singleton card", () => {
+  const card = new MockCard();
+  expect(card.getStackSize()).toEqual(1);
+});
+
 it("addCards (size mismatch)", () => {
   const src = new MockCard({
     _modelSize: new MockVector(1, 3, 1),
@@ -55,6 +60,21 @@ it("addCards (standard)", () => {
   expect(success).toEqual(true);
   const names = dst.getAllCardDetails().map((details) => details.name);
   expect(names).toEqual(["dst1", "dst2", "dst3", "src1", "src2", "src3"]);
+});
+
+it("addCards (singletones)", () => {
+  const src = new MockCard({
+    cardDetails: [new MockCardDetails({ name: "src1" })],
+  });
+  const dst = new MockCard({
+    cardDetails: [new MockCardDetails({ name: "dst1" })],
+  });
+
+  const success = dst.addCards(src);
+  expect(success).toEqual(true);
+  const names = dst.getAllCardDetails().map((details) => details.name);
+  expect(names).toEqual(["dst1", "src1"]);
+  expect(dst.getStackSize()).toEqual(2);
 });
 
 it("addCards (toFront)", () => {
@@ -205,14 +225,14 @@ it("divide", () => {
   expect(b.getStackSize()).toEqual(1);
 });
 
-it('flipOrUpright', () => {
-  const card = new MockCard()
-  expect(card.isFaceUp()).toBeFalsy()
-  card.flipOrUpright()
-  expect(card.isFaceUp()).toBeTruthy()
-  card.flipOrUpright()
-  expect(card.isFaceUp()).toBeFalsy()
-})
+it("flipOrUpright", () => {
+  const card = new MockCard();
+  expect(card.isFaceUp()).toBeFalsy();
+  card.flipOrUpright();
+  expect(card.isFaceUp()).toBeTruthy();
+  card.flipOrUpright();
+  expect(card.isFaceUp()).toBeFalsy();
+});
 
 it("isInHand", () => {
   const playerSlot = 17;
