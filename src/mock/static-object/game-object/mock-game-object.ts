@@ -160,9 +160,11 @@ export class MockGameObject extends MockStaticObject implements GameObject {
     }
 
     const onCreated = this.onCreated as MockMulticastDelegate<(object: this) => void>
-    const onObjectCreated = SharedObjects.maybeGlobalScriptingEvents?.onObjectCreated as MockMulticastDelegate<(object: GameObject) => void>
     onCreated._trigger(this)
-    onObjectCreated?._trigger(this)
+    if (SharedObjects.maybeGlobalScriptingEvents) {
+      const onObjectCreated = SharedObjects.globalScriptingEvents.onObjectCreated as MockMulticastDelegate<(object: GameObject) => void>
+      onObjectCreated._trigger(this)
+    }
   }
 
   _setContainer(container: Container | undefined) {
@@ -197,9 +199,11 @@ export class MockGameObject extends MockStaticObject implements GameObject {
       this.onDestroyed as MockMulticastDelegate<(object: this) => void>
     onDestroyed._trigger(this)
 
-    const onObjectDestroyed =
-      SharedObjects.maybeGlobalScriptingEvents?.onObjectDestroyed as MockMulticastDelegate<(object: GameObject) => void> | undefined
-    onObjectDestroyed?._trigger(this)
+    if (SharedObjects.maybeGlobalScriptingEvents) {
+      const onObjectDestroyed =
+        SharedObjects.globalScriptingEvents.onObjectDestroyed as MockMulticastDelegate<(object: GameObject) => void>
+      onObjectDestroyed._trigger(this)
+    }
   }
 
   flipOrUpright(): void { }

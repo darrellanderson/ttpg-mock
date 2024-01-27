@@ -1,4 +1,4 @@
-import { GameObject } from "@tabletop-playground/api";
+import { GameObject, Player } from "@tabletop-playground/api";
 import { MockCard } from "../static-object/game-object/card/mock-card";
 import { MockCardHolder } from "../static-object/game-object/card-holder/mock-card-holder";
 import { MockColor } from "../color/mock-color";
@@ -7,6 +7,8 @@ import { MockGameWorld } from "../game-world/mock-game-world";
 import { MockPlayer, MockPlayerParams } from "./mock-player";
 import { MockVector } from "../vector/mock-vector";
 import { MockRotator } from "../rotator/mock-rotator";
+import { SharedObjects } from "../../shared-objects";
+import { MockGlobalScriptingEvents } from "../global-scripting-events/mock-global-scripting-events";
 
 it("constructor", () => {
   const heldObject: GameObject = new MockGameObject();
@@ -132,3 +134,19 @@ it("getOwnedObjects", () => {
   const output = player.getOwnedObjects();
   expect(output).toEqual([obj]);
 });
+
+it('event onPlayerJoined', () => {
+  expect(MockGlobalScriptingEvents).toBeDefined()
+  let count = 0
+  SharedObjects.globalScriptingEvents.onPlayerJoined.add((player: Player) => { count++ })
+  new MockPlayer()
+  expect(count).toEqual(1)
+})
+
+it('event onPlayerSwitchedSlots', () => {
+  expect(MockGlobalScriptingEvents).toBeDefined()
+  let count = 0
+  SharedObjects.globalScriptingEvents.onPlayerSwitchedSlots.add((player: Player) => { count++ })
+  new MockPlayer().switchSlot(7)
+  expect(count).toEqual(1)
+})
