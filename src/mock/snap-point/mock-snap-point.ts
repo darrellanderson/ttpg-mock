@@ -6,6 +6,8 @@ import {
 } from "@tabletop-playground/api";
 import { MockVector } from "../vector/mock-vector";
 import { SnapPointFlipValidity, SnapPointShape } from "../../enums";
+import { MockGameObject } from "../static-object/game-object/mock-game-object";
+import { MockStaticObject } from "../static-object/mock-static-object";
 
 export type MockSnapPointParams = {
   flipValidity?: number;
@@ -68,6 +70,7 @@ export class MockSnapPoint implements SnapPoint {
     }
     if (params?.snappedObject) {
       this._snappedObject = params.snappedObject;
+      (this._snappedObject as MockGameObject)._setSnappedToPoint(this);
     }
     if (params?.tags) {
       this._tags = params.tags;

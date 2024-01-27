@@ -169,6 +169,10 @@ export class MockGameObject extends MockStaticObject implements GameObject {
     this._container = container;
   }
 
+  _setSnappedToPoint(snapPoint: SnapPoint | undefined) {
+    this._snappedToPoint = snapPoint;
+  }
+
   addCustomAction(
     name: string,
     tooltip?: string | undefined,

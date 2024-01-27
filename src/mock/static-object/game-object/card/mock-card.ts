@@ -45,6 +45,8 @@ export class MockCard extends MockGameObject implements Card {
     super(params);
     if (params?.cardDetails) {
       this._cardDetails.push(...params.cardDetails);
+    } else {
+      this._cardDetails.push(new MockCardDetails()); // singleton
     }
     if (params?.cardHolder) {
       this._cardHolder = params.cardHolder;
@@ -140,7 +142,7 @@ export class MockCard extends MockGameObject implements Card {
   }
 
   flipOrUpright(): void {
-    this._isFaceUp = !this._isFaceUp
+    this._isFaceUp = !this._isFaceUp;
   }
 
   getAllCardDetails(): CardDetails[] {
@@ -209,7 +211,7 @@ export class MockCard extends MockGameObject implements Card {
     });
   }
 
-  setInheritScript(inherit: boolean): void { }
+  setInheritScript(inherit: boolean): void {}
 
   setTextureOverrideURL(url: string): void {
     this._cardDetails = this._cardDetails.map(
