@@ -233,11 +233,26 @@ export class MockGameWorld implements GameWorld {
     return this;
   }
 
+  _addGameObject(gameObject: GameObject): this {
+    this._gameObjects.push(gameObject);
+    return this;
+  }
+
+  _addPlayer(player: Player): this {
+    this._players.push(player);
+    return this;
+  }
+
+  _addTable(table: StaticObject): this {
+    this._tables.push(table);
+    return this;
+  }
+
   addCustomAction(
     name: string,
     tooltip?: string | undefined,
     identifier?: string | undefined
-  ): void { }
+  ): void {}
 
   addDrawingLine(line: DrawingLine): boolean {
     this._drawingLines.push(line);
@@ -259,9 +274,9 @@ export class MockGameWorld implements GameWorld {
   broadcastChatMessage(
     message: string,
     color?: Color | [r: number, g: number, b: number, a: number] | undefined
-  ): void { }
+  ): void {}
 
-  clearConsole(): void { }
+  clearConsole(): void {}
 
   createLabel(position: Vector | [x: number, y: number, z: number]): Label {
     const label = new MockLabel();
@@ -341,7 +356,7 @@ export class MockGameWorld implements GameWorld {
     color: Color | [r: number, g: number, b: number, a: number],
     duration: number,
     thickness?: number | undefined
-  ): void { }
+  ): void {}
 
   drawDebugLine(
     start: Vector | [x: number, y: number, z: number],
@@ -349,14 +364,14 @@ export class MockGameWorld implements GameWorld {
     color: Color | [r: number, g: number, b: number, a: number],
     duration: number,
     thickness?: number | undefined
-  ): void { }
+  ): void {}
 
   drawDebugPoint(
     position: Vector | [x: number, y: number, z: number],
     size: number,
     color: Color | [r: number, g: number, b: number, a: number],
     duration: number
-  ): void { }
+  ): void {}
 
   drawDebugSphere(
     position: Vector | [x: number, y: number, z: number],
@@ -364,7 +379,7 @@ export class MockGameWorld implements GameWorld {
     color: Color | [r: number, g: number, b: number, a: number],
     duration: number,
     thickness?: number | undefined
-  ): void { }
+  ): void {}
 
   getAllLabels(): Label[] {
     return [...this._labels];
@@ -593,7 +608,7 @@ export class MockGameWorld implements GameWorld {
     this.turns.nextTurn();
   }
 
-  removeCustomAction(identifier: string): void { }
+  removeCustomAction(identifier: string): void {}
 
   removeDrawingLine(index: number): void {
     if (index >= 0 && index < this._drawingLines.length) {
@@ -628,7 +643,7 @@ export class MockGameWorld implements GameWorld {
     this.removeUI(index);
   }
 
-  resetScripting(): void { }
+  resetScripting(): void {}
 
   setBackground(
     textureName?: string | undefined,
@@ -681,13 +696,13 @@ export class MockGameWorld implements GameWorld {
     position: Vector | [x: number, y: number, z: number],
     color: Color | [r: number, g: number, b: number, a: number],
     playSound: boolean
-  ): void { }
+  ): void {}
 
-  startDebugMode(port?: number | undefined): void { }
+  startDebugMode(port?: number | undefined): void {}
 
-  updateScreenUI(element: ScreenUIElement): void { }
+  updateScreenUI(element: ScreenUIElement): void {}
 
-  updateUI(element: UIElement): void { }
+  updateUI(element: UIElement): void {}
 
   // --------------------------------
 

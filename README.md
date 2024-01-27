@@ -69,7 +69,7 @@ it("mock class", () => {
 
 ## Populating the world
 
-Mock objects are not registered with `world` automatically. You can add using `mockWorld` (same object as `world` but with some new methods exposed):
+Mock GameObjects, tables, and Players are registered with `world` automatically. You can explicitly set the available items using `mockWorld` (same object as `world` but with some new methods exposed):
 
 ```typescript
 import { GameObject, world } from "@tabletop-playground/api";
@@ -85,6 +85,8 @@ it("mockWorld._reset", () => {
 ```
 
 ## Events
+
+Some events like `onObjectCreated` and `onPlayerJoined` are sent when creating a new GameObject or Player. Likewise GameObject.destroy sends `onObjectDestroyed` and Player.switchSlot sends `onPlayerSwitchedSlots`.
 
 `Delegate` and `MulticastDelegate` can be cast to their mock version to trigger events:
 

@@ -15,16 +15,18 @@ import { MockRotator } from "../rotator/mock-rotator";
 import { MockVector } from "../vector/mock-vector";
 import { MockMulticastDelegate } from "../multicast-delegate/mock-multicast-delegate";
 import { MockSnapPoint } from "../snap-point/mock-snap-point";
+import { MockGameWorld } from "../game-world/mock-game-world";
+import { SharedObjects } from "../../shared-objects";
 
 export type MockStaticObjectParams = {
   _objType?:
-  | "Card"
-  | "CardHolder"
-  | "Container"
-  | "Dice"
-  | "GameObject"
-  | "MultistateObject"
-  | "StaticObject";
+    | "Card"
+    | "CardHolder"
+    | "Container"
+    | "Dice"
+    | "GameObject"
+    | "MultistateObject"
+    | "StaticObject";
   _modelSize?: Vector | [x: number, y: number, z: number];
   _modelCenter?: Vector | [x: number, y: number, z: number];
   bounciness?: number;
@@ -202,6 +204,10 @@ export class MockStaticObject implements StaticObject {
     }
     if (params?.uis) {
       this._uis = params.uis;
+    }
+
+    if (SharedObjects.maybeGameWorld) {
+      (SharedObjects.gameWorld as MockGameWorld)._addTable(this);
     }
   }
 
@@ -479,7 +485,7 @@ export class MockStaticObject implements StaticObject {
     return JSON.stringify(this);
   }
 
-  updateUI(element: UIElement): void { }
+  updateUI(element: UIElement): void {}
 
   // --------------------------------
 
