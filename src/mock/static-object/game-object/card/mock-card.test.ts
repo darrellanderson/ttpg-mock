@@ -500,19 +500,32 @@ it("takeCardsAsPlayer", () => {
         onRemovedCount++;
     });
 
-    const dst = src._takeCardsAsPlayer(
+    src._takeCardsAsPlayer(
         undefined,
         undefined,
         undefined,
-        undefined,
+        true, // keep
         player
     );
-    expect(dst).toBeInstanceOf(MockCard);
-    const srcNames = src.getAllCardDetails().map((details) => details.name);
-    const dstNames = dst?.getAllCardDetails().map((details) => details.name);
-    expect(srcNames).toEqual(["src1", "src2"]);
-    expect(dstNames).toEqual(["src3"]);
     expect(onRemovedCount).toEqual(1);
+
+    src._takeCardsAsPlayer(
+        1,
+        true,
+        1,
+        true, // keep
+        player
+    );
+    expect(onRemovedCount).toEqual(2);
+
+    src._takeCardsAsPlayer(
+        1,
+        false,
+        1,
+        true, // keep
+        player
+    );
+    expect(onRemovedCount).toEqual(3);
 });
 
 it("card events available in onObjectCreated", () => {

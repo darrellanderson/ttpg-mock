@@ -200,6 +200,11 @@ export class MockGameObject extends MockStaticObject implements GameObject {
     }
 
     _setSnappedToPoint(snapPoint: SnapPoint | undefined): void {
+        if (this._snappedToPoint) {
+            (this._snappedToPoint as MockSnapPoint)._setSnappedObject(
+                undefined
+            );
+        }
         this._snappedToPoint = snapPoint;
         if (snapPoint && snapPoint.getSnappedObject() !== this) {
             (snapPoint as MockSnapPoint)._setSnappedObject(this);
