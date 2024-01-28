@@ -105,6 +105,14 @@ Many event senders are available when casting to the mock class, e.g.:
 -   MockGameObject.\_secondaryActionAsPlayer
 -   MockGameObject.\_numberActionAsPlayer
 -   MockGameObject.\_customActionAsPlayer
+-   mockGlobalEvents.\_chatMessageAsPlayer
+-   mockGlobalEvents.\_customActionAsPlayer(): void {}
+-   mockGlobalEvents.\_diceRolledAsPlayer(): void {}
+-   mockGlobalEvents.\_scriptButtonPressedAsPlayer(): void {}
+-   mockGlobalEvents.\_scriptButtonReleasedAsPlayer(): void {}
+-   mockGlobalEvents.\_shakeAsPlayer(): void {}
+-   mockGlobalEvents.\_teamChatAsPlayer(): void {}
+-   mockGlobalEvents.\_whisperAsPlayer(): void {}
 
 Moreover, `Delegate` and `MulticastDelegate` can be cast to their mock version to trigger events:
 
