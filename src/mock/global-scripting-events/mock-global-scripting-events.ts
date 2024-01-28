@@ -26,72 +26,78 @@ export class MockGlobalScriptingEvents implements GlobalScriptingEvents {
     this.onTick.clear();
   }
 
-  onChatMessage: MulticastDelegate<(sender: Player, message: string) => void> =
-    new MockMulticastDelegate<(sender: Player, message: string) => void>();
+  public readonly onChatMessage: MulticastDelegate<
+    (sender: Player, message: string) => void
+  > = new MockMulticastDelegate<(sender: Player, message: string) => void>();
 
-  onCustomAction: MulticastDelegate<
+  public readonly onCustomAction: MulticastDelegate<
     (player: Player, identifier: string) => void
   > = new MockMulticastDelegate<(player: Player, identifier: string) => void>();
 
-  onDiceRolled: MulticastDelegate<(player: Player, dice: Dice[]) => void> =
-    new MockMulticastDelegate<(player: Player, dice: Dice[]) => void>();
+  public readonly onDiceRolled: MulticastDelegate<
+    (player: Player, dice: Dice[]) => void
+  > = new MockMulticastDelegate<(player: Player, dice: Dice[]) => void>();
 
-  onLineDrawn: MulticastDelegate<
+  public readonly onLineDrawn: MulticastDelegate<
     (player: Player, object: GameObject, line: DrawingLine) => void
   > = new MockMulticastDelegate<
     (player: Player, object: GameObject, line: DrawingLine) => void
   >();
 
-  onLineErased: MulticastDelegate<
+  public readonly onLineErased: MulticastDelegate<
     (player: Player, object: GameObject, line: DrawingLine) => void
   > = new MockMulticastDelegate<
     (player: Player, object: GameObject, line: DrawingLine) => void
   >();
 
-  onObjectCreated: MulticastDelegate<(object: GameObject) => void> =
-    new MockMulticastDelegate<(object: GameObject) => void>();
+  public readonly onObjectCreated: MulticastDelegate<
+    (object: GameObject) => void
+  > = new MockMulticastDelegate<(object: GameObject) => void>();
 
-  onObjectDestroyed: MulticastDelegate<(object: GameObject) => void> =
-    new MockMulticastDelegate<(object: GameObject) => void>();
+  public readonly onObjectDestroyed: MulticastDelegate<
+    (object: GameObject) => void
+  > = new MockMulticastDelegate<(object: GameObject) => void>();
 
-  onPackageAdded: MulticastDelegate<(packageRef: Package) => void> =
-    new MockMulticastDelegate<(packageRef: Package) => void>();
+  public readonly onPackageAdded: MulticastDelegate<
+    (packageRef: Package) => void
+  > = new MockMulticastDelegate<(packageRef: Package) => void>();
 
-  onPlayerJoined: MulticastDelegate<(player: Player) => void> =
+  public readonly onPlayerJoined: MulticastDelegate<(player: Player) => void> =
     new MockMulticastDelegate<(player: Player) => void>();
 
-  onPlayerLeft: MulticastDelegate<(player: Player) => void> =
+  public readonly onPlayerLeft: MulticastDelegate<(player: Player) => void> =
     new MockMulticastDelegate<(player: Player) => void>();
 
-  onPlayerSwitchedSlots: MulticastDelegate<
+  public readonly onPlayerSwitchedSlots: MulticastDelegate<
     (player: Player, index: number) => void
   > = new MockMulticastDelegate<(player: Player, index: number) => void>();
 
-  onScriptButtonPressed: MulticastDelegate<
+  public readonly onScriptButtonPressed: MulticastDelegate<
     (player: Player, index: number, ctrl: boolean, alt: boolean) => void
   > = new MockMulticastDelegate<
     (player: Player, index: number, ctrl: boolean, alt: boolean) => void
   >();
 
-  onScriptButtonReleased: MulticastDelegate<
+  public readonly onScriptButtonReleased: MulticastDelegate<
     (player: Player, index: number) => void
   > = new MockMulticastDelegate<(player: Player, index: number) => void>();
 
-  onShake: MulticastDelegate<(player: Player, objects: GameObject[]) => void> =
-    new MockMulticastDelegate<
-      (player: Player, objects: GameObject[]) => void
-    >();
+  public readonly onShake: MulticastDelegate<
+    (player: Player, objects: GameObject[]) => void
+  > = new MockMulticastDelegate<
+    (player: Player, objects: GameObject[]) => void
+  >();
 
-  onTeamChatMessage: MulticastDelegate<
+  public readonly onTeamChatMessage: MulticastDelegate<
     (sender: Player, team: number, message: string) => void
   > = new MockMulticastDelegate<
     (sender: Player, team: number, message: string) => void
   >();
 
-  onTick: MulticastDelegate<(milliseconds: number) => void> =
+  public readonly onTick: MulticastDelegate<(milliseconds: number) => void> =
     new MockMulticastDelegate<(milliseconds: number) => void>();
 
-  onWhisper: MulticastDelegate<
+  public readonly onWhisper: MulticastDelegate<
     (sender: Player, recipient: Player, message: string) => void
   > = new MockMulticastDelegate<
     (sender: Player, recipient: Player, message: string) => void

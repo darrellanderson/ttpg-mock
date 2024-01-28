@@ -1,8 +1,9 @@
 import { MockCard, MockCardParams } from "./mock-card";
 import { MockCardDetails } from "../../../card-details/mock-card-details";
 import { MockCardHolder } from "../card-holder/mock-card-holder";
+import { MockGlobalScriptingEvents } from "../../../global-scripting-events/mock-global-scripting-events";
 import { MockVector } from "../../../vector/mock-vector";
-import { CardDetails } from "@tabletop-playground/api";
+import { Card, CardDetails } from "@tabletop-playground/api";
 import { MockPlayer } from "../../../player/mock-player";
 import { MockGameWorld } from "../../../game-world/mock-game-world";
 
@@ -498,3 +499,16 @@ it('takeCardsAsPlayer', () => {
   expect(dstNames).toEqual(["src3"]);
   expect(onRemovedCount).toEqual(1)
 })
+
+it("card events available in onObjectCreated", () => {
+  let count = 0;
+  MockGlobalScriptingEvents.__sharedInstance.onObjectCreated.add((obj) => {
+    if (obj instanceof Card) {
+      obj.onInserted.add(() => {}); // make sure onInserted exists on the object!
+      count++;
+    }
+  });
+  expect(count).toEqual(0);
+  new MockCard();
+  expect(count).toEqual(1);
+});

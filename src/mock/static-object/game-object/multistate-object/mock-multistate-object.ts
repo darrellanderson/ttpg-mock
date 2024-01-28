@@ -9,24 +9,26 @@ export type MockMultistateObjectParams = MockGameObjectParams & {
 
 export class MockMultistateObject
   extends MockGameObject
-  implements MultistateObject {
+  implements MultistateObject
+{
   private _numStates: number = 0;
   private _state: number = 0;
 
-  onStateChanged: MulticastDelegate<
+  public readonly onStateChanged: MulticastDelegate<
     (multistateObject: this, newState: number, oldState: number) => void
   > = new MockMulticastDelegate<
     (multistateObject: this, newState: number, oldState: number) => void
   >();
 
   constructor(params?: MockMultistateObjectParams) {
-    super(params);
+    super(params, false);
     if (params?.numStates !== undefined) {
       this._numStates = params.numStates;
     }
     if (params?.state !== undefined) {
       this._state = params.state;
     }
+    this._triggerOnCreated();
   }
 
   setState(state: number): void {

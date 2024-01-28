@@ -21,19 +21,19 @@ export class MockContainer extends MockGameObject implements Container {
   private _maxItems: number = 100;
   private _type: number = 0;
 
-  onInserted: MulticastDelegate<
+  public readonly onInserted: MulticastDelegate<
     (container: this, insertedObjects: GameObject[], player: Player) => void
   > = new MockMulticastDelegate<
     (container: this, insertedObjects: GameObject[], player: Player) => void
   >();
-  onRemoved: MulticastDelegate<
+  public readonly onRemoved: MulticastDelegate<
     (container: this, removedObject: GameObject, player: Player) => void
   > = new MockMulticastDelegate<
     (container: this, removedObject: GameObject, player: Player) => void
   >();
 
   constructor(params?: MockContainerParams) {
-    super(params);
+    super(params, false);
     if (params?.containerTags) {
       this._containerTags = params.containerTags;
     }
@@ -49,6 +49,7 @@ export class MockContainer extends MockGameObject implements Container {
     if (params?.type !== undefined) {
       this._type = params.type;
     }
+    this._triggerOnCreated();
   }
 
   addObjects(

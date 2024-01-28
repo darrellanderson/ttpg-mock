@@ -20,7 +20,7 @@ export class MockCard extends MockGameObject implements Card {
   private _cardHolder: CardHolder | undefined = undefined;
   private _isFaceUp: boolean = false;
 
-  onInserted: MulticastDelegate<
+  public readonly onInserted: MulticastDelegate<
     (
       card: this,
       insertedCard: Card,
@@ -35,14 +35,14 @@ export class MockCard extends MockGameObject implements Card {
       player: Player | undefined
     ) => void
   >();
-  onRemoved: MulticastDelegate<
+  public readonly onRemoved: MulticastDelegate<
     (card: this, removedCard: Card, position: number, player: Player) => void
   > = new MockMulticastDelegate<
     (card: this, removedCard: Card, position: number, player: Player) => void
   >();
 
   constructor(params?: MockCardParams) {
-    super(params);
+    super(params, false);
     if (params?.cardDetails) {
       this._cardDetails.push(...params.cardDetails);
     } else {
@@ -54,6 +54,7 @@ export class MockCard extends MockGameObject implements Card {
     if (params?.isFaceUp !== undefined) {
       this._isFaceUp = params.isFaceUp;
     }
+    this._triggerOnCreated();
   }
 
   _setCardHolder(cardHolder: CardHolder | undefined) {

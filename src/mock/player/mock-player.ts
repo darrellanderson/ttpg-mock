@@ -13,6 +13,7 @@ import { MockVector } from "../vector/mock-vector";
 import { MockRotator } from "../rotator/mock-rotator";
 import { SharedObjects } from "../../shared-objects";
 import { MockMulticastDelegate } from "../multicast-delegate/mock-multicast-delegate";
+import { MockGameWorld } from "../game-world/mock-game-world";
 
 export type MockPlayerParams = {
   cursorPosition?: Vector | [x: number, y: number, z: number];
@@ -131,9 +132,14 @@ export class MockPlayer implements Player {
       this._scriptKeysDown = params.scriptKeysDown;
     }
 
+    if (SharedObjects.maybeGameWorld) {
+      (SharedObjects.gameWorld as MockGameWorld)._addPlayer(this);
+    }
+
     if (SharedObjects.maybeGlobalScriptingEvents) {
-      const onPlayerJoined = SharedObjects.globalScriptingEvents.onPlayerJoined as MockMulticastDelegate<(player: Player) => void>
-      onPlayerJoined._trigger(this)
+      const onPlayerJoined = SharedObjects.globalScriptingEvents
+        .onPlayerJoined as MockMulticastDelegate<(player: Player) => void>;
+      onPlayerJoined._trigger(this);
     }
   }
 
@@ -244,7 +250,7 @@ export class MockPlayer implements Player {
   sendChatMessage(
     message: string,
     color: Color | [r: number, g: number, b: number, a: number]
-  ): void { }
+  ): void {}
 
   setBlindfolded(on: boolean): void {
     this._isBlindfolded = on;
@@ -252,11 +258,11 @@ export class MockPlayer implements Player {
 
   setDrawingColor(
     color: Color | [r: number, g: number, b: number, a: number]
-  ): void { }
+  ): void {}
 
-  setDrawingGlow(glow: boolean): void { }
+  setDrawingGlow(glow: boolean): void {}
 
-  setDrawingThickness(thickness: number): void { }
+  setDrawingThickness(thickness: number): void {}
 
   setHandHolder(hand: CardHolder): void {
     this._handHolder = hand;
@@ -286,14 +292,17 @@ export class MockPlayer implements Player {
     this._selectedObjects = objects;
   }
 
-  showMessage(message: string): void { }
+  showMessage(message: string): void {}
 
   switchSlot(newSlot: number): boolean {
     this._slot = newSlot;
 
     if (SharedObjects.maybeGlobalScriptingEvents) {
-      const onPlayerSwitchedSlots = SharedObjects.globalScriptingEvents.onPlayerSwitchedSlots as MockMulticastDelegate<(player: Player, slot: number) => void>
-      onPlayerSwitchedSlots._trigger(this, newSlot)
+      const onPlayerSwitchedSlots = SharedObjects.globalScriptingEvents
+        .onPlayerSwitchedSlots as MockMulticastDelegate<
+        (player: Player, slot: number) => void
+      >;
+      onPlayerSwitchedSlots._trigger(this, newSlot);
     }
 
     return true;

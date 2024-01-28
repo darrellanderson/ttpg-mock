@@ -21,31 +21,32 @@ export class MockCardHolder extends MockGameObject implements CardHolder {
   private _onlyOwnerTakesCards: boolean = false;
   private _hiddenCardsType: number = HiddenCardsType.GreyBlur;
 
-  onInserted: MulticastDelegate<
+  public readonly onInserted: MulticastDelegate<
     (holder: this, insertedCard: Card, player: Player, index: number) => void
   > = new MockMulticastDelegate<
     (holder: this, insertedCard: Card, player: Player, index: number) => void
   >();
-  onRemoved: MulticastDelegate<
+  public readonly onRemoved: MulticastDelegate<
     (holder: this, card: Card, player: Player) => void
   > = new MockMulticastDelegate<
     (holder: this, card: Card, player: Player) => void
   >();
-  onCardFlipped: MulticastDelegate<
+  public readonly onCardFlipped: MulticastDelegate<
     (holder: this, card: Card, player: Player) => void
   > = new MockMulticastDelegate<
     (holder: this, card: Card, player: Player) => void
   >();
-  onCardRotated: MulticastDelegate<
+  public readonly onCardRotated: MulticastDelegate<
     (holder: this, card: Card, player: Player) => void
   > = new MockMulticastDelegate<
     (holder: this, card: Card, player: Player) => void
   >();
-  onBecameHand: MulticastDelegate<(holder: this, player: Player) => void> =
-    new MockMulticastDelegate<(holder: this, player: Player) => void>();
+  public readonly onBecameHand: MulticastDelegate<
+    (holder: this, player: Player) => void
+  > = new MockMulticastDelegate<(holder: this, player: Player) => void>();
 
   constructor(params?: MockCardHolderParams) {
-    super(params);
+    super(params, false);
     if (params?.cards) {
       this._cards = params.cards;
       for (const card of this._cards) {
@@ -58,10 +59,11 @@ export class MockCardHolder extends MockGameObject implements CardHolder {
     if (params?.hiddenCardsType !== undefined) {
       this._hiddenCardsType = params.hiddenCardsType;
     }
+    this._triggerOnCreated();
   }
 
   flipCard(card: Card): void {
-    card.flipOrUpright()
+    card.flipOrUpright();
   }
 
   getCards(): Card[] {
@@ -94,14 +96,13 @@ export class MockCardHolder extends MockGameObject implements CardHolder {
   }
 
   isCardFaceUp(card: Card): boolean {
-    return card.isFaceUp()
+    return card.isFaceUp();
   }
 
   isCardUpsideDown(card: Card): boolean {
-    const rot: Rotator = card.getRotation()
-    return Math.abs(rot.yaw % 360) > 90
+    const rot: Rotator = card.getRotation();
+    return Math.abs(rot.yaw % 360) > 90;
   }
-
 
   moveCard(card: Card, index: number): void {
     const oldIndex = this._cards.indexOf(card);
@@ -120,9 +121,9 @@ export class MockCardHolder extends MockGameObject implements CardHolder {
   }
 
   rotateCard(card: Card): void {
-    const rot: Rotator = card.getRotation()
-    rot.yaw = (rot.yaw + 180) % 360
-    card.setRotation(rot)
+    const rot: Rotator = card.getRotation();
+    rot.yaw = (rot.yaw + 180) % 360;
+    card.setRotation(rot);
   }
 
   setHiddenCardsType(newType: number): void {
