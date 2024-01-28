@@ -67,6 +67,29 @@ export class MockCard extends MockGameObject implements Card {
     animate?: boolean | undefined,
     flipped?: boolean | undefined
   ): boolean {
+    // Do not specify player to add without onInserted event.
+    const player = undefined
+    return this.addCardsAsPlayer(cards, toFront, offset, animate, flipped, player)
+  }
+
+  /**
+   * Mock-only version that also sends the Card.onInserted event.
+   * Must specify player to send the event!
+   * 
+   * @param cards 
+   * @param toFront 
+   * @param offset 
+   * @param animate 
+   * @param flipped 
+   * @param player 
+   */
+  addCardsAsPlayer(cards: Card,
+    toFront?: boolean | undefined,
+    offset?: number | undefined,
+    animate?: boolean | undefined,
+    flipped?: boolean | undefined,
+    player?: Player
+  ): boolean {
     if (!this.canAddCards(cards)) {
       return false;
     }
@@ -84,7 +107,6 @@ export class MockCard extends MockGameObject implements Card {
           tags: details.tags,
         })
     );
-    cards.destroy();
 
     let index = this._cardDetails.length;
     if (toFront) {
@@ -102,6 +124,13 @@ export class MockCard extends MockGameObject implements Card {
       ...incoming,
       ...this._cardDetails.slice(index),
     ];
+
+    if (player) {
+      const onInserted = this.onInserted as MockMulticastDelegate<(card: this, insertedCard: Card, position: number, player: Player | undefined) => void>
+      onInserted._trigger(this, cards, index, player)
+    }
+    cards.destroy()
+
     return true;
   }
 
@@ -211,7 +240,7 @@ export class MockCard extends MockGameObject implements Card {
     });
   }
 
-  setInheritScript(inherit: boolean): void {}
+  setInheritScript(inherit: boolean): void { }
 
   setTextureOverrideURL(url: string): void {
     this._cardDetails = this._cardDetails.map(
@@ -275,6 +304,13 @@ export class MockCard extends MockGameObject implements Card {
     offset?: number | undefined,
     keep?: boolean | undefined
   ): Card | undefined {
+    return this.takeCardsAsPlayer(numCards, fromFront, offset, keep)
+  }
+
+  takeCardsAsPlayer(numCards?: number | undefined,
+    fromFront?: boolean | undefined,
+    offset?: number | undefined,
+    keep?: boolean | undefined, player?: Player): Card | undefined {
     if (this._cardDetails.length <= 1) {
       return undefined; // "Returns undefined if this object is only a single card"
     }
@@ -300,6 +336,13 @@ export class MockCard extends MockGameObject implements Card {
     } else {
       cardDetails = this._cardDetails.splice(index, numCards);
     }
-    return new MockCard({ cardDetails });
+    const removedCard = new MockCard({ cardDetails });
+
+    if (player) {
+      const onRemoved = this.onRemoved as MockMulticastDelegate<(card: this, removedCard: Card, position: number, player: Player) => void>
+      onRemoved._trigger(this, removedCard, index, player)
+    }
+
+    return removedCard
   }
 }

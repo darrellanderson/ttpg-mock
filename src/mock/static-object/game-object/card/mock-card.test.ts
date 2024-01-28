@@ -148,6 +148,28 @@ it("addCards (toFront, offset)", () => {
   expect(names).toEqual(["dst1", "src1", "src2", "src3", "dst2", "dst3"]);
 });
 
+it('addCardsAsPlayer', () => {
+  const src = new MockCard({
+    cardDetails: [new MockCardDetails({ name: "src1" })],
+  });
+  const dst = new MockCard({
+    cardDetails: [new MockCardDetails({ name: "dst1" })],
+  });
+  const player = new MockPlayer()
+
+  let onInsertedCount = 0
+  dst.onInserted.add(() => {
+    onInsertedCount++
+  })
+
+  const success = dst.addCardsAsPlayer(src, undefined, undefined, undefined, undefined, player);
+  expect(success).toEqual(true);
+  const names = dst.getAllCardDetails().map((details) => details.name);
+  expect(names).toEqual(["dst1", "src1"]);
+  expect(dst.getStackSize()).toEqual(2);
+  expect(onInsertedCount).toEqual(1)
+})
+
 it("cardDetails", () => {
   const card = new MockCard({
     cardDetails: [
@@ -454,3 +476,25 @@ it("takeCard (keep)", () => {
   expect(srcNames).toEqual(["src1", "src2", "src3"]);
   expect(dstNames).toEqual(["src3"]);
 });
+
+it('takeCardsAsPlayer', () => {
+    const src = new MockCard({
+    cardDetails: [
+      new MockCardDetails({ name: "src1" }),
+      new MockCardDetails({ name: "src2" }),
+      new MockCardDetails({ name: "src3" }),
+    ],
+  });
+  const player = new MockPlayer()
+
+  let onRemovedCount = 0
+  src.onRemoved.add(() => { onRemovedCount++ })
+
+  const dst = src.takeCardsAsPlayer(undefined, undefined, undefined, undefined, player);
+  expect(dst).toBeInstanceOf(MockCard);
+  const srcNames = src.getAllCardDetails().map((details) => details.name);
+  const dstNames = dst?.getAllCardDetails().map((details) => details.name);
+  expect(srcNames).toEqual(["src1", "src2"]);
+  expect(dstNames).toEqual(["src3"]);
+  expect(onRemovedCount).toEqual(1)
+})
