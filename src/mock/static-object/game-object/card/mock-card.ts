@@ -157,7 +157,7 @@ export class MockCard extends MockGameObject implements Card {
      * @param flipped
      * @param player
      */
-    addCardsAsPlayer(
+    _addCardsAsPlayer(
         cards: Card,
         toFront: boolean | undefined,
         offset: number | undefined,
@@ -373,7 +373,7 @@ export class MockCard extends MockGameObject implements Card {
         return new MockCard({ cardDetails });
     }
 
-    takeCardsAsPlayer(
+    _takeCardsAsPlayer(
         numCards: number | undefined,
         fromFront: boolean | undefined,
         offset: number | undefined,

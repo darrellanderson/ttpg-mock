@@ -68,7 +68,7 @@ export class MockContainer extends MockGameObject implements Container {
         }
     }
 
-    addObjectsAsPlayer(
+    _addObjectsAsPlayer(
         objects: GameObject[],
         index: number | undefined,
         showAnimation: boolean | undefined,
@@ -137,21 +137,6 @@ export class MockContainer extends MockGameObject implements Container {
         return this.removeAt(index);
     }
 
-    removeAsPlayer(objectToRemove: GameObject, player: Player): boolean {
-        const result = this.remove(objectToRemove);
-        if (result) {
-            const onRemoved = this.onRemoved as MockMulticastDelegate<
-                (
-                    container: this,
-                    removedObject: GameObject,
-                    player: Player
-                ) => void
-            >;
-            onRemoved._trigger(this, objectToRemove, player);
-        }
-        return result;
-    }
-
     removeAt(index: number): boolean {
         if (index < 0 || index >= this._items.length) {
             return false;
@@ -182,6 +167,27 @@ export class MockContainer extends MockGameObject implements Container {
         const index = this._items.indexOf(objectToRemove);
         const obj = this.takeAt(index, position, showAnimation, keep);
         return obj ? true : false;
+    }
+
+    _takeAsPlayer(
+        objectToRemove: GameObject,
+        position: Vector | [x: number, y: number, z: number],
+        showAnimation: boolean | undefined,
+        keep: boolean | undefined,
+        player: Player
+    ): boolean {
+        const result = this.take(objectToRemove, position, showAnimation, keep);
+        if (result) {
+            const onRemoved = this.onRemoved as MockMulticastDelegate<
+                (
+                    container: this,
+                    removedObject: GameObject,
+                    player: Player
+                ) => void
+            >;
+            onRemoved._trigger(this, objectToRemove, player);
+        }
+        return result;
     }
 
     takeAt(

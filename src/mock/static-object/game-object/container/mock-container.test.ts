@@ -108,7 +108,7 @@ it("addObjectsAdPlayer", () => {
         onInsertedCount++;
     });
 
-    container.addObjectsAsPlayer([obj], undefined, undefined, player);
+    container._addObjectsAsPlayer([obj], undefined, undefined, player);
 
     expect(onInsertedCount).toEqual(1);
 });
@@ -247,4 +247,35 @@ it("takeAt (keep)", () => {
     expect(obj1.getContainer()).toEqual(container);
     expect(obj2.getContainer()).toEqual(container);
     expect(obj3.getContainer()).toEqual(container);
+});
+
+it("takeAsPlayer", () => {
+    const obj1 = new MockGameObject();
+    const obj2 = new MockGameObject();
+    const obj3 = new MockGameObject();
+    const container = new MockContainer({
+        items: [obj1, obj2, obj3],
+    });
+    const player = new MockPlayer();
+
+    let onRemovedCount = 0;
+    container.onRemoved.add(() => {
+        onRemovedCount++;
+    });
+
+    expect(container.getItems()).toEqual([obj1, obj2, obj3]);
+    expect(obj1.getContainer()).toEqual(container);
+    expect(obj2.getContainer()).toEqual(container);
+    expect(obj3.getContainer()).toEqual(container);
+
+    let success = container._takeAsPlayer(
+        obj2,
+        [0, 0, 0],
+        undefined,
+        undefined,
+        player
+    );
+    expect(success).toEqual(true);
+    expect(container.getItems()).toEqual([obj1, obj3]);
+    expect(onRemovedCount).toEqual(1);
 });

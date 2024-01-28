@@ -163,7 +163,7 @@ it("addCardsAsPlayer", () => {
         onInsertedCount++;
     });
 
-    const success = dst.addCardsAsPlayer(
+    const success = dst._addCardsAsPlayer(
         src,
         undefined,
         undefined,
@@ -500,7 +500,7 @@ it("takeCardsAsPlayer", () => {
         onRemovedCount++;
     });
 
-    const dst = src.takeCardsAsPlayer(
+    const dst = src._takeCardsAsPlayer(
         undefined,
         undefined,
         undefined,
