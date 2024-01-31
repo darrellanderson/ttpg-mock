@@ -1,7 +1,7 @@
 import { MockDelegate } from "./mock-delegate";
 
 it("constructor", () => {
-    new MockDelegate<number>();
+    new MockDelegate<(number) => void>();
 });
 
 it("add", () => {

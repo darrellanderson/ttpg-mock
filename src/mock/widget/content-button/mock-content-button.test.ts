@@ -1,4 +1,3 @@
-import { MockColor } from "../../color/mock-color";
 import {
     MockContentButton,
     MockContentButtonParams,

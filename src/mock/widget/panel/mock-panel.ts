@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Panel, Widget } from "@tabletop-playground/api";
 import { MockWidget, MockWidgetParams } from "../mock-widget";
 import { HorizontalAlignment, VerticalAlignment } from "../../../enums";

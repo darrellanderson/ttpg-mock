@@ -57,8 +57,12 @@ it("mock classes", () => {
     expect(obj.getTemplateMetadata()).toEqual("my-metadata");
 
     // Use as type.
-    const f = (o: GameObject) => {};
+    let arg: GameObject | undefined;
+    const f = (o: GameObject) => {
+        arg = o;
+    };
     f(obj);
+    expect(arg).toEqual(obj);
 
     // Call method on mocked object (make sure those work!).
     const obj2: GameObject = new MockGameObject();

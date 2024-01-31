@@ -1,4 +1,4 @@
-import { Card, CardHolder, HiddenCardsType } from "@tabletop-playground/api";
+import { Card, HiddenCardsType } from "@tabletop-playground/api";
 import { MockCard } from "../card/mock-card";
 import { MockCardHolder, MockCardHolderParams } from "./mock-card-holder";
 

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Canvas, Widget } from "@tabletop-playground/api";
 import { MockWidget, MockWidgetParams } from "../mock-widget";
 

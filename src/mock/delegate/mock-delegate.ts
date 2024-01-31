@@ -1,6 +1,9 @@
 import { Delegate } from "@tabletop-playground/api";
 
-export class MockDelegate<T> implements Delegate<T> {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export class MockDelegate<T extends (...args: any[]) => any>
+    implements Delegate<T>
+{
     private _listener: T | undefined;
 
     add(fn: T): void {
@@ -17,8 +20,8 @@ export class MockDelegate<T> implements Delegate<T> {
         this._listener = undefined;
     }
 
-    _trigger(...args: any): void {
-        if (typeof this._listener === "function") {
+    _trigger(...args: Parameters<T>): void {
+        if (this._listener) {
             this._listener(...args);
         }
     }

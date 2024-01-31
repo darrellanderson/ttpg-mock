@@ -261,6 +261,7 @@ it("static.fromAxisAngle", () => {
     const wantFwd = new MockVector(0.998, 0.056, -0.037);
 
     expect(rot.toString()).toEqual(want.toString());
+    expect(rot.getForwardVector().toString()).toEqual(wantFwd.toString());
 });
 
 it("static.interpolateTo", () => {

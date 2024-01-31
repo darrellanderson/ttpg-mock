@@ -45,10 +45,10 @@ export class MockVector implements Vector {
         this.z = value;
     }
 
-    [Symbol.iterator](): Iterator<number, any, undefined> {
+    [Symbol.iterator](): Iterator<number> {
         let index = 0;
         return {
-            next: (): IteratorResult<number | any> => {
+            next: (): IteratorResult<number> => {
                 const done = index >= 3;
                 const value = [this.x, this.y, this.z][index];
                 index += 1;

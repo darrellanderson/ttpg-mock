@@ -1,4 +1,3 @@
-import { GameObject, Player } from "@tabletop-playground/api";
 import { MockCard } from "../static-object/game-object/card/mock-card";
 import { MockCardHolder } from "../static-object/game-object/card-holder/mock-card-holder";
 import { MockColor } from "../color/mock-color";
@@ -11,7 +10,7 @@ import { SharedObjects } from "../../shared-objects";
 import { MockGlobalScriptingEvents } from "../global-scripting-events/mock-global-scripting-events";
 
 it("constructor", () => {
-    const heldObject: GameObject = new MockGameObject();
+    const heldObject = new MockGameObject();
     const params: MockPlayerParams = {
         cursorPosition: new MockVector(1, 2, 3),
         cursorVelocity: new MockVector(5, 6, 7),
@@ -138,7 +137,7 @@ it("getOwnedObjects", () => {
 it("event onPlayerJoined", () => {
     expect(MockGlobalScriptingEvents).toBeDefined();
     let count = 0;
-    SharedObjects.globalScriptingEvents.onPlayerJoined.add((player: Player) => {
+    SharedObjects.globalScriptingEvents.onPlayerJoined.add(() => {
         count++;
     });
     new MockPlayer();
@@ -148,11 +147,9 @@ it("event onPlayerJoined", () => {
 it("event onPlayerSwitchedSlots", () => {
     expect(MockGlobalScriptingEvents).toBeDefined();
     let count = 0;
-    SharedObjects.globalScriptingEvents.onPlayerSwitchedSlots.add(
-        (player: Player) => {
-            count++;
-        }
-    );
+    SharedObjects.globalScriptingEvents.onPlayerSwitchedSlots.add(() => {
+        count++;
+    });
     new MockPlayer().switchSlot(7);
     expect(count).toEqual(1);
 });

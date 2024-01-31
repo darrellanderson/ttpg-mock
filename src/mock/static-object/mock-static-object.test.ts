@@ -348,15 +348,15 @@ it("world/local position", () => {
 
     let out = obj.worldPositionToLocal(pos);
     let want = new MockVector(-41.162, -2.41, -3.559);
-    expect(out.x).toBeCloseTo(out.x, 1);
-    expect(out.y).toBeCloseTo(out.y, 1);
-    expect(out.z).toBeCloseTo(out.z, 1);
+    expect(out.x).toBeCloseTo(want.x, 1);
+    expect(out.y).toBeCloseTo(want.y, 1);
+    expect(out.z).toBeCloseTo(want.z, 1);
 
     out = obj.localPositionToWorld(pos);
     want = new MockVector(-4.322, -24.571, 88.085);
-    expect(out.x).toBeCloseTo(out.x, 1);
-    expect(out.y).toBeCloseTo(out.y, 1);
-    expect(out.z).toBeCloseTo(out.z, 1);
+    expect(out.x).toBeCloseTo(want.x, 1);
+    expect(out.y).toBeCloseTo(want.y, 1);
+    expect(out.z).toBeCloseTo(want.z, 1);
 });
 
 it("world/local rotation", () => {
@@ -370,13 +370,13 @@ it("world/local rotation", () => {
 
     let out = obj.worldRotationToLocal(rot);
     let want = new MockRotator(15.9102, -89.4555, 91.4662);
-    expect(out.pitch).toBeCloseTo(out.pitch, 1);
-    expect(out.yaw).toBeCloseTo(out.yaw, 1);
-    expect(out.roll).toBeCloseTo(out.roll, 1);
+    expect(out.pitch).toBeCloseTo(want.pitch, 1);
+    expect(out.yaw).toBeCloseTo(want.yaw, 1);
+    expect(out.roll).toBeCloseTo(want.roll, 1);
 
     out = obj.localRotationToWorld(rot);
-    want = new MockRotator(87.868, 177.3503, 73.4141);
-    expect(out.pitch).toBeCloseTo(out.pitch, 1);
-    expect(out.yaw).toBeCloseTo(out.yaw, 1);
-    expect(out.roll).toBeCloseTo(out.roll, 1);
+    want = new MockRotator(87.868, 177.3555, 72.4187);
+    expect(out.pitch).toBeCloseTo(want.pitch, 1);
+    expect(out.yaw).toBeCloseTo(want.yaw, 1);
+    expect(out.roll).toBeCloseTo(want.roll, 1);
 });

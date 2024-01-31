@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+
 /** The object type used in {@link GameObject.getObjectType} and {@link GameObject.setObjectType}*/
 export enum ObjectType {
     /** Standard object behavior: physics stay activated (if locked physics is not enabled), collides with other regular and ground objects */

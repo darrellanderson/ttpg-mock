@@ -17,7 +17,6 @@ import {
 import { MockUIElement } from "../ui-element/mock-ui-element";
 import { MockVector } from "../vector/mock-vector";
 import { MockZone } from "../zone/mock-zone";
-import { GameWorld, LightingSettings } from "@tabletop-playground/api";
 import { MockContainer } from "../static-object/game-object/container/mock-container";
 import { MockCard } from "../static-object/game-object/card/mock-card";
 import { MockDice } from "../static-object/game-object/dice/mock-dice";

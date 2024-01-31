@@ -2,7 +2,7 @@ import { MockProcess, ProcessRunnableType } from "./mock-process";
 
 it("process flushTicks", () => {
     let count = 0;
-    const runnable: ProcessRunnableType = (msecs: number) => {
+    const runnable: ProcessRunnableType = () => {
         count += 1;
     };
 
@@ -16,7 +16,7 @@ it("process flushTicks", () => {
 
 it("process clearTicks then flushTicks", () => {
     let count = 0;
-    const runnable: ProcessRunnableType = (msecs: number) => {
+    const runnable: ProcessRunnableType = () => {
         count += 1;
     };
 

@@ -46,10 +46,10 @@ export class MockColor implements Color {
         this.a = typeof a === "number" ? a : 1;
     }
 
-    [Symbol.iterator](): Iterator<number, any, undefined> {
+    [Symbol.iterator](): Iterator<number> {
         let index = 0;
         return {
-            next: (): IteratorResult<number | any> => {
+            next: (): IteratorResult<number> => {
                 const done = index >= 4;
                 const value = [this.r, this.g, this.b, this.a][index];
                 index += 1;

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Player, PlayerPermission } from "@tabletop-playground/api";
 
 export class MockPlayerPermission implements PlayerPermission {

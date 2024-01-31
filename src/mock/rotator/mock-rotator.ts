@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Rotator, Vector } from "@tabletop-playground/api";
 import { MockVector } from "../vector/mock-vector";
 import { Euler, EulerOrder, Matrix4 } from "three";
@@ -64,10 +65,10 @@ export class MockRotator implements Rotator {
         this.roll = value;
     }
 
-    [Symbol.iterator](): Iterator<number, any, undefined> {
+    [Symbol.iterator](): Iterator<number> {
         let index = 0;
         return {
-            next: (): IteratorResult<number | any> => {
+            next: (): IteratorResult<number> => {
                 const done = index >= 3;
                 const value = [this.pitch, this.yaw, this.roll][index];
                 index += 1;

@@ -8,7 +8,6 @@ import { MockRotator } from "../../rotator/mock-rotator";
 import { MockSnapPoint } from "../../snap-point/mock-snap-point";
 import { MockSwitcher } from "../../switcher/mock-switcher";
 import { MockVector } from "../../vector/mock-vector";
-import { GameObject, globalEvents } from "@tabletop-playground/api";
 
 it("constructor", () => {
     const params: MockGameObjectParams = {
@@ -151,9 +150,8 @@ it("toggleLock", () => {
 });
 
 it("onObjectCreated", () => {
-    expect(MockGlobalScriptingEvents).toBeDefined();
     let onObjectCreatedCount = 0;
-    globalEvents.onObjectCreated.add((object: GameObject) => {
+    MockGlobalScriptingEvents.__sharedInstance.onObjectCreated.add(() => {
         onObjectCreatedCount++;
     });
     // onCreated called in constructor, should it be delayed?
@@ -165,11 +163,11 @@ it("onObjectDestroyed", () => {
     const obj = new MockGameObject();
 
     let onObjectDestroyedCount = 0;
-    globalEvents.onObjectDestroyed.add((object: GameObject) => {
+    MockGlobalScriptingEvents.__sharedInstance.onObjectDestroyed.add(() => {
         onObjectDestroyedCount++;
     });
     let onDestroyedCount = 0;
-    obj.onDestroyed.add((object: MockGameObject) => {
+    obj.onDestroyed.add(() => {
         onDestroyedCount++;
     });
 

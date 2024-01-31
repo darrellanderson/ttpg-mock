@@ -1,6 +1,7 @@
 import { MulticastDelegate } from "@tabletop-playground/api";
 
-export class MockMulticastDelegate<T extends (...args: any) => any>
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export class MockMulticastDelegate<T extends (...args: any[]) => any>
     implements MulticastDelegate<T>
 {
     private readonly _listeners: T[] = [];
@@ -21,9 +22,7 @@ export class MockMulticastDelegate<T extends (...args: any) => any>
 
     _trigger(...args: Parameters<T>): void {
         for (const fn of this._listeners) {
-            if (typeof fn === "function") {
-                fn.apply(null, args);
-            }
+            fn(...args);
         }
     }
 }

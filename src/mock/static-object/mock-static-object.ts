@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
     Color,
     DrawingLine,
@@ -507,11 +508,12 @@ export class MockStaticObject implements StaticObject {
         position: Vector | [x: number, y: number, z: number]
     ): Vector {
         position = MockVector._from(position);
-        const offset = position.subtract(this.getPosition());
+        let offset = position.subtract(this.getPosition());
+        offset = this.getRotation().unrotateVector(offset);
         offset.x /= this.getScale().x;
         offset.y /= this.getScale().y;
         offset.z /= this.getScale().z;
-        return this.getRotation().rotateVector(offset);
+        return offset;
     }
 
     localRotationToWorld(
