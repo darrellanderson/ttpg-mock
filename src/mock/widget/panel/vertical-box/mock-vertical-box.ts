@@ -4,7 +4,7 @@ import { VerticalBox } from "@tabletop-playground/api";
 export type MockVerticalBoxParams = MockPanelParams & {};
 
 export class MockVerticalBox extends MockPanel implements VerticalBox {
-  constructor(params?: MockVerticalBoxParams) {
-    super(params);
-  }
+    constructor(params?: MockVerticalBoxParams) {
+        super(params);
+    }
 }

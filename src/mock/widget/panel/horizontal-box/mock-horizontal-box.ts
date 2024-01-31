@@ -4,7 +4,7 @@ import { MockPanel, MockPanelParams } from "../mock-panel";
 export type MockHorizontalBoxParams = MockPanelParams & {};
 
 export class MockHorizontalBox extends MockPanel implements HorizontalBox {
-  constructor(params?: MockHorizontalBoxParams) {
-    super(params);
-  }
+    constructor(params?: MockHorizontalBoxParams) {
+        super(params);
+    }
 }

@@ -1,63 +1,63 @@
 import { GameObject, Widget } from "@tabletop-playground/api";
 
 export type MockWidgetParams = {
-  visible?: boolean;
-  enabled?: boolean;
-  parent?: Widget;
-  owningObject?: GameObject;
+    visible?: boolean;
+    enabled?: boolean;
+    parent?: Widget;
+    owningObject?: GameObject;
 };
 
 export class MockWidget implements Widget {
-  // two "clean" widgets not expect(a).toEqual(b)!
-  private static __index = 0;
-  private __id = `__widget_${MockWidget.__index++}__`;
+    // two "clean" widgets not expect(a).toEqual(b)!
+    private static __index = 0;
+    private __id = `__widget_${MockWidget.__index++}__`;
 
-  private _visible: boolean = true;
-  private _enabled: boolean = true;
-  private _parent: Widget | undefined = undefined;
-  private _owningObject: GameObject | undefined = undefined;
+    private _visible: boolean = true;
+    private _enabled: boolean = true;
+    private _parent: Widget | undefined = undefined;
+    private _owningObject: GameObject | undefined = undefined;
 
-  constructor(params?: MockWidgetParams) {
-    if (params?.visible !== undefined) {
-      this._visible = params.visible;
+    constructor(params?: MockWidgetParams) {
+        if (params?.visible !== undefined) {
+            this._visible = params.visible;
+        }
+        if (params?.enabled !== undefined) {
+            this._enabled = params.enabled;
+        }
+        if (params?.parent) {
+            this._parent = params.parent;
+        }
+        if (params?.owningObject) {
+            this._owningObject = params.owningObject;
+        }
     }
-    if (params?.enabled !== undefined) {
-      this._enabled = params.enabled;
+
+    setVisible(visible: boolean): Widget {
+        this._visible = visible;
+        return this;
     }
-    if (params?.parent) {
-      this._parent = params.parent;
+
+    setEnabled(enabled: boolean): this {
+        this._enabled = enabled;
+        return this;
     }
-    if (params?.owningObject) {
-      this._owningObject = params.owningObject;
+
+    isVisible(): boolean {
+        return this._visible;
     }
-  }
+    isEnabled(): boolean {
+        return this._enabled;
+    }
 
-  setVisible(visible: boolean): Widget {
-    this._visible = visible;
-    return this;
-  }
+    getParent(): Widget | undefined {
+        return this._parent;
+    }
 
-  setEnabled(enabled: boolean): this {
-    this._enabled = enabled;
-    return this;
-  }
+    getOwningObject(): GameObject | undefined {
+        return this._owningObject;
+    }
 
-  isVisible(): boolean {
-    return this._visible;
-  }
-  isEnabled(): boolean {
-    return this._enabled;
-  }
-
-  getParent(): Widget | undefined {
-    return this._parent;
-  }
-
-  getOwningObject(): GameObject | undefined {
-    return this._owningObject;
-  }
-
-  _getId(): string {
-    return this.__id;
-  }
+    _getId(): string {
+        return this.__id;
+    }
 }

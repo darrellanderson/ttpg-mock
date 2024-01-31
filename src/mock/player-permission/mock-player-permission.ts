@@ -1,27 +1,27 @@
 import { Player, PlayerPermission } from "@tabletop-playground/api";
 
 export class MockPlayerPermission implements PlayerPermission {
-  value: number = -1;
+    value: number = -1;
 
-  addPlayer(player: Player): PlayerPermission {
-    return this;
-  }
+    addPlayer(player: Player): PlayerPermission {
+        return this;
+    }
 
-  clone(): PlayerPermission {
-    const clone = new MockPlayerPermission();
-    clone.value = this.value;
-    return clone;
-  }
+    clone(): PlayerPermission {
+        const clone = new MockPlayerPermission();
+        clone.value = this.value;
+        return clone;
+    }
 
-  setHost(hostIsPermitted: boolean): PlayerPermission {
-    return this;
-  }
+    setHost(hostIsPermitted: boolean): PlayerPermission {
+        return this;
+    }
 
-  setPlayerSlots(slots: number[]): PlayerPermission {
-    return this;
-  }
+    setPlayerSlots(slots: number[]): PlayerPermission {
+        return this;
+    }
 
-  setTeams(teams: number[]): PlayerPermission {
-    return this;
-  }
+    setTeams(teams: number[]): PlayerPermission {
+        return this;
+    }
 }
