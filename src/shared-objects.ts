@@ -6,58 +6,58 @@ import { GameWorld, GlobalScriptingEvents } from "@tabletop-playground/api";
  * hack to access the shared versions of those objects.
  */
 export abstract class SharedObjects {
-  private static _gameWorld: GameWorld | undefined;
-  private static _globalScriptingEvents: GlobalScriptingEvents | undefined;
-  private static _process: Process | undefined;
+    private static _gameWorld: GameWorld | undefined;
+    private static _globalScriptingEvents: GlobalScriptingEvents | undefined;
+    private static _process: Process | undefined;
 
-  static set gameWorld(value: GameWorld) {
-    SharedObjects._gameWorld = value;
-  }
-
-  static get gameWorld(): GameWorld {
-    if (!this._gameWorld) {
-      throw new Error(
-        "SharedObjects.gameWorld undefined, import MockGameWorld to instantiate it"
-      );
+    static set gameWorld(value: GameWorld) {
+        SharedObjects._gameWorld = value;
     }
-    return this._gameWorld;
-  }
 
-  static get maybeGameWorld(): GameWorld | undefined {
-    return this._gameWorld
-  }
-
-  static set globalScriptingEvents(value: GlobalScriptingEvents) {
-    this._globalScriptingEvents = value;
-  }
-
-  static get globalScriptingEvents(): GlobalScriptingEvents {
-    if (!this._globalScriptingEvents) {
-      throw new Error(
-        "SharedObjects.globalScriptingEvents undefined, import MockGlobalScriptingEvents to instantiate it"
-      );
+    static get gameWorld(): GameWorld {
+        if (!this._gameWorld) {
+            throw new Error(
+                "SharedObjects.gameWorld undefined, import MockGameWorld to instantiate it"
+            );
+        }
+        return this._gameWorld;
     }
-    return this._globalScriptingEvents;
-  }
 
-  static get maybeGlobalScriptingEvents(): GlobalScriptingEvents | undefined {
-    return this._globalScriptingEvents
-  }
-
-  static set process(value: Process) {
-    SharedObjects._process = value;
-  }
-
-  static get process(): Process {
-    if (!this._process) {
-      throw new Error(
-        "SharedObjects.process undefined, import MockProcess to instantiate it"
-      );
+    static get maybeGameWorld(): GameWorld | undefined {
+        return this._gameWorld;
     }
-    return this._process;
-  }
 
-  static get maybeProcess(): Process | undefined {
-    return this._process
-  }
+    static set globalScriptingEvents(value: GlobalScriptingEvents) {
+        this._globalScriptingEvents = value;
+    }
+
+    static get globalScriptingEvents(): GlobalScriptingEvents {
+        if (!this._globalScriptingEvents) {
+            throw new Error(
+                "SharedObjects.globalScriptingEvents undefined, import MockGlobalScriptingEvents to instantiate it"
+            );
+        }
+        return this._globalScriptingEvents;
+    }
+
+    static get maybeGlobalScriptingEvents(): GlobalScriptingEvents | undefined {
+        return this._globalScriptingEvents;
+    }
+
+    static set process(value: Process) {
+        SharedObjects._process = value;
+    }
+
+    static get process(): Process {
+        if (!this._process) {
+            throw new Error(
+                "SharedObjects.process undefined, import MockProcess to instantiate it"
+            );
+        }
+        return this._process;
+    }
+
+    static get maybeProcess(): Process | undefined {
+        return this._process;
+    }
 }
