@@ -1,10 +1,6 @@
 {
     "name": "ttpg-mock",
-<<<<<<< HEAD
-    "version": "1.0.37",
-=======
     "version": "1.0.39",
->>>>>>> 6ad04227b5d4e48692ffb9eefee2351c3b4db786
     "description": "jest module for @tabletop-playground/api testing",
     "repository": "github:darrellanderson/ttpg-mock",
     "main": "./build/cjs/index.js",
@@ -20,19 +16,19 @@
     "author": "Darrell",
     "license": "Unlicense",
     "dependencies": {
-        "@jest/globals": "^29.7.0",
         "@tabletop-playground/api": "^0.39.0",
-        "@types/jest": "^29.5.8",
-        "@types/three": "^0.158.3",
-        "jest": "^29.7.0",
-        "jest-environment-jsdom": "^29.7.0",
-        "three": "^0.158.0",
-        "ts-jest": "^29.1.1"
+        "three": "^0.158.0"
     },
     "devDependencies": {
+        "@jest/globals": "^29.7.0",
+        "@types/jest": "^29.5.8",
+        "@types/three": "^0.158.3",
         "@typescript-eslint/eslint-plugin": "^6.20.0",
         "@typescript-eslint/parser": "^6.20.0",
         "eslint": "^8.56.0",
+        "jest": "^29.7.0",
+        "jest-environment-jsdom": "^29.7.0",
+        "ts-jest": "^29.1.1",
         "typescript": "^5.3.3"
     }
 }
