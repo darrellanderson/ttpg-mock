@@ -1,95 +1,103 @@
 import {
-  MulticastDelegate,
-  PhaseDetails,
-  Player,
-  TurnSystem,
+    MulticastDelegate,
+    PhaseDetails,
+    Player,
+    TurnSystem,
 } from "@tabletop-playground/api";
 import { MockMulticastDelegate } from "../multicast-delegate/mock-multicast-delegate";
 
 export type MockTurnSystemParams = {
-  phases?: PhaseDetails[];
-  currentTurn?: number;
-  currentRound?: number;
-  currentPhaseIndex?: number;
-  activePlayers?: Player[];
+    phases?: PhaseDetails[];
+    currentTurn?: number;
+    currentRound?: number;
+    currentPhaseIndex?: number;
+    activePlayers?: Player[];
 };
 
 export class MockTurnSystem implements TurnSystem {
-  private _phases: PhaseDetails[] = [];
-  private _currentTurn: number = 0;
-  private _currentRound: number = 0;
-  private _currentPhaseIndex: number = 0;
-  private _activePlayers: Player[] = [];
+    private _phases: PhaseDetails[] = [];
+    private _currentTurn: number = 0;
+    private _currentRound: number = 0;
+    private _currentPhaseIndex: number = 0;
+    private _activePlayers: Player[] = [];
 
-  onTurnChanged: MulticastDelegate<
-    (previousTurn: number, previousPhase: number, previousRound: number) => void
-  > = new MockMulticastDelegate<
-    (previousTurn: number, previousPhase: number, previousRound: number) => void
-  >();
+    onTurnChanged: MulticastDelegate<
+        (
+            previousTurn: number,
+            previousPhase: number,
+            previousRound: number
+        ) => void
+    > = new MockMulticastDelegate<
+        (
+            previousTurn: number,
+            previousPhase: number,
+            previousRound: number
+        ) => void
+    >();
 
-  constructor(params?: MockTurnSystemParams) {
-    if (params?.phases) {
-      this._phases = params.phases;
+    constructor(params?: MockTurnSystemParams) {
+        if (params?.phases) {
+            this._phases = params.phases;
+        }
+        if (params?.currentTurn !== undefined) {
+            this._currentTurn = params.currentTurn;
+        }
+        if (params?.currentRound !== undefined) {
+            this._currentRound = params.currentRound;
+        }
+        if (params?.currentPhaseIndex !== undefined) {
+            this._currentPhaseIndex = params.currentPhaseIndex;
+        }
+        if (params?.activePlayers !== undefined) {
+            this._activePlayers = params.activePlayers;
+        }
     }
-    if (params?.currentTurn !== undefined) {
-      this._currentTurn = params.currentTurn;
+
+    setPhases(phases: PhaseDetails[]): void {
+        this._phases = phases.map((phase) => phase.clone());
     }
-    if (params?.currentRound !== undefined) {
-      this._currentRound = params.currentRound;
+
+    setCurrentTurn(turn: number): void {
+        this._currentTurn = turn;
     }
-    if (params?.currentPhaseIndex !== undefined) {
-      this._currentPhaseIndex = params.currentPhaseIndex;
+
+    setCurrentRound(round: number): void {
+        this._currentRound = round;
     }
-    if (params?.activePlayers !== undefined) {
-      this._activePlayers = params.activePlayers;
+
+    setCurrentPhaseIndex(phase: number): void {
+        this._currentPhaseIndex = phase;
     }
-  }
 
-  setPhases(phases: PhaseDetails[]): void {
-    this._phases = phases.map((phase) => phase.clone())
-  }
+    previousTurn(): void {
+        // pass without side effects
+    }
 
-  setCurrentTurn(turn: number): void {
-    this._currentTurn = turn;
-  }
+    nextTurn(): void {
+        // pass without side effects
+    }
 
-  setCurrentRound(round: number): void {
-    this._currentRound = round;
-  }
+    getCurrentTurn(): number {
+        return this._currentTurn;
+    }
 
-  setCurrentPhaseIndex(phase: number): void {
-    this._currentPhaseIndex = phase;
-  }
+    getCurrentRound(): number {
+        return this._currentRound;
+    }
 
-  previousTurn(): void {
-    // pass without side effects
-  }
+    getCurrentPhaseIndex(): number {
+        return this._currentPhaseIndex;
+    }
 
-  nextTurn(): void {
-    // pass without side effects
-  }
+    getCurrentPhase(): PhaseDetails {
+        return this._phases[this._currentPhaseIndex];
+    }
 
-  getCurrentTurn(): number {
-    return this._currentTurn;
-  }
+    getAllPhases(): PhaseDetails[] {
+        return this._phases;
+    }
 
-  getCurrentRound(): number {
-    return this._currentRound;
-  }
-
-  getCurrentPhaseIndex(): number {
-    return this._currentPhaseIndex;
-  }
-
-  getCurrentPhase(): PhaseDetails {
-    return this._phases[this._currentPhaseIndex];
-  }
-
-  getAllPhases(): PhaseDetails[] {
-    return this._phases;
-  }
-
-  getActivePlayers(): Player[] {
-    return this._activePlayers;
-  }
+    getActivePlayers(): Player[] {
+        return this._activePlayers;
+    }
 }

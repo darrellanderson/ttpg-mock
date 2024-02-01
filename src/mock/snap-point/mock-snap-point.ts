@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
     GameObject,
     SnapPoint,
@@ -7,7 +8,6 @@ import {
 import { MockVector } from "../vector/mock-vector";
 import { SnapPointFlipValidity, SnapPointShape } from "../../enums";
 import { MockGameObject } from "../static-object/game-object/mock-game-object";
-import { MockStaticObject } from "../static-object/mock-static-object";
 
 export type MockSnapPointParams = {
     flipValidity?: number;

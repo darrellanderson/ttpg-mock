@@ -1,99 +1,100 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Panel, Widget } from "@tabletop-playground/api";
 import { MockWidget, MockWidgetParams } from "../mock-widget";
 import { HorizontalAlignment, VerticalAlignment } from "../../../enums";
 
 export type MockPanelParams = MockWidgetParams & {
-  children?: Widget[];
-  horizontalAlignment?: number;
-  verticalAlignment?: number;
+    children?: Widget[];
+    horizontalAlignment?: number;
+    verticalAlignment?: number;
 };
 
 export class MockPanel extends MockWidget implements Panel {
-  private _children: Widget[] = [];
-  private _horizontalAlignment: number = HorizontalAlignment.Fill;
-  private _verticalAlignment: number = VerticalAlignment.Fill;
+    private _children: Widget[] = [];
+    private _horizontalAlignment: number = HorizontalAlignment.Fill;
+    private _verticalAlignment: number = VerticalAlignment.Fill;
 
-  constructor(params?: MockPanelParams) {
-    super(params);
-    if (params?.children) {
-      this._children = params.children;
+    constructor(params?: MockPanelParams) {
+        super(params);
+        if (params?.children) {
+            this._children = params.children;
+        }
+        if (params?.horizontalAlignment !== undefined) {
+            this._horizontalAlignment = params.horizontalAlignment;
+        }
+        if (params?.verticalAlignment !== undefined) {
+            this._verticalAlignment = params.verticalAlignment;
+        }
     }
-    if (params?.horizontalAlignment !== undefined) {
-      this._horizontalAlignment = params.horizontalAlignment;
+
+    addChild(child: Widget, weight?: number | undefined): Panel {
+        this._children.push(child);
+        return this;
     }
-    if (params?.verticalAlignment !== undefined) {
-      this._verticalAlignment = params.verticalAlignment;
+
+    getAllChildren(): Widget[] {
+        return [...this._children];
     }
-  }
 
-  addChild(child: Widget, weight?: number | undefined): Panel {
-    this._children.push(child);
-    return this;
-  }
-
-  getAllChildren(): Widget[] {
-    return [...this._children];
-  }
-
-  getChildAt(index: number): Widget | undefined {
-    return this._children[index];
-  }
-
-  getHorizontalAlignment(): number {
-    return this._horizontalAlignment;
-  }
-
-  getNumChildren(): number {
-    return this._children.length;
-  }
-
-  getVerticalAlignment(): number {
-    return this._verticalAlignment;
-  }
-
-  insertChild(
-    child: Widget,
-    index: number,
-    weight?: number | undefined
-  ): Panel {
-    this._children = [
-      ...this._children.slice(0, index),
-      child,
-      ...this._children.slice(index),
-    ];
-    return this;
-  }
-
-  removeAllChildren(): void {
-    this._children = [];
-  }
-
-  removeChild(child: Widget): void {
-    const index = this._children.indexOf(child);
-    this.removeChildAt(index);
-  }
-
-  removeChildAt(index: number): void {
-    if (index >= 0 && index < this._children.length) {
-      this._children.splice(index, 1);
+    getChildAt(index: number): Widget | undefined {
+        return this._children[index];
     }
-  }
 
-  setChildDistance(distance: number): Panel {
-    return this;
-  }
+    getHorizontalAlignment(): number {
+        return this._horizontalAlignment;
+    }
 
-  setEqualChildSize(equal: boolean): Panel {
-    return this;
-  }
+    getNumChildren(): number {
+        return this._children.length;
+    }
 
-  setHorizontalAlignment(alignment: number): Panel {
-    this._horizontalAlignment = alignment;
-    return this;
-  }
+    getVerticalAlignment(): number {
+        return this._verticalAlignment;
+    }
 
-  setVerticalAlignment(alignment: number): Panel {
-    this._verticalAlignment = alignment;
-    return this;
-  }
+    insertChild(
+        child: Widget,
+        index: number,
+        weight?: number | undefined
+    ): Panel {
+        this._children = [
+            ...this._children.slice(0, index),
+            child,
+            ...this._children.slice(index),
+        ];
+        return this;
+    }
+
+    removeAllChildren(): void {
+        this._children = [];
+    }
+
+    removeChild(child: Widget): void {
+        const index = this._children.indexOf(child);
+        this.removeChildAt(index);
+    }
+
+    removeChildAt(index: number): void {
+        if (index >= 0 && index < this._children.length) {
+            this._children.splice(index, 1);
+        }
+    }
+
+    setChildDistance(distance: number): Panel {
+        return this;
+    }
+
+    setEqualChildSize(equal: boolean): Panel {
+        return this;
+    }
+
+    setHorizontalAlignment(alignment: number): Panel {
+        this._horizontalAlignment = alignment;
+        return this;
+    }
+
+    setVerticalAlignment(alignment: number): Panel {
+        this._verticalAlignment = alignment;
+        return this;
+    }
 }

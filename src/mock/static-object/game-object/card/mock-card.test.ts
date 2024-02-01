@@ -477,7 +477,7 @@ it("takeCard (keep)", () => {
     const fromFront = undefined;
     const offset = undefined;
     const keep = true;
-    const dst = src.takeCards(numCards, fromFront, offset, true);
+    const dst = src.takeCards(numCards, fromFront, offset, keep);
     expect(dst).toBeInstanceOf(MockCard);
     const srcNames = src.getAllCardDetails().map((details) => details.name);
     const dstNames = dst?.getAllCardDetails().map((details) => details.name);

@@ -2,77 +2,77 @@ import { Color, LightingSettings } from "@tabletop-playground/api";
 import { MockColor } from "../color/mock-color";
 
 export type MockLightingSettingsParams = {
-  altitude?: number;
-  azimuth?: number;
-  color?: Color | [r: number, g: number, b: number, a: number];
-  intensity?: number;
-  specularIntensity?: number;
+    altitude?: number;
+    azimuth?: number;
+    color?: Color | [r: number, g: number, b: number, a: number];
+    intensity?: number;
+    specularIntensity?: number;
 };
 
 export class MockLightingSettings implements LightingSettings {
-  private _altitude = 90;
-  private _azimuth = 0;
-  private _color = new MockColor(1, 1, 1, 1);
-  private _intensity = 1;
-  private _specularIntensity = 1;
+    private _altitude = 90;
+    private _azimuth = 0;
+    private _color = new MockColor(1, 1, 1, 1);
+    private _intensity = 1;
+    private _specularIntensity = 1;
 
-  constructor(params?: MockLightingSettingsParams) {
-    if (params?.altitude) {
-      this._altitude = params.altitude;
+    constructor(params?: MockLightingSettingsParams) {
+        if (params?.altitude) {
+            this._altitude = params.altitude;
+        }
+        if (params?.azimuth) {
+            this._azimuth = params.azimuth;
+        }
+        if (params?.color) {
+            this._color = MockColor._from(params.color);
+        }
+        if (params?.intensity) {
+            this._intensity = params.intensity;
+        }
+        if (params?.specularIntensity) {
+            this._specularIntensity = params.specularIntensity;
+        }
     }
-    if (params?.azimuth) {
-      this._azimuth = params.azimuth;
+
+    getMainLightAltitude(): number {
+        return this._altitude;
     }
-    if (params?.color) {
-      this._color = MockColor._from(params.color);
+
+    getMainLightAzimuth(): number {
+        return this._azimuth;
     }
-    if (params?.intensity) {
-      this._intensity = params.intensity;
+
+    getMainLightColor(): Color {
+        return this._color.clone();
     }
-    if (params?.specularIntensity) {
-      this._specularIntensity = params.specularIntensity;
+
+    getMainLightIntensity(): number {
+        return this._intensity;
     }
-  }
 
-  getMainLightAltitude(): number {
-    return this._altitude;
-  }
+    getMainLightSpecularIntensity(): number {
+        return this._specularIntensity;
+    }
 
-  getMainLightAzimuth(): number {
-    return this._azimuth;
-  }
+    setMainLightAltitude(angle: number): void {
+        this._altitude = angle;
+    }
 
-  getMainLightColor(): Color {
-    return this._color.clone();
-  }
+    setMainLightAzimuth(angle: number): void {
+        this._azimuth = angle;
+    }
 
-  getMainLightIntensity(): number {
-    return this._intensity;
-  }
+    setMainLightColor(
+        color: Color | [r: number, g: number, b: number, a: number]
+    ): void {
+        this._color = MockColor._from(color);
+    }
 
-  getMainLightSpecularIntensity(): number {
-    return this._specularIntensity;
-  }
+    setMainLightIntensity(intensity: number): void {
+        this._intensity = intensity;
+    }
 
-  setMainLightAltitude(angle: number): void {
-    this._altitude = angle;
-  }
-
-  setMainLightAzimuth(angle: number): void {
-    this._azimuth = angle;
-  }
-
-  setMainLightColor(
-    color: Color | [r: number, g: number, b: number, a: number]
-  ): void {
-    this._color = MockColor._from(color);
-  }
-
-  setMainLightIntensity(intensity: number): void {
-    this._intensity = intensity;
-  }
-
-  setMainLightSpecularIntensity(intensity: number): void {
-    this._specularIntensity = intensity;
-  }
+    setMainLightSpecularIntensity(intensity: number): void {
+        this._specularIntensity = intensity;
+    }
 }

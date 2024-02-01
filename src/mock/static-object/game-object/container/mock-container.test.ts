@@ -241,7 +241,7 @@ it("takeAt (keep)", () => {
 
     const showAnimation = undefined;
     const keep = true;
-    let success = container.takeAt(1, [0, 0, 0], showAnimation, keep);
+    const success = container.takeAt(1, [0, 0, 0], showAnimation, keep);
     expect(success).toEqual(obj2);
     expect(container.getItems()).toEqual([obj1, obj2, obj3]);
     expect(obj1.getContainer()).toEqual(container);
@@ -268,7 +268,7 @@ it("takeAsPlayer", () => {
     expect(obj2.getContainer()).toEqual(container);
     expect(obj3.getContainer()).toEqual(container);
 
-    let success = container._takeAsPlayer(
+    const success = container._takeAsPlayer(
         obj2,
         [0, 0, 0],
         undefined,

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
     Card,
     CardDetails,
@@ -202,11 +203,12 @@ export class MockCard extends MockGameObject implements Card {
         const numStacks = Math.ceil(this.getStackSize() / numCards);
         const result: Card[] = [];
         for (let i = 0; i < numStacks; i++) {
-            let newCard = this.takeCards(numCards);
-            if (!newCard) {
-                newCard = this; // one card remaining
+            const newCard = this.takeCards(numCards);
+            if (newCard) {
+                result.push(newCard);
+            } else {
+                result.push(this); // one card remaining
             }
-            result.push(newCard);
         }
         return result;
     }
@@ -321,7 +323,7 @@ export class MockCard extends MockGameObject implements Card {
         const a: CardDetails[] = this._cardDetails;
         // Fisher-Yates
         for (let i = a.length - 1; i > 0; i--) {
-            let j = Math.floor(Math.random() * (i + 1));
+            const j = Math.floor(Math.random() * (i + 1));
             [a[i], a[j]] = [a[j], a[i]];
         }
     }
@@ -330,11 +332,12 @@ export class MockCard extends MockGameObject implements Card {
         const stackSize = Math.ceil(this.getStackSize() / numStacks);
         const result: Card[] = [];
         for (let i = 0; i < numStacks; i++) {
-            let newCard = this.takeCards(stackSize);
-            if (!newCard) {
-                newCard = this; // one card remaining
+            const newCard = this.takeCards(stackSize);
+            if (newCard) {
+                result.push(newCard);
+            } else {
+                result.push(this); // one card remaining
             }
-            result.push(newCard);
         }
         return result;
     }

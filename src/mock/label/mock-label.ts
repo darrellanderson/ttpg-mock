@@ -4,142 +4,144 @@ import { MockRotator } from "../rotator/mock-rotator";
 import { MockVector } from "../vector/mock-vector";
 
 export type MockLabelParams = {
-  color?: Color | [r: number, g: number, b: number, a: number];
-  fontFileName?: string;
-  fontPackageId?: string;
-  id?: string;
-  playerSlot?: number;
-  position?: Vector | [x: number, y: number, z: number];
-  rotation?: Rotator | [pitch: number, yaw: number, roll: number];
-  scale?: number;
-  text?: string;
-  valid?: boolean;
+    color?: Color | [r: number, g: number, b: number, a: number];
+    fontFileName?: string;
+    fontPackageId?: string;
+    id?: string;
+    playerSlot?: number;
+    position?: Vector | [x: number, y: number, z: number];
+    rotation?: Rotator | [pitch: number, yaw: number, roll: number];
+    scale?: number;
+    text?: string;
+    valid?: boolean;
 };
 
 export class MockLabel implements Label {
-  private static __labelIndex = 0;
+    private static __labelIndex = 0;
 
-  private _color: Color = new MockColor(0, 0, 0, 1);
-  private _fontFileName: string = "";
-  private _fontPackageId: string = "";
-  private _id: string = `__label_${MockLabel.__labelIndex++}__`;
-  private _playerSlot: number = -1;
-  private _position: Vector = new MockVector(0, 0, 0);
-  private _rotation: Rotator = new MockRotator(0, 0, 0);
-  private _scale: number = 1;
-  private _text: string = "";
-  private _valid: boolean = true;
+    private _color: Color = new MockColor(0, 0, 0, 1);
+    private _fontFileName: string = "";
+    private _fontPackageId: string = "";
+    private _id: string = `__label_${MockLabel.__labelIndex++}__`;
+    private _playerSlot: number = -1;
+    private _position: Vector = new MockVector(0, 0, 0);
+    private _rotation: Rotator = new MockRotator(0, 0, 0);
+    private _scale: number = 1;
+    private _text: string = "";
+    private _valid: boolean = true;
 
-  constructor(params?: MockLabelParams) {
-    if (params?.color) {
-      this._color = MockColor._from(params.color);
+    constructor(params?: MockLabelParams) {
+        if (params?.color) {
+            this._color = MockColor._from(params.color);
+        }
+        if (params?.fontFileName) {
+            this._fontFileName = params.fontFileName;
+        }
+        if (params?.fontPackageId) {
+            this._fontPackageId = params.fontPackageId;
+        }
+        if (params?.id) {
+            this._id = params.id;
+        }
+        if (params?.playerSlot !== undefined) {
+            this._playerSlot = params.playerSlot;
+        }
+        if (params?.position) {
+            this._position = MockVector._from(params.position);
+        }
+        if (params?.rotation) {
+            this._rotation = MockRotator._from(params.rotation);
+        }
+        if (params?.scale !== undefined) {
+            this._scale = params.scale;
+        }
+        if (params?.text) {
+            this._text = params.text;
+        }
+        if (params?.valid !== undefined) {
+            this._valid = params.valid;
+        }
     }
-    if (params?.fontFileName) {
-      this._fontFileName = params.fontFileName;
+
+    destroy(): void {
+        this._valid = false;
     }
-    if (params?.fontPackageId) {
-      this._fontPackageId = params.fontPackageId;
+
+    getColor(): Color {
+        return this._color.clone();
     }
-    if (params?.id) {
-      this._id = params.id;
+
+    getFontFileName(): string {
+        return this._fontFileName;
     }
-    if (params?.playerSlot !== undefined) {
-      this._playerSlot = params.playerSlot;
+
+    getFontPackage(): string {
+        return this._fontPackageId;
     }
-    if (params?.position) {
-      this._position = MockVector._from(params.position);
+
+    getId(): string {
+        return this._id;
     }
-    if (params?.rotation) {
-      this._rotation = MockRotator._from(params.rotation);
+
+    getPlayerSlot(): number {
+        return this._playerSlot;
     }
-    if (params?.scale !== undefined) {
-      this._scale = params.scale;
+
+    getPosition(): Vector {
+        return this._position.clone();
     }
-    if (params?.text) {
-      this._text = params.text;
+
+    getRotation(): Rotator {
+        return this._rotation.clone();
     }
-    if (params?.valid !== undefined) {
-      this._valid = params.valid;
+
+    getScale(): number {
+        return this._scale;
     }
-  }
 
-  destroy(): void {
-    this._valid = false;
-  }
+    getText(): string {
+        return this._text;
+    }
 
-  getColor(): Color {
-    return this._color.clone();
-  }
+    isValid(): boolean {
+        return this._valid;
+    }
 
-  getFontFileName(): string {
-    return this._fontFileName;
-  }
+    setColor(
+        color: Color | [r: number, g: number, b: number, a: number]
+    ): void {
+        this._color = MockColor._from(color);
+    }
 
-  getFontPackage(): string {
-    return this._fontPackageId;
-  }
+    setFont(fontFilename: string, packageId?: string | undefined): void {
+        this._fontFileName = fontFilename;
+        this._fontPackageId = packageId ? packageId : "";
+    }
 
-  getId(): string {
-    return this._id;
-  }
+    setId(iD: string): boolean {
+        this._id = iD;
+        return true;
+    }
 
-  getPlayerSlot(): number {
-    return this._playerSlot;
-  }
+    setPlayerSlot(slot: number): void {
+        this._playerSlot = slot;
+    }
 
-  getPosition(): Vector {
-    return this._position.clone();
-  }
+    setPosition(position: Vector | [x: number, y: number, z: number]): void {
+        this._position = MockVector._from(position);
+    }
 
-  getRotation(): Rotator {
-    return this._rotation.clone();
-  }
+    setRotation(
+        rotation: Rotator | [pitch: number, yaw: number, roll: number]
+    ): void {
+        this._rotation = MockRotator._from(rotation);
+    }
 
-  getScale(): number {
-    return this._scale;
-  }
+    setScale(scale: number): void {
+        this._scale = scale;
+    }
 
-  getText(): string {
-    return this._text;
-  }
-
-  isValid(): boolean {
-    return this._valid;
-  }
-
-  setColor(color: Color | [r: number, g: number, b: number, a: number]): void {
-    this._color = MockColor._from(color);
-  }
-
-  setFont(fontFilename: string, packageId?: string | undefined): void {
-    this._fontFileName = fontFilename;
-    this._fontPackageId = packageId ? packageId : "";
-  }
-
-  setId(iD: string): boolean {
-    this._id = iD;
-    return true;
-  }
-
-  setPlayerSlot(slot: number): void {
-    this._playerSlot = slot;
-  }
-
-  setPosition(position: Vector | [x: number, y: number, z: number]): void {
-    this._position = MockVector._from(position);
-  }
-
-  setRotation(
-    rotation: Rotator | [pitch: number, yaw: number, roll: number]
-  ): void {
-    this._rotation = MockRotator._from(rotation);
-  }
-
-  setScale(scale: number): void {
-    this._scale = scale;
-  }
-
-  setText(text: string): void {
-    this._text = text;
-  }
+    setText(text: string): void {
+        this._text = text;
+    }
 }

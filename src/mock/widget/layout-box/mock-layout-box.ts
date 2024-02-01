@@ -3,186 +3,186 @@ import { MockWidget, MockWidgetParams } from "../mock-widget";
 import { HorizontalAlignment, VerticalAlignment } from "../../../enums";
 
 export type MockLayoutBoxParams = MockWidgetParams & {
-  child?: Widget;
-  horizontalAlignment?: number;
-  maximumHeight?: number;
-  maximumWidth?: number;
-  minimumHeight?: number;
-  minimumWidth?: number;
-  overrideHeight?: number;
-  overrideWidth?: number;
-  paddingLeft?: number;
-  paddingTop?: number;
-  paddingRight?: number;
-  paddingBottom?: number;
-  verticalAlignment?: number;
+    child?: Widget;
+    horizontalAlignment?: number;
+    maximumHeight?: number;
+    maximumWidth?: number;
+    minimumHeight?: number;
+    minimumWidth?: number;
+    overrideHeight?: number;
+    overrideWidth?: number;
+    paddingLeft?: number;
+    paddingTop?: number;
+    paddingRight?: number;
+    paddingBottom?: number;
+    verticalAlignment?: number;
 };
 
 export class MockLayoutBox extends MockWidget implements LayoutBox {
-  private _child: Widget | undefined = undefined;
-  private _horizontalAlignment: number = HorizontalAlignment.Fill;
-  private _maximumHeight: number = -1;
-  private _maximumWidth: number = -1;
-  private _minimumHeight: number = 0;
-  private _minimumWidth: number = 0;
-  private _overrideHeight: number = -1;
-  private _overrideWidth: number = -1;
-  private _paddingLeft: number = 0;
-  private _paddingTop: number = 0;
-  private _paddingRight: number = 0;
-  private _paddingBottom: number = 0;
-  private _verticalAlignment: number = VerticalAlignment.Fill;
+    private _child: Widget | undefined = undefined;
+    private _horizontalAlignment: number = HorizontalAlignment.Fill;
+    private _maximumHeight: number = -1;
+    private _maximumWidth: number = -1;
+    private _minimumHeight: number = 0;
+    private _minimumWidth: number = 0;
+    private _overrideHeight: number = -1;
+    private _overrideWidth: number = -1;
+    private _paddingLeft: number = 0;
+    private _paddingTop: number = 0;
+    private _paddingRight: number = 0;
+    private _paddingBottom: number = 0;
+    private _verticalAlignment: number = VerticalAlignment.Fill;
 
-  constructor(params?: MockLayoutBoxParams) {
-    super(params);
-    if (params?.child !== undefined) {
-      this._child = params.child;
+    constructor(params?: MockLayoutBoxParams) {
+        super(params);
+        if (params?.child !== undefined) {
+            this._child = params.child;
+        }
+        if (params?.horizontalAlignment !== undefined) {
+            this._horizontalAlignment = params.horizontalAlignment;
+        }
+        if (params?.maximumHeight !== undefined) {
+            this._maximumHeight = params.maximumHeight;
+        }
+        if (params?.maximumWidth !== undefined) {
+            this._maximumWidth = params.maximumWidth;
+        }
+        if (params?.minimumHeight !== undefined) {
+            this._minimumHeight = params.minimumHeight;
+        }
+        if (params?.minimumWidth !== undefined) {
+            this._minimumWidth = params.minimumWidth;
+        }
+        if (params?.overrideHeight !== undefined) {
+            this._overrideHeight = params.overrideHeight;
+        }
+        if (params?.overrideWidth !== undefined) {
+            this._overrideWidth = params.overrideWidth;
+        }
+        if (params?.paddingLeft !== undefined) {
+            this._paddingLeft = params.paddingLeft;
+        }
+        if (params?.paddingTop !== undefined) {
+            this._paddingTop = params.paddingTop;
+        }
+        if (params?.paddingRight !== undefined) {
+            this._paddingRight = params.paddingRight;
+        }
+        if (params?.paddingBottom !== undefined) {
+            this._paddingBottom = params.paddingBottom;
+        }
+        if (params?.verticalAlignment !== undefined) {
+            this._verticalAlignment = params.verticalAlignment;
+        }
     }
-    if (params?.horizontalAlignment !== undefined) {
-      this._horizontalAlignment = params.horizontalAlignment;
+
+    getBottomPadding(): number {
+        return this._paddingBottom;
     }
-    if (params?.maximumHeight !== undefined) {
-      this._maximumHeight = params.maximumHeight;
+
+    getChild(): Widget | undefined {
+        return this._child;
     }
-    if (params?.maximumWidth !== undefined) {
-      this._maximumWidth = params.maximumWidth;
+
+    getHorizontalAlignment(): number {
+        return this._horizontalAlignment;
     }
-    if (params?.minimumHeight !== undefined) {
-      this._minimumHeight = params.minimumHeight;
+
+    getLeftPadding(): number {
+        return this._paddingLeft;
     }
-    if (params?.minimumWidth !== undefined) {
-      this._minimumWidth = params.minimumWidth;
+
+    getMaximumHeight(): number {
+        return this._maximumHeight;
     }
-    if (params?.overrideHeight !== undefined) {
-      this._overrideHeight = params.overrideHeight;
+
+    getMaximumWidth(): number {
+        return this._maximumWidth;
     }
-    if (params?.overrideWidth !== undefined) {
-      this._overrideWidth = params.overrideWidth;
+
+    getMinimumHeight(): number {
+        return this._minimumHeight;
     }
-    if (params?.paddingLeft !== undefined) {
-      this._paddingLeft = params.paddingLeft;
+
+    getMinimumWidth(): number {
+        return this._minimumWidth;
     }
-    if (params?.paddingTop !== undefined) {
-      this._paddingTop = params.paddingTop;
+
+    getOverrideHeight(): number {
+        return this._overrideHeight;
     }
-    if (params?.paddingRight !== undefined) {
-      this._paddingRight = params.paddingRight;
+
+    getOverrideWidth(): number {
+        return this._overrideWidth;
     }
-    if (params?.paddingBottom !== undefined) {
-      this._paddingBottom = params.paddingBottom;
+
+    getRightPadding(): number {
+        return this._paddingRight;
     }
-    if (params?.verticalAlignment !== undefined) {
-      this._verticalAlignment = params.verticalAlignment;
+
+    getTopPadding(): number {
+        return this._paddingTop;
     }
-  }
 
-  getBottomPadding(): number {
-    return this._paddingBottom;
-  }
+    getVerticalAlignment(): number {
+        return this._verticalAlignment;
+    }
 
-  getChild(): Widget | undefined {
-    return this._child;
-  }
+    setChild(child?: Widget | undefined): LayoutBox {
+        this._child = child;
+        return this;
+    }
 
-  getHorizontalAlignment(): number {
-    return this._horizontalAlignment;
-  }
+    setHorizontalAlignment(alignment: number): LayoutBox {
+        this._horizontalAlignment = alignment;
+        return this;
+    }
 
-  getLeftPadding(): number {
-    return this._paddingLeft;
-  }
+    setMaximumHeight(maximum: number): LayoutBox {
+        this._maximumHeight = maximum;
+        return this;
+    }
 
-  getMaximumHeight(): number {
-    return this._maximumHeight;
-  }
+    setMaximumWidth(maximum: number): LayoutBox {
+        this._maximumWidth = maximum;
+        return this;
+    }
 
-  getMaximumWidth(): number {
-    return this._maximumWidth;
-  }
+    setMinimumHeight(minimum: number): LayoutBox {
+        this._minimumHeight = minimum;
+        return this;
+    }
 
-  getMinimumHeight(): number {
-    return this._minimumHeight;
-  }
+    setMinimumWidth(minimum: number): LayoutBox {
+        this._minimumWidth = minimum;
+        return this;
+    }
 
-  getMinimumWidth(): number {
-    return this._minimumWidth;
-  }
+    setOverrideHeight(override: number): LayoutBox {
+        this._overrideHeight = override;
+        return this;
+    }
 
-  getOverrideHeight(): number {
-    return this._overrideHeight;
-  }
+    setOverrideWidth(override: number): LayoutBox {
+        this._overrideWidth = override;
+        return this;
+    }
 
-  getOverrideWidth(): number {
-    return this._overrideWidth;
-  }
+    setPadding(
+        left?: number | undefined,
+        right?: number | undefined,
+        top?: number | undefined,
+        bottom?: number | undefined
+    ): LayoutBox {
+        this._paddingLeft = left ?? 0;
+        this._paddingRight = right ?? 0;
+        this._paddingTop = top ?? 0;
+        this._paddingBottom = bottom ?? 0;
+        return this;
+    }
 
-  getRightPadding(): number {
-    return this._paddingRight;
-  }
-
-  getTopPadding(): number {
-    return this._paddingTop;
-  }
-
-  getVerticalAlignment(): number {
-    return this._verticalAlignment;
-  }
-
-  setChild(child?: Widget | undefined): LayoutBox {
-    this._child = child;
-    return this;
-  }
-
-  setHorizontalAlignment(alignment: number): LayoutBox {
-    this._horizontalAlignment = alignment;
-    return this;
-  }
-
-  setMaximumHeight(maximum: number): LayoutBox {
-    this._maximumHeight = maximum;
-    return this;
-  }
-
-  setMaximumWidth(maximum: number): LayoutBox {
-    this._maximumWidth = maximum;
-    return this;
-  }
-
-  setMinimumHeight(minimum: number): LayoutBox {
-    this._minimumHeight = minimum;
-    return this;
-  }
-
-  setMinimumWidth(minimum: number): LayoutBox {
-    this._minimumWidth = minimum;
-    return this;
-  }
-
-  setOverrideHeight(override: number): LayoutBox {
-    this._overrideHeight = override;
-    return this;
-  }
-
-  setOverrideWidth(override: number): LayoutBox {
-    this._overrideWidth = override;
-    return this;
-  }
-
-  setPadding(
-    left?: number | undefined,
-    right?: number | undefined,
-    top?: number | undefined,
-    bottom?: number | undefined
-  ): LayoutBox {
-    this._paddingLeft = left ?? 0;
-    this._paddingRight = right ?? 0;
-    this._paddingTop = top ?? 0;
-    this._paddingBottom = bottom ?? 0;
-    return this;
-  }
-
-  setVerticalAlignment(alignment: number): LayoutBox {
-    this._verticalAlignment = alignment;
-    return this;
-  }
+    setVerticalAlignment(alignment: number): LayoutBox {
+        this._verticalAlignment = alignment;
+        return this;
+    }
 }
