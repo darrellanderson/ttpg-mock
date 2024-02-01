@@ -172,6 +172,12 @@ export class MockGlobalScriptingEvents implements GlobalScriptingEvents {
         )._trigger(sender, team, message);
     }
 
+    _tick(lastFrameSeconds: number) {
+        (this.onTick as MockMulticastDelegate<(secs: number) => void>)._trigger(
+            lastFrameSeconds
+        );
+    }
+
     _whisperAsPlayer(sender: Player, recipient: Player, message: string): void {
         (
             this.onWhisper as MockMulticastDelegate<

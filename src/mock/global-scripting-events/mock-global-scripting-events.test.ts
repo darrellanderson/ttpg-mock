@@ -86,6 +86,17 @@ it("_teamChatAsPlayer", () => {
     expect(count).toEqual(1);
 });
 
+it("_tick", () => {
+    const events = new MockGlobalScriptingEvents();
+    const player = new MockPlayer();
+    let count = 0;
+    events.onTick.add(() => {
+        count++;
+    });
+    events._tick(0.016);
+    expect(count).toEqual(1);
+});
+
 it("_whisperAsPlayer", () => {
     const events = new MockGlobalScriptingEvents();
     const player = new MockPlayer();

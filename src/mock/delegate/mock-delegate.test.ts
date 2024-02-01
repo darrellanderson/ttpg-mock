@@ -1,7 +1,7 @@
 import { MockDelegate } from "./mock-delegate";
 
 it("constructor", () => {
-    new MockDelegate<(number) => void>();
+    new MockDelegate<() => void>();
 });
 
 it("add", () => {
@@ -42,17 +42,17 @@ it("remove", () => {
 });
 
 it("clear", () => {
-    const delegate = new MockDelegate<() => void>();
+    const delegate = new MockDelegate<(x: number) => void>();
 
-    let a = 0;
-    const aHandler = () => {
-        a++;
+    let total = 0;
+    const aHandler = (x: number) => {
+        total += x;
     };
     delegate.add(aHandler);
-    delegate._trigger();
-    expect(a).toEqual(1);
+    delegate._trigger(2);
+    expect(total).toEqual(2);
 
     delegate.clear();
-    delegate._trigger();
-    expect(a).toEqual(1);
+    delegate._trigger(3);
+    expect(total).toEqual(2);
 });
