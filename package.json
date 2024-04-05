@@ -16,7 +16,7 @@
     "author": "Darrell",
     "license": "Unlicense",
     "dependencies": {
-        "@tabletop-playground/api": "^0.39.0",
+        "@tabletop-playground/api": "^0.41.0",
         "three": "^0.158.0"
     },
     "devDependencies": {

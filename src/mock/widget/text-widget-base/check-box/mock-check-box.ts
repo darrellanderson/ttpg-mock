@@ -7,11 +7,13 @@ import { MockMulticastDelegate } from "../../../multicast-delegate/mock-multicas
 
 export type MockCheckBoxParams = MockTextWidgetBaseParams & {
     isChecked?: boolean;
+    isTransparent?: boolean;
     text?: string;
 };
 
 export class MockCheckBox extends MockTextWidgetBase implements CheckBox {
     private _isChecked: boolean = false;
+    private _isTransparent: boolean = false;
     private _text: string = "";
 
     onCheckStateChanged: MulticastDelegate<
@@ -25,9 +27,20 @@ export class MockCheckBox extends MockTextWidgetBase implements CheckBox {
         if (params?.isChecked !== undefined) {
             this._isChecked = params.isChecked;
         }
+        if (params?.isTransparent !== undefined) {
+            this._isTransparent = params.isTransparent;
+        }
         if (params?.text) {
             this._text = params.text;
         }
+    }
+    setBackgroundTransparent(transparent: boolean): CheckBox {
+        this._isTransparent = transparent;
+        return this;
+    }
+
+    isBackgroundTransparent(): boolean {
+        return this._isTransparent;
     }
 
     getText(): string {
