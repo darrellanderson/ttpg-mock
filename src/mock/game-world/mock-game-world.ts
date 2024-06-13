@@ -45,6 +45,7 @@ export type MockGameWorldParams = {
     backgroundFilename?: string;
     backgroundPackageId?: string;
     drawingLines?: DrawingLine[];
+    floorHidden?: boolean;
     gameObjects?: GameObject[];
     gameTime?: number;
     gravityMultiplier?: number;
@@ -81,6 +82,7 @@ export class MockGameWorld implements GameWorld {
     private _backgroundFilename: string = "";
     private _backgroundPackageId: string = "";
     private _drawingLines: DrawingLine[] = [];
+    private _floorHidden: boolean = false;
     private _gameObjects: GameObject[] = [];
     private _gameTime: number = 0;
     private _gravityMultiplier: number = 1;
@@ -115,6 +117,13 @@ export class MockGameWorld implements GameWorld {
         this._reset(params);
     }
 
+    setFloorHidden(hidden: boolean): void {
+        this._floorHidden = hidden;
+    }
+    isFloorHidden(): boolean {
+        return this._floorHidden;
+    }
+
     /**
      * Tests may want to reset the "world" variable.
      *
@@ -135,6 +144,11 @@ export class MockGameWorld implements GameWorld {
             this._drawingLines = params.drawingLines;
         } else {
             this._drawingLines = [];
+        }
+        if (params?.floorHidden !== undefined) {
+            this._floorHidden = params.floorHidden;
+        } else {
+            this._floorHidden = false;
         }
         if (params?.gameObjects) {
             this._gameObjects = params.gameObjects;

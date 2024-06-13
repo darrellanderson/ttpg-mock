@@ -12,20 +12,21 @@ import { MockWidget } from "../widget/mock-widget";
 import { UIPresentationStyle, UIZoomVisibility } from "../../enums";
 
 export type MockUIElementParams = {
-    widget: Widget;
-    position: Vector;
-    rotation: Rotator;
-    scale: number;
-    useWidgetSize: boolean;
-    width: number;
-    height: number;
-    useTransparency: boolean;
-    anchorX: number;
-    anchorY: number;
-    presentationStyle: number;
-    twoSided: boolean;
-    players: PlayerPermission;
-    zoomVisibility: number;
+    widget?: Widget;
+    position?: Vector;
+    rotation?: Rotator;
+    scale?: number;
+    useWidgetSize?: boolean;
+    width?: number;
+    height?: number;
+    useTransparency?: boolean;
+    anchorX?: number;
+    anchorY?: number;
+    presentationStyle?: number;
+    twoSided?: boolean;
+    players?: PlayerPermission;
+    zoomVisibility?: number;
+    castShadow?: boolean;
 };
 
 export class MockUIElement implements UIElement {
@@ -43,6 +44,7 @@ export class MockUIElement implements UIElement {
     twoSided: boolean = false;
     players: PlayerPermission = new MockPlayerPermission();
     zoomVisibility: number = UIZoomVisibility.Regular;
+    castShadow: boolean = true;
 
     constructor(params?: MockUIElementParams) {
         if (params?.widget) {
@@ -86,6 +88,9 @@ export class MockUIElement implements UIElement {
         }
         if (params?.zoomVisibility !== undefined) {
             this.zoomVisibility = params.zoomVisibility;
+        }
+        if (params?.castShadow !== undefined) {
+            this.castShadow = params.castShadow;
         }
     }
 
