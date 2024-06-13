@@ -775,10 +775,10 @@ export class MockGameWorld implements GameWorld {
                     })
                 );
             }
-            result.sort((a, b) => {
-                return a.distance - b.distance;
-            });
         }
+        result.sort((a, b) => {
+            return a.distance - b.distance;
+        });
         return result;
     }
 
@@ -871,10 +871,10 @@ export class MockGameWorld implements GameWorld {
                     })
                 );
             }
-            result.sort((a, b) => {
-                return a.distance - b.distance;
-            });
         }
+        result.sort((a, b) => {
+            return a.distance - b.distance;
+        });
         return result;
     }
 }
