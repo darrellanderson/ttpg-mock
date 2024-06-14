@@ -628,6 +628,15 @@ it("lineTrace", () => {
     hits = gameWorld.lineTrace(p0, p1);
     ids = hits.map((hit) => hit.object.getId());
     expect(ids.sort()).toEqual(["obj4", "obj5"]);
+
+    // Test with zero-length line.
+    const obj6 = new MockGameObject({ id: "obj6", position: [0, 0, 0] });
+    gameWorld = new MockGameWorld({
+        gameObjects: [obj6],
+    });
+    hits = gameWorld.lineTrace(p0, p0);
+    ids = hits.map((hit) => hit.object.getId());
+    expect(ids).toEqual([]);
 });
 
 it("createObjectFromJSON", () => {
