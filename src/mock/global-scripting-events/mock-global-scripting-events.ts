@@ -11,8 +11,16 @@ import { MockMulticastDelegate } from "../multicast-delegate/mock-multicast-dele
 import { SharedObjects } from "../../shared-objects";
 
 export class MockGlobalScriptingEvents implements GlobalScriptingEvents {
-    public static readonly __sharedInstance: MockGlobalScriptingEvents =
+    public static __sharedInstance: MockGlobalScriptingEvents =
         new MockGlobalScriptingEvents();
+
+    public static __resetSharedInstance() {
+        MockGlobalScriptingEvents.__sharedInstance._reset();
+        MockGlobalScriptingEvents.__sharedInstance =
+            new MockGlobalScriptingEvents();
+        SharedObjects.globalScriptingEvents =
+            MockGlobalScriptingEvents.__sharedInstance;
+    }
 
     public _reset() {
         this.onChatMessage.clear();
@@ -187,5 +195,4 @@ export class MockGlobalScriptingEvents implements GlobalScriptingEvents {
     }
 }
 
-SharedObjects.globalScriptingEvents =
-    MockGlobalScriptingEvents.__sharedInstance;
+MockGlobalScriptingEvents.__resetSharedInstance();

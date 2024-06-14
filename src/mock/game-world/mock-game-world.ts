@@ -72,8 +72,13 @@ export type MockGameWorldParams = {
 export class MockGameWorld implements GameWorld {
     // Shared version used by "world" variable.
     // Expose here as "Mock" flavor for easy _reset.
-    public static readonly __sharedInstance: MockGameWorld =
-        new MockGameWorld();
+    public static __sharedInstance: MockGameWorld = new MockGameWorld();
+
+    public static __resetSharedInstance(): void {
+        MockGameWorld.__sharedInstance._reset(); // clear old
+        MockGameWorld.__sharedInstance = new MockGameWorld();
+        SharedObjects.gameWorld = MockGameWorld.__sharedInstance;
+    }
 
     grid: GlobalGrid = new MockGlobalGrid();
     lighting: LightingSettings = new MockLightingSettings();
@@ -893,4 +898,4 @@ export class MockGameWorld implements GameWorld {
     }
 }
 
-SharedObjects.gameWorld = MockGameWorld.__sharedInstance;
+MockGameWorld.__resetSharedInstance();
