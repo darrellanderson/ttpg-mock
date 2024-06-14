@@ -607,15 +607,27 @@ it("lineTrace", () => {
     const obj2 = new MockGameObject({ id: "obj2", position: [2, 0, 0] });
     const obj3 = new MockGameObject({ id: "obj3", position: [3, 0, 0] });
     const objNo = new MockGameObject({ id: "objNo", position: [10, 0, 0] });
-    const gameWorld = new MockGameWorld({
+    let gameWorld = new MockGameWorld({
         gameObjects: [obj2, obj1, obj3, objNo], // out of order
     });
 
-    const p0 = new MockVector(0, 0, 0);
-    const p1 = new MockVector(8, 0, 0);
-    const hits = gameWorld.lineTrace(p0, p1);
-    const ids = hits.map((hit) => hit.object.getId());
+    let p0 = new MockVector(0, 0, 0);
+    let p1 = new MockVector(8, 0, 0);
+    let hits = gameWorld.lineTrace(p0, p1);
+    let ids = hits.map((hit) => hit.object.getId());
     expect(ids).toEqual(["obj1", "obj2", "obj3"]);
+
+    // Test with two objects at the same position.
+    const obj4 = new MockGameObject({ id: "obj4", position: [0, 0, 0] });
+    const obj5 = new MockGameObject({ id: "obj5", position: [0, 0, 0] });
+    gameWorld = new MockGameWorld({
+        gameObjects: [obj4, obj5],
+    });
+    p0 = new MockVector(0, 0, 10);
+    p1 = new MockVector(0, 0, -10);
+    hits = gameWorld.lineTrace(p0, p1);
+    ids = hits.map((hit) => hit.object.getId());
+    expect(ids.sort()).toEqual(["obj4", "obj5"]);
 });
 
 it("createObjectFromJSON", () => {

@@ -155,6 +155,13 @@ it("findClosestPointOnSegment", () => {
     want = b;
     closest = c.findClosestPointOnSegment(a, b);
     expect(closest.toString()).toEqual(want.toString());
+
+    // world.lineTrace had a problem with this, check components.
+    const start = new MockVector(0, 0, 10);
+    const end = new MockVector(0, 0, -10);
+    const pos = new MockVector(0, 0, 0);
+    const closestPoint = pos.findClosestPointOnSegment(start, end);
+    expect(closestPoint.toString()).toEqual(pos.toString());
 });
 
 it("findLookRotation", () => {

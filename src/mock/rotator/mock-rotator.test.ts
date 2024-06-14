@@ -188,9 +188,14 @@ it("getUpVector", () => {
 });
 
 it("getInverse", () => {
-    const r1 = new MockRotator(1, 2, 3);
-    const r2 = r1.getInverse();
-    const want = new MockRotator(-1.103, -1.945, -2.964); // from TTPG
+    let r1 = new MockRotator(1, 2, 3);
+    let r2 = r1.getInverse();
+    let want = new MockRotator(-1.103, -1.945, -2.964); // from TTPG
+    expect(r2.toString()).toEqual(want.toString());
+
+    r1 = new MockRotator(0, 0, 0);
+    r2 = r1.getInverse();
+    want = new MockRotator(0, 0, 0);
     expect(r2.toString()).toEqual(want.toString());
 });
 
@@ -227,6 +232,12 @@ it("rotateVector", () => {
     rot = new MockRotator(4, 5, 6);
     out = rot.rotateVector(vec);
     want = new MockVector(0.6, 2.364, 2.838); // from TTPG
+    expect(out.toString()).toEqual(want.toString());
+
+    vec = new MockVector(0, 0, 0);
+    rot = new MockRotator(0, 0, 0);
+    out = rot.rotateVector(vec);
+    want = new MockVector(0, 0, 0);
     expect(out.toString()).toEqual(want.toString());
 });
 
