@@ -11,7 +11,7 @@ export type MockTraceHitParams = {
 };
 
 export class MockTraceHit implements TraceHit {
-    object: GameObject = new MockGameObject();
+    object: GameObject;
     distance: number = 0;
     position: Vector = new MockVector(0, 0, 0);
     impactPosition: Vector = new MockVector(0, 0, 0);
@@ -20,6 +20,8 @@ export class MockTraceHit implements TraceHit {
     constructor(params?: MockTraceHitParams) {
         if (params?.object) {
             this.object = params.object;
+        } else {
+            this.object = new MockGameObject({}, false); // false = do not add to world game objects
         }
         if (params?.distance !== undefined) {
             this.distance = params.distance;
