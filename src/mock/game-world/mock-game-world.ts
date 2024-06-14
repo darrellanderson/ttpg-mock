@@ -72,13 +72,8 @@ export type MockGameWorldParams = {
 export class MockGameWorld implements GameWorld {
     // Shared version used by "world" variable.
     // Expose here as "Mock" flavor for easy _reset.
-    public static __sharedInstance: MockGameWorld = new MockGameWorld();
-
-    public static __resetSharedInstance(): void {
-        MockGameWorld.__sharedInstance._reset(); // clear old
-        MockGameWorld.__sharedInstance = new MockGameWorld();
-        SharedObjects.gameWorld = MockGameWorld.__sharedInstance;
-    }
+    public static readonly __sharedInstance: MockGameWorld =
+        new MockGameWorld();
 
     grid: GlobalGrid = new MockGlobalGrid();
     lighting: LightingSettings = new MockLightingSettings();
@@ -861,17 +856,17 @@ export class MockGameWorld implements GameWorld {
         start: Vector | [x: number, y: number, z: number],
         end: Vector | [x: number, y: number, z: number]
     ): TraceHit[] {
-        const p0 = MockVector._from(start);
-        const p1 = MockVector._from(end);
+        const p0: Vector = MockVector._from(start);
+        const p1: Vector = MockVector._from(end);
         const result: TraceHit[] = [];
         for (const obj of this._gameObjects) {
-            const ext = obj.getExtent(false, false);
-            const rot = obj.getRotation();
-            const invRot = rot.getInverse();
-            const objPos = obj.getPosition();
-            const closest = objPos.findClosestPointOnSegment(p0, p1);
-            const offsetRaw = closest.subtract(objPos);
-            const offset = invRot.rotateVector(offsetRaw);
+            const ext: Vector = obj.getExtent(false, false);
+            const rot: Rotator = obj.getRotation();
+            const invRot: Rotator = rot.getInverse();
+            const objPos: Vector = obj.getPosition();
+            const closest: Vector = objPos.findClosestPointOnSegment(p0, p1);
+            const offsetRaw: Vector = closest.subtract(objPos);
+            const offset: Vector = invRot.rotateVector(offsetRaw);
             if (
                 offset.x >= -ext.x &&
                 offset.x <= ext.x &&
@@ -898,4 +893,4 @@ export class MockGameWorld implements GameWorld {
     }
 }
 
-MockGameWorld.__resetSharedInstance();
+SharedObjects.gameWorld = MockGameWorld.__sharedInstance;

@@ -6,14 +6,8 @@ import { SharedObjects } from "../../shared-objects";
 export type ProcessRunnableType = (milliseconds: number) => void;
 
 export class MockProcess implements Process {
-    public static __sharedInstance = new MockProcess();
+    public static readonly __sharedInstance = new MockProcess();
     private _runQueue: ProcessRunnableType[] = [];
-
-    public static __resetSharedInstance() {
-        MockProcess.__sharedInstance.flushTicks();
-        MockProcess.__sharedInstance = new MockProcess();
-        SharedObjects.process = MockProcess.__sharedInstance;
-    }
 
     nextTick(fn: ProcessRunnableType): void {
         this._runQueue.push(fn);
@@ -32,4 +26,4 @@ export class MockProcess implements Process {
     }
 }
 
-MockProcess.__resetSharedInstance();
+SharedObjects.process = MockProcess.__sharedInstance;
