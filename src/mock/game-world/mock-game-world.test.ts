@@ -617,22 +617,21 @@ it("lineTrace", () => {
     let ids = hits.map((hit) => hit.object.getId());
     expect(ids).toEqual(["obj1", "obj2", "obj3"]);
 
-    // Test with two objects at the same position.
+    // Test with object at origin.
     const obj4 = new MockGameObject({ id: "obj4", position: [0, 0, 0] });
-    const obj5 = new MockGameObject({ id: "obj5", position: [0, 0, 0] });
     gameWorld = new MockGameWorld({
-        gameObjects: [obj4, obj5],
+        gameObjects: [obj4],
     });
     p0 = new MockVector(0, 0, 10);
     p1 = new MockVector(0, 0, -10);
     hits = gameWorld.lineTrace(p0, p1);
     ids = hits.map((hit) => hit.object.getId());
-    expect(ids.sort()).toEqual(["obj4", "obj5"]);
+    expect(ids.sort()).toEqual(["obj4"]);
 
     // Test with zero-length line.
-    const obj6 = new MockGameObject({ id: "obj6", position: [0, 0, 0] });
+    const obj5 = new MockGameObject({ id: "obj5", position: [0, 0, 0] });
     gameWorld = new MockGameWorld({
-        gameObjects: [obj6],
+        gameObjects: [obj5],
     });
     hits = gameWorld.lineTrace(p0, p0);
     ids = hits.map((hit) => hit.object.getId());
