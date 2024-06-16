@@ -87,5 +87,8 @@ export { fetch };
 // Globals.
 globalThis.process = MockProcess.__sharedInstance;
 
+// ref.
+export const refPackageId: string = "ttpg-mock-package-id";
+
 // Tell jest to scrub everything after each test.
 JestSetup.enableAfterEachResets();
