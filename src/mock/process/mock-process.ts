@@ -24,6 +24,11 @@ export class MockProcess implements Process {
             entry.apply(null, [1]);
         }
     }
+
+    // Not part of the Process interface but needed by Jest throw handling.
+    cwd(): string {
+        return "";
+    }
 }
 
 SharedObjects.process = MockProcess.__sharedInstance;
