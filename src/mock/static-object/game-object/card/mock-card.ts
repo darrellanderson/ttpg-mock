@@ -29,9 +29,9 @@ export class MockCard extends MockGameObject implements Card {
         params?: MockCardParams
     ): MockCard {
         return new MockCard({
+            isFaceUp: true,
             ...params,
             cardDetails: [new MockCardDetails({ metadata: cardMetadata })],
-            isFaceUp: true,
         });
     }
 

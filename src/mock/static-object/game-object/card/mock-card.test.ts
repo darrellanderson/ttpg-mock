@@ -14,6 +14,13 @@ it("static simple", () => {
     expect(card.isFaceUp()).toEqual(true);
 });
 
+it("static simple (face down override works)", () => {
+    const card: Card = MockCard.simple("my-metadata", { isFaceUp: false });
+    expect(card.getStackSize()).toEqual(1);
+    expect(card.getCardDetails().metadata).toEqual("my-metadata");
+    expect(card.isFaceUp()).toEqual(false);
+});
+
 it("constructor", () => {
     const params: MockCardParams = {
         cardDetails: [new MockCardDetails({})],
