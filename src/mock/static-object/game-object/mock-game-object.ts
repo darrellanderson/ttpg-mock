@@ -124,6 +124,23 @@ export class MockGameObject extends MockStaticObject implements GameObject {
         (object: this) => void
     > = new MockMulticastDelegate();
 
+    /**
+     * Shortcut method to create a simple card with the given metadata.
+     *
+     * @param cardMetadata
+     * @param params
+     * @returns
+     */
+    public static simple(
+        metadata: string,
+        params?: MockGameObjectParams
+    ): MockGameObject {
+        return new MockGameObject({
+            ...params,
+            templateMetadata: metadata,
+        });
+    }
+
     constructor(
         params?: MockGameObjectParams,
         triggerOnCreated: boolean = true

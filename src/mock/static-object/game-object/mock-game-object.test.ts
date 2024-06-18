@@ -8,6 +8,12 @@ import { MockRotator } from "../../rotator/mock-rotator";
 import { MockSnapPoint } from "../../snap-point/mock-snap-point";
 import { MockSwitcher } from "../../switcher/mock-switcher";
 import { MockVector } from "../../vector/mock-vector";
+import { GameObject } from "@tabletop-playground/api";
+
+it("static simple", () => {
+    const obj: GameObject = MockGameObject.simple("my-metadata");
+    expect(obj.getTemplateMetadata()).toEqual("my-metadata");
+});
 
 it("constructor", () => {
     const params: MockGameObjectParams = {

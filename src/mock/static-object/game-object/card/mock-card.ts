@@ -17,6 +17,23 @@ export type MockCardParams = MockGameObjectParams & {
 };
 
 export class MockCard extends MockGameObject implements Card {
+    /**
+     * Shortcut method to create a simple card with the given metadata.
+     *
+     * @param cardMetadata
+     * @param params
+     * @returns
+     */
+    public static simple(
+        cardMetadata: string,
+        params?: MockCardParams
+    ): MockCard {
+        return new MockCard({
+            ...params,
+            cardDetails: [new MockCardDetails({ metadata: cardMetadata })],
+        });
+    }
+
     private _cardDetails: CardDetails[] = [];
     private _cardHolder: CardHolder | undefined = undefined;
     private _isFaceUp: boolean = false;

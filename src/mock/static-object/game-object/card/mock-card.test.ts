@@ -7,6 +7,12 @@ import { Card, CardDetails } from "@tabletop-playground/api";
 import { MockPlayer } from "../../../player/mock-player";
 import { MockGameWorld } from "../../../game-world/mock-game-world";
 
+it("static simple", () => {
+    const card: Card = MockCard.simple("my-metadata");
+    expect(card.getStackSize()).toEqual(1);
+    expect(card.getCardDetails().metadata).toEqual("my-metadata");
+});
+
 it("constructor", () => {
     const params: MockCardParams = {
         cardDetails: [new MockCardDetails({})],
