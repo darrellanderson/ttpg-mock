@@ -11,6 +11,7 @@ it("static simple", () => {
     const card: Card = MockCard.simple("my-metadata");
     expect(card.getStackSize()).toEqual(1);
     expect(card.getCardDetails().metadata).toEqual("my-metadata");
+    expect(card.isFaceUp()).toEqual(true);
 });
 
 it("constructor", () => {
