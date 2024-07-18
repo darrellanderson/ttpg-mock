@@ -325,7 +325,7 @@ export class MockStaticObject implements StaticObject {
     }
 
     getSavedData(key: string): string {
-        return this._savedData[key];
+        return this._savedData[key] ?? "";
     }
 
     getScale(): Vector {
