@@ -5,7 +5,6 @@ import { MockSnapPoint } from "../snap-point/mock-snap-point";
 import { MockStaticObject, MockStaticObjectParams } from "./mock-static-object";
 import { MockUIElement } from "../ui-element/mock-ui-element";
 import { MockVector } from "../vector/mock-vector";
-import { exp } from "three/examples/jsm/nodes/Nodes.js";
 
 it("constructor", () => {
     const params: MockStaticObjectParams = {
