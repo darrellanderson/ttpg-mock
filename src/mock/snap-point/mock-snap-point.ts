@@ -29,7 +29,7 @@ export class MockSnapPoint implements SnapPoint {
     private _index: number = 0;
     private _localPosition: Vector = new MockVector(0, 0, 0);
     private _parentObject: StaticObject | undefined = undefined;
-    private _range: number = 0;
+    private _range: number = 1;
     private _shape: number = SnapPointShape.Sphere;
     private _snapRotation: number = 0;
     private _snapRotationType: number = 0; //SnapPointRotationType

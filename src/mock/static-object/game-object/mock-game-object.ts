@@ -458,7 +458,47 @@ export class MockGameObject extends MockStaticObject implements GameObject {
     }
 
     snap(animationSpeed?: number | undefined): SnapPoint | undefined {
-        return undefined; // TODO look for snap point?
+        let closest: SnapPoint | undefined = undefined;
+        let closestDistance = Number.MAX_VALUE;
+        for (const obj of SharedObjects.gameWorld.getAllObjects(true)) {
+            if (obj === this) {
+                continue;
+            }
+            for (const snapPoint of obj.getAllSnapPoints()) {
+                const distance = this.getPosition().distance(
+                    snapPoint.getGlobalPosition()
+                );
+                if (
+                    distance <= snapPoint.getRange() &&
+                    distance < closestDistance
+                ) {
+                    closest = snapPoint;
+                    closestDistance = distance;
+                }
+            }
+        }
+        for (const obj of SharedObjects.gameWorld.getAllTables()) {
+            if (obj === this) {
+                continue;
+            }
+            for (const snapPoint of obj.getAllSnapPoints()) {
+                const distance = this.getPosition().distance(
+                    snapPoint.getGlobalPosition()
+                );
+                if (
+                    distance <= snapPoint.getRange() &&
+                    distance < closestDistance
+                ) {
+                    closest = snapPoint;
+                    closestDistance = distance;
+                }
+            }
+        }
+        if (closest) {
+            this._setSnappedToPoint(closest);
+            return closest;
+        }
+        return undefined;
     }
 
     snapToGround(): void {

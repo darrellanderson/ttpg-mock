@@ -129,7 +129,16 @@ it("release", () => {
 
 it("snap", () => {
     const obj = new MockGameObject();
+
+    const snapPoint = new MockSnapPoint();
+    new MockGameObject({
+        id: "mat",
+        snapPoints: [snapPoint],
+    });
+    expect(snapPoint.getParentObject()?.getId()).toEqual("mat");
+
     obj.snap();
+    expect(obj.getSnappedToPoint()?.getParentObject()?.getId()).toEqual("mat");
 });
 
 it("snapToGround", () => {
