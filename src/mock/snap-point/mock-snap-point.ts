@@ -11,7 +11,6 @@ import { MockGameObject } from "../static-object/game-object/mock-game-object";
 
 export type MockSnapPointParams = {
     flipValidity?: number;
-    globalPosition?: Vector | [x: number, y: number, z: number];
     index?: number;
     localPosition?: Vector | [x: number, y: number, z: number];
     parentObject?: StaticObject;
@@ -27,7 +26,6 @@ export type MockSnapPointParams = {
 
 export class MockSnapPoint implements SnapPoint {
     private _flipValidity: number = SnapPointFlipValidity.Always;
-    private _globalPosition: Vector = new MockVector(0, 0, 0);
     private _index: number = 0;
     private _localPosition: Vector = new MockVector(0, 0, 0);
     private _parentObject: StaticObject | undefined = undefined;
@@ -43,9 +41,6 @@ export class MockSnapPoint implements SnapPoint {
     constructor(params?: MockSnapPointParams) {
         if (params?.flipValidity !== undefined) {
             this._flipValidity = params.flipValidity;
-        }
-        if (params?.globalPosition) {
-            this._globalPosition = MockVector._from(params.globalPosition);
         }
         if (params?.index !== undefined) {
             this._index = params.index;
@@ -95,13 +90,16 @@ export class MockSnapPoint implements SnapPoint {
         return this._flipValidity;
     }
     getGlobalPosition(): Vector {
-        return this._globalPosition;
+        if (this._parentObject) {
+            return this._parentObject.localPositionToWorld(this._localPosition);
+        }
+        return this._localPosition.clone();
     }
     getIndex(): number {
         return this._index;
     }
     getLocalPosition(): Vector {
-        return this._localPosition;
+        return this._localPosition.clone();
     }
     getParentObject(): StaticObject | undefined {
         return this._parentObject;
@@ -125,7 +123,7 @@ export class MockSnapPoint implements SnapPoint {
         return this._snappedObject;
     }
     getTags(): string[] {
-        return this._tags;
+        return [...this._tags];
     }
     isValid(): boolean {
         return this._isValid;
