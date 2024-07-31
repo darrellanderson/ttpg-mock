@@ -356,7 +356,11 @@ export class MockGameObject extends MockStaticObject implements GameObject {
         }
     }
 
-    flipOrUpright(): void {}
+    flipOrUpright(): void {
+        const rot: Rotator = this.getRotation();
+        const newRot: Rotator = new MockRotator(0, 0, 180).compose(rot);
+        this.setRotation(newRot);
+    }
 
     freeze(): void {
         this.setObjectType(ObjectType.Ground);

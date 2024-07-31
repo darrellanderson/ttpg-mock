@@ -1,6 +1,6 @@
 {
     "name": "ttpg-mock",
-    "version": "1.0.52",
+    "version": "1.0.53",
     "description": "jest module for @tabletop-playground/api testing",
     "repository": "github:darrellanderson/ttpg-mock",
     "main": "./build/cjs/index.js",

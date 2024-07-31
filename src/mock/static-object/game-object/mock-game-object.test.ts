@@ -105,6 +105,19 @@ it("createSwitcher", () => {
     obj1.createSwitcher([obj2]);
 });
 
+it("flipOrUpright", () => {
+    const obj = new MockGameObject({ rotation: [0, 45, 0] });
+    expect(obj.getRotation().toString()).toEqual("(P=0,Y=45,R=0)");
+    obj.flipOrUpright();
+    expect(obj.getRotation().toString()).toEqual("(P=0,Y=45,R=180)");
+
+    // Try again with a different starting rotation (compare with TTPG flip result).
+    obj.setRotation([0, 135, 0]);
+    expect(obj.getRotation().toString()).toEqual("(P=0,Y=135,R=0)");
+    obj.flipOrUpright();
+    expect(obj.getRotation().toString()).toEqual("(P=0,Y=135,R=180)");
+});
+
 it("freeze", () => {
     const obj = new MockGameObject();
     expect(obj.getObjectType()).toEqual(ObjectType.Regular);

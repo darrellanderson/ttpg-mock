@@ -57,8 +57,12 @@ it("insert", () => {
     const card1 = new MockCard();
     const card2 = new MockCard();
     const holder = new MockCardHolder({ cards: [card1] });
+    expect(card1.isInHolder()).toEqual(true);
+    expect(card2.isInHolder()).toEqual(false);
     expect(holder.getCards()).toEqual([card1]);
     holder.insert(card2, 0);
+    expect(card1.isInHolder()).toEqual(true);
+    expect(card2.isInHolder()).toEqual(true);
     expect(holder.getCards()).toEqual([card2, card1]);
 });
 
