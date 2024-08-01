@@ -457,6 +457,14 @@ export class MockGameObject extends MockStaticObject implements GameObject {
         this._owningPlayerSlot = slot;
     }
 
+    setPosition(
+        position: Vector | [x: number, y: number, z: number],
+        animationSpeed?: number | undefined
+    ): void {
+        super.setPosition(position, animationSpeed);
+        this._setSnappedToPoint(undefined);
+    }
+
     setSnappingAllowed(allowed: boolean): void {
         this._isSnappingAllowed = allowed;
     }

@@ -140,6 +140,19 @@ it("release", () => {
     expect(obj.isHeld()).toEqual(false);
 });
 
+it("setPosition", () => {
+    const obj = new MockGameObject();
+    const snapPoint = new MockSnapPoint({ snappedObject: obj });
+
+    expect(obj.getSnappedToPoint()).toEqual(snapPoint);
+    expect(snapPoint.getSnappedObject()).toEqual(obj);
+
+    obj.setPosition([1, 2, 3]);
+
+    expect(obj.getSnappedToPoint()).toBeUndefined();
+    expect(snapPoint.getSnappedObject()).toBeUndefined();
+});
+
 it("snap", () => {
     const obj = new MockGameObject();
 

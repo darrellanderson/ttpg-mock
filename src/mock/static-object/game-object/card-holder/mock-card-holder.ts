@@ -103,6 +103,7 @@ export class MockCardHolder extends MockGameObject implements CardHolder {
             ...this._cards.slice(index),
         ];
         (card as MockCard)._setCardHolder(this);
+        (card as unknown as MockGameObject)._setSnappedToPoint(undefined);
         return true; // editor setting for max limit
     }
 

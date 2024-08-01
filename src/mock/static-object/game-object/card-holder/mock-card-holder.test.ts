@@ -1,6 +1,7 @@
 import { Card, HiddenCardsType } from "@tabletop-playground/api";
 import { MockCard } from "../card/mock-card";
 import { MockCardHolder, MockCardHolderParams } from "./mock-card-holder";
+import { MockSnapPoint } from "../../../snap-point/mock-snap-point";
 
 it("constructor", () => {
     const params: MockCardHolderParams = {
@@ -57,13 +58,20 @@ it("insert", () => {
     const card1 = new MockCard();
     const card2 = new MockCard();
     const holder = new MockCardHolder({ cards: [card1] });
+    const snapPoint = new MockSnapPoint({ snappedObject: card2 });
+
     expect(card1.isInHolder()).toEqual(true);
     expect(card2.isInHolder()).toEqual(false);
     expect(holder.getCards()).toEqual([card1]);
+    expect(snapPoint.getSnappedObject()).toEqual(card2);
+    expect(card2.getSnappedToPoint()).toEqual(snapPoint);
+
     holder.insert(card2, 0);
     expect(card1.isInHolder()).toEqual(true);
     expect(card2.isInHolder()).toEqual(true);
     expect(holder.getCards()).toEqual([card2, card1]);
+    expect(snapPoint.getSnappedObject()).toBeUndefined();
+    expect(card2.getSnappedToPoint()).toBeUndefined();
 });
 
 it("moveCard", () => {
