@@ -1,5 +1,4 @@
 import { Euler, Matrix4, Vector3 } from "three";
-import { MockRotator } from "../rotator/mock-rotator";
 import { MockVector } from "./mock-vector";
 
 it("_from", () => {
