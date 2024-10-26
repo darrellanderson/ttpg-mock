@@ -79,6 +79,7 @@ export class MockCard extends MockGameObject implements Card {
         }
         if (params?.cardHolder) {
             this._cardHolder = params.cardHolder;
+            this._cardHolder.insert(this, 0);
         }
         if (params?.isFaceUp !== undefined) {
             this._isFaceUp = params.isFaceUp;
@@ -88,6 +89,7 @@ export class MockCard extends MockGameObject implements Card {
 
     _setCardHolder(cardHolder: CardHolder | undefined) {
         this._cardHolder = cardHolder;
+        // called by CardHolder.insert, no need to call insert here
     }
 
     private _addCardsNormalOrAsPlayer(
@@ -280,6 +282,12 @@ export class MockCard extends MockGameObject implements Card {
     }
 
     removeFromHolder(): void {
+        if (this._cardHolder) {
+            const index: number = this._cardHolder.getCards().indexOf(this);
+            if (index >= 0) {
+                this._cardHolder.removeAt(index);
+            }
+        }
         this._cardHolder = undefined;
     }
 

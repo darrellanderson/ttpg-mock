@@ -3,7 +3,7 @@ import { MockCardDetails } from "../../../card-details/mock-card-details";
 import { MockCardHolder } from "../card-holder/mock-card-holder";
 import { MockGlobalScriptingEvents } from "../../../global-scripting-events/mock-global-scripting-events";
 import { MockVector } from "../../../vector/mock-vector";
-import { Card, CardDetails } from "@tabletop-playground/api";
+import { Card, CardDetails, CardHolder } from "@tabletop-playground/api";
 import { MockPlayer } from "../../../player/mock-player";
 import { MockGameWorld } from "../../../game-world/mock-game-world";
 
@@ -306,12 +306,15 @@ it("moveCardInStack", () => {
 });
 
 it("removeFromHolder", () => {
+    const cardHolder: CardHolder = new MockCardHolder();
     const card = new MockCard({
-        cardHolder: new MockCardHolder(),
+        cardHolder,
     });
     expect(card.isInHolder()).toBe(true);
+    expect(cardHolder.getCards()).toContain(card);
     card.removeFromHolder();
     expect(card.isInHolder()).toBe(false);
+    expect(cardHolder.getCards()).not.toContain(card);
 });
 
 it("setCardIndexAt", () => {
