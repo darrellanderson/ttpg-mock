@@ -37,6 +37,7 @@ export class MockLayoutBox extends MockWidget implements LayoutBox {
         super(params);
         if (params?.child !== undefined) {
             this._child = params.child;
+            (this._child as MockWidget)._setParent(this);
         }
         if (params?.horizontalAlignment !== undefined) {
             this._horizontalAlignment = params.horizontalAlignment;
@@ -129,7 +130,13 @@ export class MockLayoutBox extends MockWidget implements LayoutBox {
     }
 
     setChild(child?: Widget | undefined): LayoutBox {
+        if (this._child) {
+            (this._child as MockWidget)._setParent(undefined);
+        }
         this._child = child;
+        if (child) {
+            (child as MockWidget)._setParent(this);
+        }
         return this;
     }
 

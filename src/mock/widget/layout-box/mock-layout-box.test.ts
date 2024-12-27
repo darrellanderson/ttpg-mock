@@ -42,6 +42,8 @@ it("setChild", () => {
     const child = new MockWidget();
     box.setChild(child);
     expect(box.getChild()).toEqual(child);
+    expect(child.getParent()).toEqual(box);
+    box.setChild(undefined)
 });
 
 it("getHorizontalAlignment", () => {

@@ -18,6 +18,7 @@ export class MockBorder extends MockWidget implements Border {
         }
         if (params?.child) {
             this._child = params.child;
+            (this._child as MockWidget)._setParent(this);
         }
     }
 
@@ -28,7 +29,13 @@ export class MockBorder extends MockWidget implements Border {
         return this;
     }
     setChild(child?: Widget | undefined): Border {
+        if (this._child) {
+            (this._child as MockWidget)._setParent(undefined);
+        }
         this._child = child;
+        if (child) {
+            (child as MockWidget)._setParent(this);
+     }
         return this;
     }
     getColor(): Color {

@@ -18,6 +18,10 @@ it("child", () => {
     border.setChild(input);
     const output = border.getChild();
     expect(output).toEqual(input);
+    expect(input.getParent()).toEqual(border);
+    border.setChild(undefined);
+    expect(border.getChild()).toBeUndefined();
+    expect(input.getParent()).toBeUndefined();
 });
 
 it("color", () => {

@@ -18,6 +18,9 @@ export class MockPanel extends MockWidget implements Panel {
         super(params);
         if (params?.children) {
             this._children = params.children;
+            for (const child of this._children) {
+                (child as MockWidget)._setParent(this);
+            }
         }
         if (params?.horizontalAlignment !== undefined) {
             this._horizontalAlignment = params.horizontalAlignment;
@@ -29,6 +32,7 @@ export class MockPanel extends MockWidget implements Panel {
 
     addChild(child: Widget, weight?: number | undefined): Panel {
         this._children.push(child);
+        (child as MockWidget)._setParent(this);
         return this;
     }
 
@@ -66,6 +70,9 @@ export class MockPanel extends MockWidget implements Panel {
     }
 
     removeAllChildren(): void {
+        for (const child of this._children) {
+            (child as MockWidget)._setParent(undefined);
+        }
         this._children = [];
     }
 

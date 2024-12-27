@@ -13,6 +13,9 @@ export class MockCanvas extends MockWidget implements Canvas {
         super(params);
         if (params?.children) {
             this._children = params.children;
+            for (const child of this._children) {
+                (child as MockWidget)._setParent(this);
+            }
         }
     }
 
@@ -24,6 +27,7 @@ export class MockCanvas extends MockWidget implements Canvas {
         height: number
     ): Canvas {
         this._children.push(child);
+        (child as MockWidget)._setParent(this);
         return this;
     }
 
@@ -35,6 +39,7 @@ export class MockCanvas extends MockWidget implements Canvas {
         const index = this._children.indexOf(child);
         if (index >= 0) {
             this._children.splice(index, 1);
+            (child as MockWidget)._setParent(undefined);
         }
     }
 

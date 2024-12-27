@@ -32,6 +32,10 @@ export class MockWidget implements Widget {
         }
     }
 
+    _setParent(parent: Widget | undefined): void {
+        this._parent = parent;
+    }
+
     setVisible(visible: boolean): Widget {
         this._visible = visible;
         return this;
