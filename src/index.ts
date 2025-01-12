@@ -1,10 +1,14 @@
 import { JestSetup } from "./jest-setup";
+import { clickAll } from "./click-all/click-all";
 import {
     MockGameWorld,
     MockGlobalScriptingEvents,
     MockProcess,
     mockFetch,
 } from "./mock";
+
+// Unittest helpers.
+export { clickAll };
 
 // Enums.
 export * from "./enums";
