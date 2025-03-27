@@ -34,6 +34,17 @@ export class MockCheckBox extends MockTextWidgetBase implements CheckBox {
             this._text = params.text;
         }
     }
+
+    _clickAsPlayer(player: Player): this {
+        const onCheckStateChanged = this
+            .onCheckStateChanged as MockMulticastDelegate<
+            (checkBox: this, player: Player, isChecked: boolean) => void
+        >;
+        this._isChecked = !this._isChecked;
+        onCheckStateChanged._trigger(this, player, this._isChecked);
+        return this;
+    }
+
     setBackgroundTransparent(transparent: boolean): CheckBox {
         this._isTransparent = transparent;
         return this;
